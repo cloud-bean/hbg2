@@ -1,0 +1,18 @@
+{
+	"name": "hbg",
+	"version": "0.0.1",
+	"description": "www.cloud-bean.com 云豆绘本馆 给孩子最好的礼物： 最享受的时光，最高贵的教养。",
+	"dependencies": {
+		"bootstrap": "~3",
+		"angular": "~1.2",
+		"angular-resource": "~1.2",
+		"angular-mocks": "~1.2",
+		"angular-cookies": "~1.2",
+		"angular-animate": "~1.2",
+		"angular-touch": "~1.2",
+		"angular-sanitize": "~1.2",
+		"angular-bootstrap": "~0.11.2",
+		"angular-ui-utils": "~0.1.1",
+		"angular-ui-router": "~0.2.11"
+	}
+}

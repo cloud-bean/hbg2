@@ -1,0 +1,29 @@
+<section data-ng-controller="InventoriesController" data-ng-init="find()">
+    <div class="page-header">
+        <h1>Inventories</h1>
+    </div>
+    <div class="thumbnails">
+      <div class="col-xs-3" ng-repeat="inventory in inventories">
+        <img ng-src="{{inventory.img}}">
+        <h4>{{inventory.name}}</h4>
+        <span ng-class="{}" data-ng-bind="inventory.isRent ? '借出' : '可借'"/>
+      </div>
+    </div>
+
+    <!-- <div class="list-group">
+        <a data-ng-repeat="inventory in inventories" data-ng-href="#!/inventories/{{inventory._id}}" class="list-group-item">
+			<small class="list-group-item-text">
+				入库时间：
+				<span data-ng-bind="inventory.in_time | date:'medium'"></span>
+				编号：
+				<span data-ng-bind="inventory.inv_code"></span>
+        位置：
+				<span data-ng-bind="inventory.location || '未定'"></span>
+			</small>
+			<h4 class="list-group-item-heading" data-ng-bind="inventory.name"></h4>
+        </a>
+    </div>
+    <div class="alert alert-warning text-center" data-ng-hide="!inventories.$resolved || inventories.length">
+    	No Inventories yet, why don't you <a href="/#!/inventories/create">create one</a>?
+    </div> -->
+</section>
