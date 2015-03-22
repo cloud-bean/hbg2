@@ -53,12 +53,12 @@ angular.module('inventories').controller('InventoriesController', ['$scope', '$s
 
 		// Find a list of Inventories
 		$scope.find = function() {
-			var books = Inventories.query();
-			for (var i = books.length - 1; i >= 0; i--) {
-				books[i].status = books[i].isRent ? '借出' : '可借';
-			};
-			console.log(books);
-			$scope.inventories = books;
+			// var books = Inventories.query();
+			// for (var i = books.length - 1; i >= 0; i--) {
+			// 	books[i].status = books[i].isRent ? '借出' : '可借';
+			// };
+			// console.log(books);
+			$scope.inventories =  Inventories.query();
 
 		};
 

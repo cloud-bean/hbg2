@@ -62,5 +62,12 @@ angular.module('members').controller('MembersController', ['$scope', '$statePara
 				memberId: $stateParams.memberId
 			});
 		};
+
+        // Find member by name
+        $scope.findByCardNumber = function(card_number) {   
+            $scope.member = Members.get({
+                card_number: card_number
+            });
+        };
 	}
 ]);

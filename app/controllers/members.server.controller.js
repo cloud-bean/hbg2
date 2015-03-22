@@ -96,12 +96,37 @@ exports.memberByID = function(req, res, next, id) {
 	});
 };
 
+/** 
+ * function to test if 'admin'  in the roles array
+ */
+var isAdmin = function (roles) {
+    var isInAdminRole = false;
+    for (var i=0; i<roles.length; i++) {
+        if ( roles[i] === 'admin') {
+            isInAdminRole = true;
+        }
+    }
+    return isInAdminRole;
+};
+
 /**
  * Member authorization middleware
  */
 exports.hasAuthorization = function(req, res, next) {
-	if (req.member.user.id !== req.user.id) {
-		return res.status(403).send('User is not authorized');
-	}
+    // TODO: if user.role is admin ; ok
+    // TODO: if user.member is req.member._id
+    
+    if (!isAdmin(req.user.roles) && req.member.id !== req.user.member.id) {
+        return res.status(403).send('User is not authorized');
+    }
 	next();
+};
+
+
+exports.hasAdminRole = function(req, res, next) {
+    if (!isAdmin(req.user.roles))  {
+        return res.status(403).send('User is not authorized');
+    }
+
+    next();
 };

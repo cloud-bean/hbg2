@@ -1,21 +1,23 @@
 <section data-ng-controller="MembersController" data-ng-init="findOne()">
 	<div class="page-header">
-		<h1 data-ng-bind="member.name"></h1>
+		<h1 >{{member.card_number}}-{{member.baby_name}}</h1>
+		<div data-ng-show="((authentication.user) || (authentication.user.member._id == member._id))">
+			<a class="btn btn-primary" href="/#!/members/{{member._id}}/edit">
+				更新资料<i class="glyphicon glyphicon-edit"></i>
+			</a>
+			<a class="btn btn-danger disabled" data-ng-click="freeze();">
+				冻结会员<i class="glyphicon glyphicon-trash"></i>
+			</a>
+		</div>
 	</div>
-	<div class="pull-right" data-ng-show="((authentication.user) && (authentication.user._id == member.user._id))">
-		<a class="btn btn-primary" href="/#!/members/{{member._id}}/edit">
-			<i class="glyphicon glyphicon-edit"></i>
-		</a>
-		<a class="btn btn-primary" data-ng-click="remove();">
-			<i class="glyphicon glyphicon-trash"></i>
-		</a>
-	</div>
+	
+
 	<small>
 		<em class="text-muted">
-			Posted on
-			<span data-ng-bind="member.created | date:'mediumDate'"></span>
-			by
-			<span data-ng-bind="member.user.displayName"></span>
+			会员激活时间:
+			<span data-ng-bind="member.active_time | date:'yyyy/MM/dd'"></span>
+			<span ng-hide="member.parent_name.length===0">家长：{{member.parent_name}}</span>
 		</em>
+
 	</small>
 </section>

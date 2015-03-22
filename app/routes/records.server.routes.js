@@ -6,13 +6,13 @@ module.exports = function(app) {
 
 	// Records Routes
 	app.route('/records')
-		.get(records.list)
-		.post(users.requiresLogin, records.create);
+		.get(users.requiresLogin, records.list)
+		.post(users.requiresLogin, records.hasAuthorization, records.create);
 
 	app.route('/records/:recordId')
-		.get(records.read)
+		.get(users.requiresLogin, records.read)
 		.put(users.requiresLogin, records.hasAuthorization, records.update)
-		.delete(users.requiresLogin, records.hasAuthorization, records.delete);
+		.delete(users.requiresLogin, records.hasAdminRole, records.delete);
 
 	// Finish by binding the Record middleware
 	app.param('recordId', records.recordByID);

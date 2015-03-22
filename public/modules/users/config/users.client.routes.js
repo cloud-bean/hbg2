@@ -25,6 +25,10 @@ angular.module('users').config(['$stateProvider',
 			url: '/signin',
 			templateUrl: 'modules/users/views/authentication/signin.client.view.html'
 		}).
+        state('403', {
+            url: '/403',
+            templateUrl: 'modules/users/views/authentication/403.client.view.html'
+        }).
 		state('forgot', {
 			url: '/password/forgot',
 			templateUrl: 'modules/users/views/password/forgot-password.client.view.html'

@@ -7,12 +7,12 @@ module.exports = function(app) {
 	// Inventories Routes
 	app.route('/inventories')
 		.get(inventories.list)
-		.post(users.requiresLogin, inventories.create);
+		.post(users.requiresLogin, inventories.hasAdminRole, inventories.create);
 
 	app.route('/inventories/:inventoryId')
 		.get(inventories.read)
-		.put(users.requiresLogin, inventories.hasAuthorization, inventories.update)
-		.delete(users.requiresLogin, inventories.hasAuthorization, inventories.delete);
+		.put(users.requiresLogin, inventories.hasAdminRole, inventories.update)
+		.delete(users.requiresLogin, inventories.hasAdminRole, inventories.delete);
 
 	// Finish by binding the Inventory middleware
 	app.param('inventoryId', inventories.inventoryByID);

@@ -96,12 +96,33 @@ exports.inventoryByID = function(req, res, next, id) {
 	});
 };
 
-/**
- * Inventory authorization middleware
+/** 
+ * function to test if 'admin'  in the roles array
  */
-exports.hasAuthorization = function(req, res, next) {
-	if (req.inventory.user.id !== req.user.id) {
-		return res.status(403).send('User is not authorized');
-	}
-	next();
+var isAdmin = function (roles) {
+    var isInAdminRole = false;
+    for (var i=0; i<roles.length; i++) {
+        if ( roles[i] === 'admin') {
+            isInAdminRole = true;
+        }
+    }
+    return isInAdminRole;
 };
+
+exports.hasAdminRole = function(req, res, next) {
+    if (!isAdmin(req.user.roles))  {
+        return res.status(403).send('User is not authorized');
+    }
+
+    next();
+};
+
+// /**
+//  * Inventory authorization middleware
+//  */
+// exports.hasAuthorization = function(req, res, next) {
+// 	if (req.inventory.user.id !== req.user.id || !hasAdminRole(req.user.roles)) {
+// 		return res.status(403).send('User is not authorized');
+// 	}
+// 	next();
+// };

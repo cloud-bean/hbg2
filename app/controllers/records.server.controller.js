@@ -70,10 +70,10 @@ exports.delete = function(req, res) {
 };
 
 /**
- * List of Records
+ * List of Records, 外键用poplulate计算出来。
  */
 exports.list = function(req, res) { 
-	Record.find().sort('-created').populate('user', 'displayName').exec(function(err, records) {
+	Record.find().sort('-start_date').populate('member').exec(function(err, records) {
 		if (err) {
 			return res.status(400).send({
 				message: errorHandler.getErrorMessage(err)
@@ -96,11 +96,32 @@ exports.recordByID = function(req, res, next, id) {
 	});
 };
 
+/** 
+ * function to test if 'admin'  in the roles array
+ */
+var isAdmin = function (roles) {
+    var isInAdminRole = false;
+    for (var i=0; i<roles.length; i++) {
+        if ( roles[i] === 'admin') {
+            isInAdminRole = true;
+        }
+    }
+    return isInAdminRole;
+};
+
+exports.hasAdminRole = function(req, res, next) {
+    if (!isAdmin(req.user.roles))  {
+        return res.status(403).send('User is not authorized');
+    }
+
+    next();
+};
+
 /**
  * Record authorization middleware
  */
 exports.hasAuthorization = function(req, res, next) {
-	if (req.record.user.id !== req.user.id) {
+	if (req.record.member.id !== req.user.member.id || !isAdmin(req.user.roles)) {
 		return res.status(403).send('User is not authorized');
 	}
 	next();
