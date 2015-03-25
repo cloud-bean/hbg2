@@ -30,7 +30,6 @@ describe('Inventory Model Unit Tests:', function() {
 		user.save(function() { 
 			inventory = new Inventory({
 				name: 'Inventory Name',
-				user: user
 			});
 
 			done();

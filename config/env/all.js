@@ -2,9 +2,9 @@
 
 module.exports = {
 	app: {
-		title: 'hbg',
+		title: '云豆绘本馆－www.cloud-bean.com',
 		description: 'www.cloud-bean.com 云豆绘本馆 给孩子最好的礼物： 最享受的时光，最高贵的教养。',
-		keywords: '云豆 cloude-bean Node.js MEAN.js'
+		keywords: '云豆 cloude-bean 绘本 绘本馆'
 	},
 	port: process.env.PORT || 3000,
 	templateEngine: 'swig',

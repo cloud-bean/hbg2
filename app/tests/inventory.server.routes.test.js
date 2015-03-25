@@ -11,7 +11,7 @@ var should = require('should'),
 /**
  * Globals
  */
-var credentials, user, inventory;
+var credentials, user, user_member, inventory;
 
 /**
  * Inventory routes tests
@@ -24,7 +24,7 @@ describe('Inventory CRUD tests', function() {
 			password: 'password'
 		};
 
-		// Create a new user
+		// Create a new user with admin role
 		user = new User({
 			firstName: 'Full',
 			lastName: 'Name',
@@ -32,7 +32,18 @@ describe('Inventory CRUD tests', function() {
 			email: 'test@test.com',
 			username: credentials.username,
 			password: credentials.password,
-			provider: 'local'
+			provider: 'local',
+            roles: ['admin']
+		});
+
+        user_member = new User({
+			firstName: 'Full',
+			lastName: 'Name',
+			displayName: 'Full Name',
+			email: 'test@test.com',
+			username: credentials.username,
+			password: credentials.password,
+			provider: 'local',
 		});
 
 		// Save a user to the test db and create new Inventory
@@ -53,9 +64,6 @@ describe('Inventory CRUD tests', function() {
 				// Handle signin error
 				if (signinErr) done(signinErr);
 
-				// Get the userId
-				var userId = user.id;
-
 				// Save a new Inventory
 				agent.post('/inventories')
 					.send(inventory)
@@ -74,7 +82,6 @@ describe('Inventory CRUD tests', function() {
 								var inventories = inventoriesGetRes.body;
 
 								// Set assertions
-								(inventories[0].user._id).should.equal(userId);
 								(inventories[0].name).should.match('Inventory Name');
 
 								// Call the assertion callback
@@ -91,34 +98,6 @@ describe('Inventory CRUD tests', function() {
 			.end(function(inventorySaveErr, inventorySaveRes) {
 				// Call the assertion callback
 				done(inventorySaveErr);
-			});
-	});
-
-	it('should not be able to save Inventory instance if no name is provided', function(done) {
-		// Invalidate name field
-		inventory.name = '';
-
-		agent.post('/auth/signin')
-			.send(credentials)
-			.expect(200)
-			.end(function(signinErr, signinRes) {
-				// Handle signin error
-				if (signinErr) done(signinErr);
-
-				// Get the userId
-				var userId = user.id;
-
-				// Save a new Inventory
-				agent.post('/inventories')
-					.send(inventory)
-					.expect(400)
-					.end(function(inventorySaveErr, inventorySaveRes) {
-						// Set message assertion
-						(inventorySaveRes.body.message).should.match('Please fill Inventory name');
-						
-						// Handle Inventory save error
-						done(inventorySaveErr);
-					});
 			});
 	});
 

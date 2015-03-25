@@ -29,8 +29,9 @@ describe('Member Model Unit Tests:', function() {
 
 		user.save(function() { 
 			member = new Member({
-				name: 'Member Name',
-				user: user
+				card_number: 'Member card number',
+                phone_number: '15002323332',
+                baby_name: 'baby name'
 			});
 
 			done();
@@ -46,7 +47,7 @@ describe('Member Model Unit Tests:', function() {
 		});
 
 		it('should be able to show an error when try to save without name', function(done) { 
-			member.name = '';
+			member.card_number = '';
 
 			return member.save(function(err) {
 				should.exist(err);
