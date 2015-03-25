@@ -30,7 +30,54 @@
 </head>
 
 <body class="ng-cloak">
-	<header data-ng-include="'/modules/core/views/header.client.view.html'" class="navbar navbar-fixed-top navbar-inverse"></header>
+	<header>
+		<div class="ui left  vertical inverted labeled icon sidebar menu" style="">
+			<a class="item">
+				<i class="home icon"></i>
+				Home
+			</a>
+			<a class="item">
+				<i class="block layout icon"></i>
+				Topics
+			</a>
+			<a class="item">
+				<i class="smile icon"></i>
+				Friends
+			</a>
+			<a class="item">
+				<i class="calendar icon"></i>
+				History
+			</a>
+			<a class="item">
+				<i class="mail icon"></i>
+				Messages
+			</a>
+			<a class="item">
+				<i class="chat icon"></i>
+				Discussions
+			</a>
+			<a class="item">
+				<i class="trophy icon"></i>
+				Achievements
+			</a>
+			<a class="item">
+				<i class="shop icon"></i>
+				Store
+			</a>
+			<a class="item">
+				<i class="settings icon"></i>
+				Settings
+			</a>
+		</div>
+		<div class="sidebar direction">
+			<div data-transition="push" data-direction="left"  class="sidebar-push-button ui button">
+				<i class="home icon"></i>
+					菜单
+
+				</div>
+		</div>
+	</header>
+	<!--header data-ng-include="'/modules/core/views/header.client.view.html'" class="navbar navbar-fixed-top navbar-inverse"></header-->
 	<section class="content">
 		<section class="container">
 			{% block content %}{% endblock %}
@@ -42,8 +89,39 @@
 		var user = {{ user | json | safe }};
 	</script>
 
+
 	<!--Application JavaScript Files-->
-	{% for jsFile in jsFiles %}<script type="text/javascript" src="{{jsFile}}"></script>{% endfor %} 
+	{% for jsFile in jsFiles %}<script type="text/javascript" src="{{jsFile}}"></script>{% endfor %}
+
+	<!-- menu sidebar -->
+	<script type="text/javascript">
+		$(document)
+			.ready(function() {
+
+				$('.sidebar-push-button')
+					.on('click', function() {
+						var
+							transition = $(this).data('transition'),
+							direction  = $(this).data('direction'),
+							dimPage    = false;
+						;
+						if( $(this).filter('.disabled').size() === 0) {
+							$('.' + direction + '.sidebar.menu')
+								.not('.styled')
+								.sidebar('setting', {
+									dimPage          : dimPage,
+									transition       : transition,
+									mobileTransition : transition
+								})
+							;
+							$('.' + direction + '.sidebar.menu').not('.styled').sidebar('toggle');
+						}
+
+					})
+				;
+			})
+		;
+		</script>
 
 	{% if process.env.NODE_ENV === 'development' %}
 	<!--Livereload script rendered -->
