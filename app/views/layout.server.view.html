@@ -29,7 +29,7 @@
 	<![endif]-->
 </head>
 
-<body class="ng-cloak ">
+<body class="ng-cloak">
 	<div class="ui left  vertical inverted labeled icon sidebar menu" style="" data-ng-controller="HeaderController">
 		<div data-ng-hide="authentication.user">
 			<a class="item" href="/#!/signup" ui-route="/signup">
@@ -42,15 +42,6 @@
 		<div data-ng-show="authentication.user">
 			<a class="item" >
 				<span data-ng-bind="authentication.user.displayName"></span>
-			</a>
-			<a class="item" href="/#!/settings/profile">
-			    <i class="user icon"></i> 会员信息
-			</a>
-			<a class="item" href="/#!/settings/password">
-			    <i class="privacy icon"></i> 修改密码
-			</a>
-			<a class="item" href="/auth/signout">
-			    <i class="sign out icon"></i> 退出登录
 			</a>
 		</div>
 		<a class="item" href="/#!/">
@@ -68,14 +59,25 @@
 		<a class="item" href="/#!/about">
 			<i class="info icon"></i>关于
 		</a>
+		<div data-ng-show="authentication.user">
+			<a class="item" href="/#!/settings/profile">
+			    <i class="user icon"></i> 会员信息
+			</a>
+			<a class="item" href="/#!/settings/password">
+			    <i class="privacy icon"></i> 修改密码
+			</a>
+			<a class="item" href="/auth/signout">
+			    <i class="sign out icon"></i> 退出登录
+			</a>
+		</div>
 	</div>
 	<!--header data-ng-include="'/modules/core/views/header.client.view.html'" class="navbar navbar-fixed-top navbar-inverse"></header-->
-	<div class="pusher">
+	<div id="container" class=" container-main pusher" >
 		<div data-transition="push" data-direction="left"  class="sidebar-push-button ui button">
 			<i class="sidebar icon"></i>菜单
 		</div>
-		<section class="content">
-			<section class="container">
+		<section class="content hbg-center">
+			<section >
 				{% block content %}{% endblock %}
 			</section>
 		</section>

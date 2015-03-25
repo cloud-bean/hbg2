@@ -1,16 +1,31 @@
-<section data-ng-controller="InventoriesController" data-ng-init="find()">
+<section data-ng-controller="InventoriesController" data-ng-init="find()" >
     <div class="page-header">
         <h1>库存图书</h1>
     </div>
-    <input type="text" ng-model="search.keyword" placeholder="enter search keywords.">
-    <div inv-search ng-model="search.keyword"></div>
-    <div class="thumbnails">
+    <div class="ui remote search focus">
+        <div class="ui icon input">
+          <input type="text" ng-model="search.keyword" placeholder="搜索绘本..." class="prompt" autocomplete="on">
+          <i class="search icon"></i>
+        </div>
+        <div class="results thumbnails" style="text-align:left">
+             <div class="col-xs-3" ng-repeat="inventory in inventories">
+                <!--img ng-src="{{inventory.img}}" -->
+                <h4>{{inventory.name}}</h4>
+                <span ng-class="{}" data-ng-bind="inventory.isRent ? '借出' : '可借'"/>
+              </div>
+        </div>
+    </div>
+
+    <!-- <input type="text" ng-model="search.keyword" placeholder="enter search keywords.">
+    <div inv-search ng-model="search.keyword"></div> -->
+
+    <!-- <div class="thumbnails">
       <div class="col-xs-3" ng-repeat="inventory in inventories">
-        <!--img ng-src="{{inventory.img}}" -->
+        <img ng-src="{{inventory.img}}" 
         <h4>{{inventory.name}}</h4>
         <span ng-class="{}" data-ng-bind="inventory.isRent ? '借出' : '可借'"/>
       </div>
-    </div>
+    </div> -->
 
     <!-- <div class="list-group">
         <a data-ng-repeat="inventory in inventories" data-ng-href="#!/inventories/{{inventory._id}}" class="list-group-item">

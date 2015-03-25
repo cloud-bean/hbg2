@@ -1,5 +1,11 @@
 .content {
+    margin:0 auto;
 	margin-top: 50px;
+}
+#container{
+    position: relative;
+    margin: 0 auto;
+    text-align: left;
 }
 .undecorated-link:hover {
 	text-decoration: none;
@@ -21,4 +27,15 @@
 
 .thumbnails img {
 	width:100%
+}
+
+.container-main{
+    margin:0 auto;
+    padding:10px;
+}
+
+.hbg-center{
+    text-align:center;
+    margin:0 auto;
+    padding:10px;
 }
