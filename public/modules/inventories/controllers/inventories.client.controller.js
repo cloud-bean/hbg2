@@ -1,10 +1,10 @@
 'use strict';
 
 // Inventories controller
-angular.module('inventories').controller('InventoriesController', ['$scope', '$stateParams', '$location', 'Authentication', 'Inventories',
-	function($scope, $stateParams, $location, Authentication, Inventories) {
+angular.module('inventories').controller('InventoriesController', ['$scope', '$http', '$timeout', '$stateParams', '$location', 'Authentication', 'Inventories',
+	function($scope, $http, $timeout, $stateParams, $location, Authentication, Inventories) {
 		$scope.authentication = Authentication;
-
+		var timeout;
 		// Create new Inventory
 		$scope.create = function() {
 			// Create new Inventory object
@@ -68,5 +68,20 @@ angular.module('inventories').controller('InventoriesController', ['$scope', '$s
 				inventoryId: $stateParams.inventoryId
 			});
 		};
+
+		$scope.$watch('keyword', function (newKeyword) {
+			if (newKeyword) {
+				if (timeout) $timeout.cancel(timeout);
+				timeout = $timeout(function () {
+					$http({
+						method: 'GET',
+						url: '/inventories/name/' + newKeyword
+					})
+					.success(function (data, err) {
+						$scope.inventories = data;
+					});
+				},350);
+ 			}
+		});
 	}
 ]);

@@ -18,8 +18,12 @@
 
 
 	<!-- Fav Icon -->
+	{% if process.env.NODE_ENV === 'production' %}
 	<link href="http://cloudbean.qiniudn.com/hbg2-favicon.ico" rel="shortcut icon" type="image/x-icon">
-
+	{% else %}
+	<link href="modules/core/img/brand/favicon-hbg.ico" rel="shortcut icon" type="image/x-icon">
+	{% endif %}
+	
 	<!--Application CSS Files-->
 	{% for cssFile in cssFiles %}<link rel="stylesheet" href="{{cssFile}}">{% endfor %}
 
@@ -30,48 +34,7 @@
 </head>
 
 <body class="ng-cloak">
-	<div class="ui left  vertical inverted labeled icon sidebar menu" style="" data-ng-controller="HeaderController">
-		<div data-ng-hide="authentication.user">
-			<a class="item" href="/#!/signup" ui-route="/signup">
-			    <i class="signup icon"></i> 注册
-			</a>
-			<a class="item" href="/#!/signin" ui-route="/signin">
-			    <i class="sign in icon"></i> 登录
-			</a>
-		</div>
-		<div data-ng-show="authentication.user">
-			<a class="item" >
-				<span data-ng-bind="authentication.user.displayName"></span>
-			</a>
-		</div>
-		<a class="item" href="/#!/">
-			<i class="home icon"></i>首页
-		</a>
-		<a class="item" href="/#!/inventories">
-			<i class="search icon"></i>搜书
-		</a>
-		<a class="item" href="/#!/records">
-		    <i class="cart icon"></i> 借书
-		</a>
-		<a class="item" href="/#!/records">
-		    <i class="refresh icon"></i> 还书
-		</a>
-		<a class="item" href="/#!/about">
-			<i class="info icon"></i>关于
-		</a>
-		<div data-ng-show="authentication.user">
-			<a class="item" href="/#!/settings/profile">
-			    <i class="user icon"></i> 会员信息
-			</a>
-			<a class="item" href="/#!/settings/password">
-			    <i class="privacy icon"></i> 修改密码
-			</a>
-			<a class="item" href="/auth/signout">
-			    <i class="sign out icon"></i> 退出登录
-			</a>
-		</div>
-	</div>
-	<!--header data-ng-include="'/modules/core/views/header.client.view.html'" class="navbar navbar-fixed-top navbar-inverse"></header-->
+	<header data-ng-include="'modules/core/views/header.client.view.html'"></header>
 	<div id="container" class=" container-main pusher" >
 		<div data-transition="push" data-direction="left"  class="sidebar-push-button ui button">
 			<i class="sidebar icon"></i>菜单

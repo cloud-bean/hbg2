@@ -1,3 +1,4 @@
+'use strict';
 var mongoose = require('mongoose'),
   Schema = mongoose.Schema;
 
@@ -40,5 +41,9 @@ var MemberSchema = new Schema({
 }, {
   collection: 'member'
 });
+
+MemberSchema.statics.findOneByCardNumber = function (card_number, callback) {
+    this.findOne({card_number: new RegExp(card_number,'i')}, callback);
+};
 
 var MemeberModel = mongoose.model('Member', MemberSchema);

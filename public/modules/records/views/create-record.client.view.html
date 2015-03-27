@@ -2,28 +2,40 @@
     <div class="page-header">
         <h1>借 书</h1>
     </div>
-    <div class="col-md-12">
-        <form class="form-horizontal" data-ng-submit="create()" novalidate>
-            <fieldset>
-                <div class="form-group">
-                    <label class="control-label" for="card_number">会员</label>
-                    <div class="controls">
-                        <input type="text" data-ng-model="member.card_number" id="card_number" class="form-control" placeholder="member card_number" required>
-                    </div>
-                </div> 
-                <div class="form-group">
-                    <label class="control-label" for="book">book inv code</label>
-                    <div class="controls">
-                        <input type="text" data-ng-model="member.card_number" id="card_number" class="form-control" placeholder="member card_number" required>
+    <div class="ui divider"></div>
+    <div class="content" style="position: relative">
+        <div class="ui two column middle aligned relaxed fitted stackable grid">
+            <div class="center aligned column">
+                <div class="field">
+                    <div class="ui left icon input">
+                        <input type="text" placeholder="会员卡号" ng-model="card_number">
+                        <i class="payment icon"></i>
                     </div>
                 </div>
-                <div class="form-group">
-                    <input type="submit" ng-if="member._id" class="btn btn-default">
+                <br/>
+                <div class="field">
+                    <div class="ui left icon input">
+                        <input type="text" placeholder="搜索绘本" ng-model="keyword">
+                        <i class="barcode icon"></i>
+                    </div>
                 </div>
-				<div data-ng-show="error" class="text-danger">
-					<strong data-ng-bind="error"></strong>
-				</div>
-            </fieldset>
-        </form>
+            </div>
+            <div ng-show="member">
+                {{ member.baby_name }}
+            </div>
+            <div ng-show="inventory">
+                {{ inventory.inv_code}}-{{ inventory.name }}</li>
+            </div>
+             <h4 class="ui horizontal header divider">
+                <i class="book chart icon"></i>
+                书单
+              </h4>
+           
+            <div class="center aligned column">
+                <div class="large green ui labeled icon button">
+                    <i class="arrow circle right icon"></i> Yeah,借走
+                </div>
+            </div>
+        </div>
     </div>
 </section>

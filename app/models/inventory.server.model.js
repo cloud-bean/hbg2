@@ -52,4 +52,16 @@ var InventorySchema = new Schema({
   collection: 'inventory'
 });
 
+InventorySchema.statics.findOneByInvCode = function (inv_code, callback) {
+    this.findOne({inv_code: new RegExp(inv_code,'i')}, callback);
+};
+
+InventorySchema.statics.findByName = function (name, callback) {
+    this.find({name: new RegExp(name,'i')}, callback);
+};
+
+InventorySchema.statics.findByIsbn = function (isbn, callback) {
+    this.find({isbn: new RegExp(isbn,'i')}, callback);
+};
+
 mongoose.model('Inventory', InventorySchema);

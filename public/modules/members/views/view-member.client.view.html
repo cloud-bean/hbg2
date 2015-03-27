@@ -1,19 +1,23 @@
 <section data-ng-controller="MembersController" data-ng-init="findOne()">
 	<div class="page-header">
-		<h1 >{{member.card_number}}-{{member.baby_name}}</h1>
+		<h1 >{{member.baby_name}} </h1>
 		<div data-ng-show="((authentication.user) || (authentication.user.member._id == member._id))">
-			<a class="btn btn-primary" href="/#!/members/{{member._id}}/edit">
-				更新资料<i class="glyphicon glyphicon-edit"></i>
+			
+			<a class="ui blue button" href="/#!/members/{{member._id}}/edit">
+				<i class="edit  icon"></i>更新资料
 			</a>
-			<a class="btn btn-danger disabled" data-ng-click="freeze();">
-				冻结会员<i class="glyphicon glyphicon-trash"></i>
+			<a class="ui button " data-ng-click="freeze();">
+				<i class="red delete icon"></i>冻结会员
 			</a>
 		</div>
 	</div>
 	
+	<div class="ui divider"></div>
 
 	<small>
 		<em class="text-muted">
+			会员卡号:{{member.card_number}}
+			<br/>
 			会员激活时间:
 			<span data-ng-bind="member.active_time | date:'yyyy/MM/dd'"></span>
 			<span ng-hide="member.parent_name.length===0">家长：{{member.parent_name}}</span>

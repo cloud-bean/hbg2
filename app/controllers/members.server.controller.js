@@ -96,6 +96,19 @@ exports.memberByID = function(req, res, next, id) {
 	});
 };
 
+
+/**
+ * Member middleware find one member by card_number
+ */
+exports.memberByCardNumber = function (req, res, next, card_number) {
+    Member.findOneByCardNumber(card_number, function(err, member) {
+        if (err) return next(err);
+        if (! member) return next(new Error('Faild to load Member with card_number ' + card_number));
+        req.member = member;
+        next();
+    });
+};
+
 /** 
  * function to test if 'admin'  in the roles array
  */

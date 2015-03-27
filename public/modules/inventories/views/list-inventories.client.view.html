@@ -2,19 +2,44 @@
     <div class="page-header">
         <h1>库存图书</h1>
     </div>
+
     <div class="ui remote search focus">
         <div class="ui icon input">
-          <input type="text" ng-model="search.keyword" placeholder="搜索绘本..." class="prompt" autocomplete="on">
+          <input type="text" ng-model="keyword" placeholder="搜索绘本..." class="prompt" autocomplete="on">
           <i class="search icon"></i>
         </div>
-        <div class="results thumbnails" style="text-align:left">
-             <div class="col-xs-3" ng-repeat="inventory in inventories">
-                <!--img ng-src="{{inventory.img}}" -->
-                <h4>{{inventory.name}}</h4>
-                <span ng-class="{}" data-ng-bind="inventory.isRent ? '借出' : '可借'"/>
-              </div>
-        </div>
     </div>
+
+    <div class="ui divider"> </div>
+
+    <div class="ui six doubling cards">
+      <div class="card" ng-repeat="inventory in inventories">
+        <div class="image">
+          <img alt="暂无图片" ng-src="{{inventory.img}}">
+        </div>
+        <div class="content">
+          <a class="header">{{inventory.name}}</a>
+          <span data-ng-bind="inventory.isRent ? '借出' : '可借'"/>
+        </div>
+        <div class="extra content">
+          <span class="right floated">
+            32次借阅
+          </span>
+          <span class="left floated">
+            <i class="like icon"></i>463
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    <!-- <div class="results thumbnails" style="text-align:left">
+         <div class="col-xs-3" ng-repeat="inventory in inventories">
+            <img ng-src="{{inventory.img}}" >
+            <h4>{{inventory.name}}</h4>
+            <span ng-class="{}" data-ng-bind="inventory.isRent ? '借出' : '可借'"/>
+          </div>
+    </div> -->
+    
 
     <!-- <input type="text" ng-model="search.keyword" placeholder="enter search keywords.">
     <div inv-search ng-model="search.keyword"></div> -->

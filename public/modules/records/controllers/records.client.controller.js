@@ -1,10 +1,11 @@
 'use strict';
 
 // Records controller
-angular.module('records').controller('RecordsController', ['$scope', '$stateParams', '$location', 'Authentication', 'Records',
-	function($scope, $stateParams, $location, Authentication, Records) {
+angular.module('records').controller('RecordsController', ['$scope', '$timeout', '$http', '$stateParams', '$location', 'Authentication', 'Records',
+	function($scope, $timeout, $http, $stateParams, $location, Authentication, Records) {
 		$scope.authentication = Authentication;
-
+		$scope.showResults = false;
+		var timeout;
 		// Create new Record
 		$scope.create = function() {
 			// Create new Record object
@@ -62,5 +63,37 @@ angular.module('records').controller('RecordsController', ['$scope', '$statePara
 				recordId: $stateParams.recordId
 			});
 		};
+
+		// Find member by card_number
+		$scope.$watch('card_number', function (newCardNumber) {
+			if (newCardNumber) {
+				if (timeout) $timeout.cancel(timeout);
+				timeout = $timeout(function () {
+					$http({
+						method: 'GET',
+						url: '/members/card/' + newCardNumber
+					})
+					.success(function (data, err) {
+						$scope.member = data;
+					});
+				},350);
+ 			}
+		});
+
+		// Find inventories by isbn/name/inv_code
+		$scope.$watch('keyword', function (newKeyword) {
+		   	if (newKeyword) {
+				if (timeout) $timeout.cancel(timeout);
+				timeout = $timeout(function () {
+					$http({
+						method: 'GET',
+						url: '/inventories/invCode/' + newKeyword
+					})
+					.success(function (data, err) {
+						$scope.inventory = data.data;
+					});
+				},350);
+ 			}
+		});
 	}
 ]);

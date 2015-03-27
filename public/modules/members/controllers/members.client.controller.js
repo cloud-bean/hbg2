@@ -63,11 +63,12 @@ angular.module('members').controller('MembersController', ['$scope', '$statePara
 			});
 		};
 
-        // Find member by name
-        $scope.findByCardNumber = function(card_number) {   
-            $scope.member = Members.get({
-                card_number: card_number
-            });
-        };
+        // // TODO: Find member by name
+        // $scope.findByCardNumber = function() {   
+        //     $scope.member = Members.get({
+        //         card_number: $stateParams.card_number
+        //     });
+        // };
+
 	}
 ]);

@@ -73,7 +73,8 @@ exports.delete = function(req, res) {
  * List of Inventories
  */
 exports.list = function(req, res) {
-	Inventory.find().sort('-created').limit(10).populate('user', 'displayName').exec(function(err, inventories) {
+	// TODO: For development .limit to 10. need to remove in production env.
+	Inventory.find().sort('-created').limit(12).populate('user', 'displayName').exec(function(err, inventories) {
 		if (err) {
 			return res.status(400).send({
 				message: errorHandler.getErrorMessage(err)
@@ -82,6 +83,51 @@ exports.list = function(req, res) {
 			res.jsonp(inventories);
 		}
 	});
+};
+
+
+/**
+ * Member middleware find one inventory by inv_code
+ */
+exports.oneByInvCode = function (req, res, next, inv_code) {
+    Inventory.findOneByInvCode(inv_code, function(err, inventory) {
+        if (err) return next(err);
+        if (! inventory) return next(new Error('Faild to load Inventory with inv_code ' + inv_code));
+        req.inventory = inventory;
+        next();
+    });
+};
+
+
+/**
+ * Member middleware find inventories  by isbn
+ */
+exports.listsByIsbn = function (req, res, next, isbn) {
+    Inventory.findByIsbn(isbn, function(err, inventories) {
+        if (err) {
+			return res.status(400).send({
+				message: errorHandler.getErrorMessage(err)
+			});
+		} else {
+			res.jsonp(inventories);
+		}
+    });
+};
+
+
+/**
+ * Member middleware find one inventory by name
+ */
+exports.listsByName = function (req, res, next, name) {
+    Inventory.findByName(name, function(err, inventories) {
+        if (err) {
+			return res.status(400).send({
+				message: errorHandler.getErrorMessage(err)
+			});
+		} else {
+			res.jsonp(inventories);
+		}
+    });
 };
 
 /**

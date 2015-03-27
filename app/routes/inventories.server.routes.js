@@ -9,6 +9,15 @@ module.exports = function(app) {
 		.get(inventories.list)
 		.post(users.requiresLogin, inventories.hasAdminRole, inventories.create);
 
+	app.route('/inventories/invCode/:inv_code')
+		.get(inventories.read);
+
+	app.route('/inventories/name/:name')
+		.get(inventories.list);
+
+	app.route('/inventories/isbn/:isbn')
+		.get(inventories.list);
+
 	app.route('/inventories/:inventoryId')
 		.get(inventories.read)
 		.put(users.requiresLogin, inventories.hasAdminRole, inventories.update)
@@ -16,4 +25,7 @@ module.exports = function(app) {
 
 	// Finish by binding the Inventory middleware
 	app.param('inventoryId', inventories.inventoryByID);
+	app.param('name', inventories.listsByName);
+	app.param('isbn', inventories.listsByIsbn);
+	app.param('inv_code', inventories.oneByInvCode);
 };

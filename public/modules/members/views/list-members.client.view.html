@@ -2,23 +2,40 @@
     <div class="page-header">
         <h1>会员</h1>
     </div>
-    <div class="search">
-        <input type="text" name="search" data-ng-model="search.keywords">
-        <button ng-click="search()">搜索会员</button>
-        <br/>
-        <br/>
+
+    
+    <div class="ui search">
+        <div class="ui icon input">
+          <input class="prompt" type="text" placeholder="搜索会员..." data-ng-model="search.$" >
+          <i class="search icon"></i>
+        </div>
     </div>
-    <div class="list-group">
-        <a data-ng-repeat="member in members" data-ng-href="#!/members/{{member._id}}" class="list-group-item">
-			<small class="list-group-item-text">
-				卡号：
-                <span data-ng-bind="member.card_number"></span> &nbsp;&nbsp;&nbsp;&nbsp;
-                办卡日期：
-				<span data-ng-bind="member.active_time | date:'yyyy/MM/dd'"></span>&nbsp;&nbsp;&nbsp;&nbsp;
-                <span ng-hide="member.parent_name.length === 0">家长：{{member.parent_name}}</span>				
-			</small>
-			<h4 class="list-group-item-heading" >{{member.baby_name}}</h4>
-        </a>
+
+    <div class="ui celled selection animated list ">
+        <div class="item" data-ng-repeat="member in members | filter:search.$"  >
+            <i class="red large male icon" ng-show="member.isBoy"></i>
+            <i class="purple large female icon" ng-hide="member.isBoy"></i>
+            <div class="content" style="text-align:left;">
+                <div class="header "><a data-ng-href="#!/members/{{member._id}}">{{member.baby_name}} </a></div>
+                <small class="list-group-item-text">
+                    卡号：
+                    <span data-ng-bind="member.card_number">&nbsp;&nbsp;&nbsp;&nbsp;</span> 
+                    
+
+                    办卡日期：
+                    <span data-ng-bind="member.active_time | date:'yyyy/MM/dd'"></span>&nbsp;&nbsp;&nbsp;&nbsp;
+                    
+                    <br/>
+
+                    <span ng-hide="member.parent_name.length === 0">家长：{{member.parent_name}}&nbsp;&nbsp;&nbsp;&nbsp;</span>                
+                    
+                    <span ng-hide="member.phone_number.length === 0">电话：{{member.phone_number}}</span>                
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+
+                </small>
+
+            </div>
+        </div>
     </div>
     <div class="alert alert-warning text-center" data-ng-hide="!members.$resolved || members.length">
     	No Members yet, why don't you <a href="/#!/members/create">添加会员</a>?
