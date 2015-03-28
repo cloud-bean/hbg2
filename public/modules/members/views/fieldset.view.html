@@ -53,14 +53,7 @@
             <br/>
             <label for="baby_name" class="control-label">宝宝生日<span style="color:red;">*</span>：</label>
             <br/>
-            <p class="input-group" ng-controller="DatepickerDemoCtrl">
-
-               <input type="text" class="form-control" datepicker-popup="yyyy/MM/dd" name="baby_birthday" ng-model="member.baby_birthday"  is-open="opened" min-date="2000-01-01" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" />
-                <span class="input-group-btn" style="width:0px;">
-                <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
-              </span>
-            </p>
-
+            <quick-datepicker ng-model="member.baby_birthday"></quick-datepicker>
 
             <br/>
             <strong>宝宝性别<span style="color:red;">*</span>：</strong><br/>
@@ -111,7 +104,13 @@
             <br/>
         </div>
         <div class="col-md-3">
-            
+            <div class="control-group">
+                <label for="max_book" class="control-label">每次最多可借阅：</label>
+    
+                <div class="controls">
+                    <input type="text" id="max_book" data-ng-model="member.max_book" value="4" placeholder="4" required/>
+                </div>
+            </div>
             <label for="other">备注:</label><br/><p class='text-warning'>请一定注明操作人员名字<br/>您的耐心会使系统更加可靠。</p>
             <textarea id="other" placeholder="操作员：XXX，普通会员" data-ng-model="member.other" class="form-control" rows="3" ></textarea>
         </div>

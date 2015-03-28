@@ -1,12 +1,127 @@
 <section data-ng-controller="MembersController">
     <div class="page-header">
         <h1>新增会员</h1>
-        <p class="text-danger" >*为必须填写的项目</p>
+        <p class="text-danger">*为必须填写的项目</p>
     </div>
     <div class="col-md-12 well">
         <form class="form-horizontal" data-ng-submit="create()" novalidate>
-            <div ng-include="'modules/members/views/fieldset.view.html'"></div>
+            <fieldset>
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="control-group">
+                            <label class="control-label" for='parent_name'>家长姓名：</label>
+                            <div class="controls">
+                                <input type="text" id="parent_name" data-ng-model="parent_name" />
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <br/>
+                            <label class="control-label" for='address'>家庭住址：</label>
+                            <div class="controls">
+                                <input type="text" id="address" data-ng-model="address" />
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <br/>
+                            <label class="control-label" for='phone_number'>手机号码<span style="color:red;">*</span>：</label>
+                            <div class="controls">
+                                <input type="text" id="phone_number" data-ng-model="phone_number" required/>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <br/>
+                            <label class="control-label" for='email'>电子邮箱：</label>
+                            <div class="controls">
+                                <input type="text" id="email" data-ng-model="email" />
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <br/>
+                            <label class="control-label" for='weixin'>微信：</label>
+                            <div class="controls">
+                                <input type="text" id="weixin" data-ng-model="weixin" />
+                            </div>
+                        </div>
+                        <br/>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="control-group">
+                            <label for="baby_name" class="control-label">宝宝名字<span style="color:red;">*</span>：</label>
+                            <div class="controls">
+                                <input type="text" id="baby_name" data-ng-model="baby_name" required/>
+                            </div>
+                        </div>
+                        <br/>
+                        <label for="baby_name" class="control-label">宝宝生日<span style="color:red;">*</span>：</label>
+                        <br/>
+                        <quick-datepicker ng-model="baby_birthday"></quick-datepicker>
+                        <br/>
+                        <strong>宝宝性别<span style="color:red;">*</span>：</strong>
+                        <br/>
+                        <label class="radio-inline">
+                            <input type="radio" name="radio_gender_option" id="baby_gender_girl" data-ng-model="isBoy" value="0">女孩
+                        </label>
+                        <br/>
+                        <label class="radio-inline">
+                            <input type="radio" name="radio_gender_option" data-ng-model="isBoy" id="baby_gender_boy" value="1"> 男孩
+                        </label>
+                        <br/>
+                        <br/>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="control-group">
+                            <label for="card_number" class="control-label">绑定会员卡号<span style="color:red;">*</span>：</label>
+                            <br/>
+                            <div class="controls">
+                                <input type="text" id="card_number" data-ng-model="card_number" required/>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <br/>
+                            <label for="valid_days" class="control-label">会员卡有效期：</label>
+                            <div class="controls">
+                                <input type="text" id="valid_days" value="365" data-ng-model="valid_days" required/>
+                            </div>
+                        </div>
+                        <br/>
+                        <strong>会员卡类别：</strong>
+                        <br/>
+                        <label class="radio-inline">
+                            <input type="radio" name="radil_level_option" id="level0" data-ng-model="level" value="0" checked> 标准会员(借阅年卡)
+                        </label>
+                        <br/>
+                        <label class="radio-inline">
+                            <input type="radio" name="radil_level_option" id="level1" data-ng-model="level" value="1"> 高级会员(多元年卡)
+                        </label>
+                        <br/>
+                        <label class="radio-inline">
+                            <input type="radio" name="radil_level_option" id="level2" data-ng-model="level" value="2"> 私人定制会员
+                        </label>
+                        <br/>
+                        <br/>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="control-group">
+                            <label for="max_book" class="control-label">每次最多可借阅：</label>
+                            <div class="controls">
+                                <input type="text" id="max_book" data-ng-model="max_book" value="4" placeholder="4" required/>
+                            </div>
+                        </div>
+                        <label for="other">备注:</label>
+                        <br/>
+                        <p class='text-warning'>请一定注明操作人员名字
+                            <br/>您的耐心会使系统更加可靠。</p>
+                        <textarea id="other" placeholder="操作员：XXX，普通会员" data-ng-model="other" class="form-control" rows="3"></textarea>
+                    </div>
+                </div>
+                <hr/>
+                <div class="form-group">
+                    <input type="submit" class="btn btn-success">
+                </div>
+                <div data-ng-show="error" class="text-danger">
+                    <strong data-ng-bind="error"></strong>
+                </div>
+            </fieldset>
         </form>
-          
     </div>
 </section>

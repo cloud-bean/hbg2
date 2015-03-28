@@ -1,17 +1,31 @@
 <section data-ng-controller="MembersController" data-ng-init="find()">
-    <div class="page-header">
-        <h1>会员</h1>
+    <div class="page-header ">
+        <h1>会员</h1> 
     </div>
-
     
-    <div class="ui search">
-        <div class="ui icon input">
-          <input class="prompt" type="text" placeholder="搜索会员..." data-ng-model="search.$" >
-          <i class="search icon"></i>
+    <div class="ui three column grid">
+          <div class="column">
+            <a href="/#!/members/create" class="ui inverted green button left attached"><i class="add icon"></i>新增会员</a>
+          </div>
+          <div class="center aligned column">
+              <div class="ui search">
+                <div class="ui icon input">
+                  <input class="prompt" type="text" placeholder="搜索会员..." data-ng-model="search.$" >
+                  <i class="search icon"></i>
+                </div>
+            </div>
+          </div>
+          <div class="column"></div>
         </div>
     </div>
+        
+    
+    
+    
 
     <div class="ui celled selection animated list ">
+
+    
         <div class="item" data-ng-repeat="member in members | filter:search.$"  >
             <i class="red large male icon" ng-show="member.isBoy"></i>
             <i class="purple large female icon" ng-hide="member.isBoy"></i>
