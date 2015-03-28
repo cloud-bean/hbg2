@@ -14,7 +14,7 @@ angular.module('core').controller('HeaderController', ['$scope', 'Authentication
 			    }
 			    return false;
 			};
-			if ($scope.authentication.user.roles !== null) {
+			if ($scope.authentication.user !== '') {
 				return  $scope.authentication.user.roles.contains('admin');
 			} else {
 				return false;
