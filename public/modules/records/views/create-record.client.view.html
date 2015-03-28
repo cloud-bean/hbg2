@@ -5,36 +5,62 @@
     <div class="ui divider"></div>
     <div class="content" style="position: relative">
         <div class="ui two column middle aligned relaxed fitted stackable grid">
-            <div class="center aligned column">
+            <div class=" aligned column">
                 <div class="field">
                     <div class="ui left icon input">
                         <input type="text" placeholder="会员卡号" ng-model="card_number">
                         <i class="payment icon"></i>
                     </div>
+                    <span ng-show="member && !member_invalid_msg.length"><i class="checkmark green icon"></i>{{member.baby_name}}</span>
+                    <div class="ui negative message" ng-show="member && member_invalid_msg.length">
+                            账户 {{member.baby_name}} 存在问题： <p>{{member_invalid_msg}}</p>
+                    </div>
                 </div>
                 <br/>
                 <div class="field">
                     <div class="ui left icon input">
-                        <input type="text" placeholder="搜索绘本" ng-model="keyword">
+                        <input type="text" placeholder="搜索绘本"  ng-model="keyword">
                         <i class="barcode icon"></i>
+                    </div>
+                    104100009877  104100000793
+                </div>
+                
+                <div class="ui divided list" ng-show="inventories" ng-repeat="inventory in inventories">
+                    <div class="item">
+                        <div class="header">
+                            <a class="ui small green inverted button" ng-hide="inventory.isRent" ng-click="select($index)">
+                                选中
+                            </a>
+                            <a class="ui small inverted button" ng-show="inventory.isRent" ng-click="clear($index)">已借出</a>
+                            <span>{{ inventory.inv_code }}-{{ inventory.name }} {{inventory.isbn}} </span>
+                        </div>
+                        <span ng-show="inventory.tags.length">{{ inventory.tags }}</span>
                     </div>
                 </div>
             </div>
-            <div ng-show="member">
-                {{ member.baby_name }}
-            </div>
-            <div ng-show="inventory">
-                {{ inventory.inv_code}}-{{ inventory.name }}</li>
-            </div>
+            
              <h4 class="ui horizontal header divider">
                 <i class="book chart icon"></i>
                 书单
-              </h4>
+            </h4>
            
-            <div class="center aligned column">
-                <div class="large green ui labeled icon button">
-                    <i class="arrow circle right icon"></i> Yeah,借走
+
+            <div class="column">
+
+                <div class="ui divided list" ng-show="select_inventories" ng-repeat="inventory in select_inventories">
+                    <div class="item">
+                        <div >
+                            <a class="ui small basic button red " ng-click="remove($index)">  
+                                不选
+                            </a>
+                            &nbsp;&nbsp;[ {{$index+1}} ]  {{ inventory.inv_code }}-{{ inventory.name }} {{inventory.isbn}} 
+                        </div>
+                    </div>
                 </div>
+                     
+                <a class="green ui button labeled icon" ng-show="member && select_inventories.length" ng-click="saveRecord()">
+                    <i class="arrow large circle right icon"></i>&nbsp;&nbsp;Yeah,借走
+                </a>
             </div>
         </div>
     </div>

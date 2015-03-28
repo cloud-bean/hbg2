@@ -5,6 +5,9 @@ angular.module('records').controller('RecordsController', ['$scope', '$timeout',
 	function($scope, $timeout, $http, $stateParams, $location, Authentication, Records) {
 		$scope.authentication = Authentication;
 		$scope.showResults = false;
+		$scope.inventories=[];
+		$scope.select_inventories=[];
+        
 		var timeout;
 		// Create new Record
 		$scope.create = function() {
@@ -69,12 +72,33 @@ angular.module('records').controller('RecordsController', ['$scope', '$timeout',
 			if (newCardNumber) {
 				if (timeout) $timeout.cancel(timeout);
 				timeout = $timeout(function () {
+					$scope.member_invalid_msg = '';
+					$scope.member = null;
 					$http({
 						method: 'GET',
 						url: '/members/card/' + newCardNumber
 					})
 					.success(function (data, err) {
 						$scope.member = data;
+                        $scope.max_book = data.max_book || 4;
+
+                        // TODO: need to finish.
+                        // $scope.on_rent_book = Records.find({
+                        //     member: $scope.member,
+                        //     isRent: true
+                        // }).count();
+
+                        var a_d_ms = new Date($scope.member.active_time).getTime();
+                        var v_d_ms = a_d_ms + $scope.member.valid_days * 24 * 3600 * 1000;
+                        
+                        if (Date.now() > v_d_ms) {
+                            $scope.member_invalid_msg = '会员卡到期';
+                        } else if ($scope.member.isLocked) {
+                            $scope.member_invalid_msg = '该会员已经被冻结';
+                        } else {
+                            $scope.member_invalid_msg = '';
+                        }
+
 					});
 				},350);
  			}
@@ -90,10 +114,30 @@ angular.module('records').controller('RecordsController', ['$scope', '$timeout',
 						url: '/inventories/invCode/' + newKeyword
 					})
 					.success(function (data, err) {
-						$scope.inventory = data.data;
+						$scope.inventories.push(data);
+						$scope.keyword = '';
 					});
 				},350);
  			}
 		});
+
+		// select the inventory
+		$scope.select = function (index) {
+			$scope.select_inventories.push($scope.inventories[index]);
+			$scope.inventories.splice(index,1);
+		};
+		// select the inventory
+		$scope.remove = function (index) {
+			$scope.select_inventories.splice(index,1);
+		};
+
+		$scope.clear = function (index) {
+			$scope.inventories.splice(index,1);
+		};
+		
+		// save the rent record.
+		$scope.saveRecord = function () {
+
+		};
 	}
 ]);
