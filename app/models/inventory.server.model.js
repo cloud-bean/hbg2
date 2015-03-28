@@ -53,7 +53,7 @@ var InventorySchema = new Schema({
 });
 
 InventorySchema.statics.findOneByInvCode = function (inv_code, callback) {
-    this.findOne({inv_code: new RegExp(inv_code,'i')}, callback);
+    this.findOne({inv_code: inv_code}, callback);
 };
 
 InventorySchema.statics.findByName = function (name, callback) {
