@@ -37,13 +37,21 @@ var MemberSchema = new Schema({
   } ,
   weixin: String,
   other: String,  // 备注
+  max_book: {
+    type: Number,
+    default: 4
+  },
+  locked: {
+    type: Boolean,
+    default: false
+  },
   head_photo: String // 头像
 }, {
   collection: 'member'
 });
 
 MemberSchema.statics.findOneByCardNumber = function (card_number, callback) {
-    this.findOne({card_number: new RegExp(card_number,'i')}, callback);
+    this.findOne({card_number: card_number}, callback);
 };
 
 var MemeberModel = mongoose.model('Member', MemberSchema);
