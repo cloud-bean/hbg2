@@ -1,4 +1,4 @@
-<section data-ng-controller="MembersController" data-ng-init="findOne()">
+<section data-ng-controller="MembersController" data-ng-init="findHistroyRecords()">
 	<div class="page-header">
 		<h1 >{{member.baby_name}} </h1>
 		<div data-ng-show="((authentication.user) || (authentication.user.member._id == member._id))">
@@ -12,16 +12,21 @@
 		</div>
 	</div>
 	
-	<div class="ui divider"></div>
+	<div class="ui horizontal divider">
+		会员卡号:{{member.card_number}}&nbsp;&nbsp;会员激活时间:
+		<span data-ng-bind="member.active_time | date:'yyyy/MM/dd'"></span>
+		<span ng-hide="member.parent_name.length==0">家长：{{member.parent_name}}</span>
+	</div>
+	
+	<div class="ui celled selection  list">
+		<div class="item" ng-repeat="record in records">
+			<div class="content" style="text-align:left; margin-top:10px">
+	          	<a class="ui tiny button green" ng-hide="record.return_date" ng-click="returnBook($index)">还书</a>
+	         	 {{record.inventory.name}} - #{{record.inventory.inv_code}}#
+	          	<span >借出时间：{{record.start_date | date:'yyyy-MM-dd HH:mm:ss' }}</span>
+	          	<span ng-show="record.return_date">归还时间：{{record.return_date | date:'yyyy-MM-dd HH:mm:ss' }}</span>
+	        </div>
+        </div>
+	</div>
 
-	<small>
-		<em class="text-muted">
-			会员卡号:{{member.card_number}}
-			<br/>
-			会员激活时间:
-			<span data-ng-bind="member.active_time | date:'yyyy/MM/dd'"></span>
-			<span ng-hide="member.parent_name.length===0">家长：{{member.parent_name}}</span>
-		</em>
-
-	</small>
 </section>

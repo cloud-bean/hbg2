@@ -1,10 +1,10 @@
 'use strict';
 
 // Members controller
-angular.module('members').controller('MembersController', ['$scope', '$stateParams', '$location', 'Authentication', 'Members',
-	function($scope, $stateParams, $location, Authentication, Members) {
+angular.module('members').controller('MembersController', ['$scope', '$http', '$stateParams', '$location', 'Authentication', 'Members', 'Records' , 'Inventories',
+	function($scope, $http, $stateParams, $location, Authentication, Members, Records, Inventories) {
 		$scope.authentication = Authentication;
-
+		$scope.records = [];
 		// Create new Member
 		$scope.create = function() {
 			// Create new Member object
@@ -79,6 +79,35 @@ angular.module('members').controller('MembersController', ['$scope', '$statePara
         //         card_number: $stateParams.card_number
         //     });
         // };
+        $scope.findHistroyRecords = function() {
+        	$scope.findOne();
+        	$http({
+                method: 'GET',
+                url: '/records/member/' + $stateParams.memberId
+            })
+            .success(function(data, err) {
+            	$scope.records = data;
+            });
+        };
 
-	}
+        // return book. update the record , update the inventory.
+        $scope.returnBook = function (index) {
+        	var _record = $scope.records[index];
+
+        	Records.get({recordId: _record._id}, function (record, err) {
+        		record.return_date = Date.now();
+        		record.status = 'A';
+        		record.$update();
+
+        		// update the dom
+        		$scope.records[index].return_date = record.return_date ;
+        		$scope.records[index].status = 'A';
+        	});
+
+        	var inventory = new Inventories(_record.inventory);
+            inventory.isRent = false;
+            inventory.$update();
+
+        };
+ 	}
 ]);

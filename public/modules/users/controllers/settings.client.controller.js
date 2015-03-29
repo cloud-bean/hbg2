@@ -3,9 +3,16 @@
 angular.module('users').controller('SettingsController', ['$scope', '$http', '$location', 'Users', 'Members', 'Authentication',
 	function($scope, $http, $location, Users, Members, Authentication) {
 		$scope.user = Authentication.user;
-        $scope.member_card_number = $scope.user.member ? $scope.user.member.card_number : '';
-		// If user is not signed in then redirect back home
+		
+        // If user is not signed in then redirect back home
 		if (!$scope.user) $location.path('/');
+        
+        // populate member
+        $scope.getMemberCardNumber = function () {
+            Members.get({memberId:$scope.user.member}, function(data, error) {
+                $scope.user.member_card_number = data.card_number;
+            });
+        };
 
 		// Check if there are additional accounts 
 		$scope.hasConnectedAdditionalSocialAccounts = function(provider) {
@@ -42,10 +49,8 @@ angular.module('users').controller('SettingsController', ['$scope', '$http', '$l
 		$scope.updateUserProfile = function(isValid) {
 			if (isValid) {
 				$scope.success = $scope.error = null;
-                if ($scope.member_card_number) {
-                    $scope.user.member = Members.findByCardNumber($scope.member_card_number);
-                }
-				var user = new Users($scope.user);
+				
+                var user = new Users($scope.user);
 
 				user.$update(function(response) {
 					$scope.success = true;
