@@ -8,6 +8,10 @@ module.exports = function(app) {
 	app.route('/records')
 		.get(users.requiresLogin, records.list)
 		.post(users.requiresLogin, records.hasAuthorization, records.create);
+    
+    // Records for member's history
+    app.route('/records/member/:mId')
+        .get(users.requiresLogin, records.list);
 
 	app.route('/records/:recordId')
 		.get(users.requiresLogin, records.read)
@@ -16,4 +20,5 @@ module.exports = function(app) {
 
 	// Finish by binding the Record middleware
 	app.param('recordId', records.recordByID);
+	app.param('mId', records.recordHistoryByMemberID);
 };

@@ -24,8 +24,11 @@ var RecordSchema = new Schema({
     type: Date,
     default: Date.now
   },
-  status: String,    // R 借阅中， A 已经归还
-  return_date: Date
+  status: String,    // R rent 借阅中， A ok 已经归还
+  return_date: {
+    type: Date,
+    default: null
+  }
 }, {
   collection: 'record'
 });

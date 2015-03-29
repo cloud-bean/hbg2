@@ -6,19 +6,22 @@
 var mongoose = require('mongoose'),
 	errorHandler = require('./errors.server.controller'),
 	Record = mongoose.model('Record'),
+	Member = mongoose.model('Member'),
 	_ = require('lodash');
 
 /**
  * Create a Record
  */
 exports.create = function(req, res) {
-	var record = new Record(req.body);
-	record.user = req.user;
-
+	var record = new Record({
+		member: req.body.member._id,
+		inventory: req.body.inventory._id,
+		status: req.body.status,
+	});
 	record.save(function(err) {
 		if (err) {
 			return res.status(400).send({
-				message: errorHandler.getErrorMessage(err)
+				message: errorHandler.getErrorMessage(err) 
 			});
 		} else {
 			res.jsonp(record);
@@ -96,6 +99,27 @@ exports.recordByID = function(req, res, next, id) {
 	});
 };
 
+/**
+ * Record middleware to return the spec member's records.
+ */
+exports.recordHistoryByMemberID = function (req, res, next, mid) {
+    Member.findById(mid, function (err, member) {
+        Record.find({member: member})
+        .sort('-start_date')
+        .populate('inventory')
+        .exec(function (err, records) {
+	    	if (err) {
+	    		return res.status(400).send({
+	    			message: errorHandler.getErrorMessage(err)
+	    		});
+	    	} else {
+	    		res.jsonp(records);
+	    	}
+	    });
+    });
+};
+
+
 /** 
  * function to test if 'admin'  in the roles array
  */
@@ -121,8 +145,11 @@ exports.hasAdminRole = function(req, res, next) {
  * Record authorization middleware
  */
 exports.hasAuthorization = function(req, res, next) {
-	if (req.record.member.id !== req.user.member.id || !isAdmin(req.user.roles)) {
+	if (isAdmin(req.user.roles)) {  // admin , pass
+		next();
+	} else if (req.user.member && req.user.username === req.user.member.card_number) { // member self, pass
+		next();
+	} else { //otherwise, forbidden.
 		return res.status(403).send('User is not authorized');
 	}
-	next();
 };

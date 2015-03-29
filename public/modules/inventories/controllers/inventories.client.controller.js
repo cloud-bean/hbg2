@@ -5,6 +5,7 @@ angular.module('inventories').controller('InventoriesController', ['$scope', '$h
 	function($scope, $http, $timeout, $stateParams, $location, Authentication, Inventories) {
 		$scope.authentication = Authentication;
 		var timeout;
+		
 		// Create new Inventory
 		$scope.create = function() {
 			// Create new Inventory object

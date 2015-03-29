@@ -11,7 +11,8 @@
                         <input type="text" placeholder="会员卡号" ng-model="card_number">
                         <i class="payment icon"></i>
                     </div>
-                    <span ng-show="member && !member_invalid_msg.length"><i class="checkmark green icon"></i>{{member.baby_name}}</span>
+                    <span ng-show="member && !member_invalid_msg.length"><i class="checkmark green icon"></i>{{member.baby_name}} 本次最多可借&nbsp;&nbsp;<a href="#">{{member.max_book - on_rent_book}}</a>&nbsp;&nbsp;本 [{{on_rent_book}}借阅中/{{member.max_book}}单次最大借阅数]</span>
+
                     <div class="ui negative message" ng-show="member && member_invalid_msg.length">
                             账户 {{member.baby_name}} 存在问题： <p>{{member_invalid_msg}}</p>
                     </div>
@@ -22,7 +23,6 @@
                         <input type="text" placeholder="搜索绘本"  ng-model="keyword">
                         <i class="barcode icon"></i>
                     </div>
-                    104100009877  104100000793
                 </div>
                 
                 <div class="ui divided list" ng-show="inventories" ng-repeat="inventory in inventories">
@@ -46,7 +46,9 @@
            
 
             <div class="column">
-
+                <div class="ui negative message" ng-show="member && select_inventories.length > member.max_book-on_rent_book">
+                    超过本次最多借阅数. {{err_msg}}
+                </div>
                 <div class="ui divided list" ng-show="select_inventories" ng-repeat="inventory in select_inventories">
                     <div class="item">
                         <div >
@@ -58,8 +60,8 @@
                     </div>
                 </div>
                      
-                <a class="green ui button labeled icon" ng-show="member && select_inventories.length" ng-click="saveRecord()">
-                    <i class="arrow large circle right icon"></i>&nbsp;&nbsp;Yeah,借走
+                <a class="green ui button " ng-show="member && select_inventories.length && select_inventories.length <= member.max_book-on_rent_book" ng-click="saveRecord()">
+                    Yeah,借走
                 </a>
             </div>
         </div>
