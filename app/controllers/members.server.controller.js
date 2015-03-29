@@ -13,7 +13,6 @@ var mongoose = require('mongoose'),
  */
 exports.create = function(req, res) {
 	var member = new Member(req.body);
-	member.user = req.user;
 
 	member.save(function(err) {
 		if (err) {
@@ -128,8 +127,7 @@ var isAdmin = function (roles) {
 exports.hasAuthorization = function(req, res, next) {
     // TODO: if user.role is admin ; ok
     // TODO: if user.member is req.member._id
-    
-    if (!isAdmin(req.user.roles) && req.member.id !== req.user.member.id) {
+    if (!isAdmin(req.user.roles) && req.member._id !== req.user.member) {
         return res.status(403).send('User is not authorized');
     }
 	next();
