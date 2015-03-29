@@ -4,7 +4,7 @@
 var ApplicationConfiguration = (function() {
 	// Init module configuration options
 	var applicationModuleName = 'hbg';
-	var applicationModuleVendorDependencies = ['ngResource', 'ngCookies',  'ngAnimate',  'ngTouch',  'ngSanitize',  'ui.router' ];
+	var applicationModuleVendorDependencies = ['ngResource', 'ngCookies',  'ngAnimate',  'ngTouch',  'ngSanitize',  'ui.router', 'ngQuickDate'];
 
 	// Add a new vertical module
 	var registerModule = function(moduleName, dependencies) {
@@ -95,20 +95,45 @@ angular.module('core').controller('AboutController', ['$scope',
 
 angular.module('core').controller('HeaderController', ['$scope', 'Authentication', 'Menus',
 	function($scope, Authentication, Menus) {
-		$scope.authentication = Authentication;
-		$scope.isCollapsed = false;
-		$scope.menu = Menus.getMenu('topbar');
+		$scope.authentication = Authentication;  // save the authen obj.
 
-		$scope.toggleCollapsibleMenu = function() {
-			$scope.isCollapsed = !$scope.isCollapsed;
+		var hasAdminRole = function () {
+			Array.prototype.contains = function(obj) {
+			    var i = this.length;
+			    while (i--) {
+			        if (this[i] === obj) {
+			            return true;
+			        }
+			    }
+			    return false;
+			};
+			if ($scope.authentication.user !== '') {
+				return  $scope.authentication.user.roles.contains('admin');
+			} else {
+				return false;
+			}
 		};
 
-		// Collapsing the menu after navigation
+		$scope.isAdmin = hasAdminRole();
+		$scope.member_id = $scope.authentication.user.member;
 		$scope.$on('$stateChangeSuccess', function() {
-			$scope.isCollapsed = false;
+			$scope.isAdmin = hasAdminRole();
 		});
+		
+		// $scope.isCollapsed = false;
+		// $scope.menu = Menus.getMenu('topbar');
+
+		// $scope.toggleCollapsibleMenu = function() {
+		// 	$scope.isCollapsed = !$scope.isCollapsed;
+		// };
+
+		// // Collapsing the menu after navigation
+		// $scope.$on('$stateChangeSuccess', function() {
+		// 	$scope.isCollapsed = false;
+		// });
 	}
 ]);
+
 'use strict';
 
 
@@ -323,10 +348,11 @@ angular.module('inventories').config(['$stateProvider',
 'use strict';
 
 // Inventories controller
-angular.module('inventories').controller('InventoriesController', ['$scope', '$stateParams', '$location', 'Authentication', 'Inventories',
-	function($scope, $stateParams, $location, Authentication, Inventories) {
+angular.module('inventories').controller('InventoriesController', ['$scope', '$http', '$timeout', '$stateParams', '$location', 'Authentication', 'Inventories',
+	function($scope, $http, $timeout, $stateParams, $location, Authentication, Inventories) {
 		$scope.authentication = Authentication;
-
+		var timeout;
+		
 		// Create new Inventory
 		$scope.create = function() {
 			// Create new Inventory object
@@ -390,6 +416,21 @@ angular.module('inventories').controller('InventoriesController', ['$scope', '$s
 				inventoryId: $stateParams.inventoryId
 			});
 		};
+
+		$scope.$watch('keyword', function (newKeyword) {
+			if (newKeyword) {
+				if (timeout) $timeout.cancel(timeout);
+				timeout = $timeout(function () {
+					$http({
+						method: 'GET',
+						url: '/inventories/name/' + newKeyword
+					})
+					.success(function (data, err) {
+						$scope.inventories = data;
+					});
+				},350);
+ 			}
+		});
 	}
 ]);
 
@@ -462,63 +503,37 @@ angular.module('members').config(['$stateProvider',
 		});
 	}
 ]);
-'use strict';
-
-angular.module('hbg').controller('DatepickerDemoCtrl', ["$scope", function ($scope) {
-  $scope.today = function() {
-    $scope.dt = new Date();
-  };
-  $scope.today();
-
-  $scope.clear = function () {
-    $scope.dt = null;
-  };
-
-  // Disable weekend selection
-  $scope.disabled = function(date, mode) {
-    return ( mode === 'day' && ( date.getDay() === 0 || date.getDay() === 6 ) );
-  };
-
-  $scope.toggleMin = function() {
-    $scope.minDate = $scope.minDate ? null : new Date();
-  };
-  $scope.toggleMin();
-
-  $scope.open = function($event) {
-    $event.preventDefault();
-    $event.stopPropagation();
-
-    $scope.opened = true;
-  };
-
-  $scope.dateOptions = {
-    formatYear: 'yy',
-    startingDay: 1
-  };
-
-
-}]);
 
 'use strict';
 
 // Members controller
-angular.module('members').controller('MembersController', ['$scope', '$stateParams', '$location', 'Authentication', 'Members',
-	function($scope, $stateParams, $location, Authentication, Members) {
+angular.module('members').controller('MembersController', ['$scope', '$http', '$stateParams', '$location', 'Authentication', 'Members', 'Records' , 'Inventories',
+	function($scope, $http, $stateParams, $location, Authentication, Members, Records, Inventories) {
 		$scope.authentication = Authentication;
-
+		$scope.records = [];
 		// Create new Member
 		$scope.create = function() {
 			// Create new Member object
-			var member = new Members ({
-				name: this.name
-			});
+			var member = new Members({
+				phone_number: this.phone_number,
+				baby_name: this.baby_name,
+				baby_birthday: this.baby_birthday,
+				isBoy: this.isBoy,
+				card_number: this.card_number,
+				valid_days: this.valid_days,
+				level: this.level,
+				parent_name: this.parent_name,
+				address: this.address,
+				email: this.email,
+				weixin: this.weixin,
+				other: this.other
+            });
+			
 
 			// Redirect after save
 			member.$save(function(response) {
 				$location.path('members/' + response._id);
 
-				// Clear form fields
-				$scope.name = '';
 			}, function(errorResponse) {
 				$scope.error = errorResponse.data.message;
 			});
@@ -564,13 +579,43 @@ angular.module('members').controller('MembersController', ['$scope', '$statePara
 			});
 		};
 
-        // Find member by name
-        $scope.findByCardNumber = function(card_number) {   
-            $scope.member = Members.get({
-                card_number: card_number
+        // // TODO: Find member by name
+        // $scope.findByCardNumber = function() {   
+        //     $scope.member = Members.get({
+        //         card_number: $stateParams.card_number
+        //     });
+        // };
+        $scope.findHistroyRecords = function() {
+        	$scope.findOne();
+        	$http({
+                method: 'GET',
+                url: '/records/member/' + $stateParams.memberId
+            })
+            .success(function(data, err) {
+            	$scope.records = data;
             });
         };
-	}
+
+        // return book. update the record , update the inventory.
+        $scope.returnBook = function (index) {
+        	var _record = $scope.records[index];
+
+        	Records.get({recordId: _record._id}, function (record, err) {
+        		record.return_date = Date.now();
+        		record.status = 'A';
+        		record.$update();
+
+        		// update the dom
+        		$scope.records[index].return_date = record.return_date ;
+        		$scope.records[index].status = 'A';
+        	});
+
+        	var inventory = new Inventories(_record.inventory);
+            inventory.isRent = false;
+            inventory.$update();
+
+        };
+ 	}
 ]);
 
 'use strict';
@@ -604,90 +649,221 @@ angular.module('records').config(['$stateProvider',
 	function($stateProvider) {
 		// Records state routing
 		$stateProvider.
-		state('listRecords', {
-			url: '/records',
-			templateUrl: 'modules/records/views/list-records.client.view.html'
-		}).
 		state('createRecord', {
 			url: '/records/create',
 			templateUrl: 'modules/records/views/create-record.client.view.html'
-		}).
-		state('viewRecord', {
-			url: '/records/:recordId',
-			templateUrl: 'modules/records/views/view-record.client.view.html'
-		}).
-		state('editRecord', {
-			url: '/records/:recordId/edit',
-			templateUrl: 'modules/records/views/edit-record.client.view.html'
 		});
+
+		// $stateProvider.
+		// state('listRecords', {
+		// 	url: '/records',
+		// 	templateUrl: 'modules/records/views/list-records.client.view.html'
+		// }).
+		// state('createRecord', {
+		// 	url: '/records/create',
+		// 	templateUrl: 'modules/records/views/create-record.client.view.html'
+		// }).
+		// state('viewRecord', {
+		// 	url: '/records/:recordId',
+		// 	templateUrl: 'modules/records/views/view-record.client.view.html'
+		// }).
+		// state('editRecord', {
+		// 	url: '/records/:recordId/edit',
+		// 	templateUrl: 'modules/records/views/edit-record.client.view.html'
+		// });
 	}
 ]);
+
 'use strict';
 
 // Records controller
-angular.module('records').controller('RecordsController', ['$scope', '$stateParams', '$location', 'Authentication', 'Records',
-	function($scope, $stateParams, $location, Authentication, Records) {
-		$scope.authentication = Authentication;
+angular.module('records').controller('RecordsController', ['$scope', '$timeout', '$http', '$stateParams', '$location', 'Authentication', 'Records', 'Inventories',
+    function($scope, $timeout, $http, $stateParams, $location, Authentication, Records, Inventories) {
+        $scope.authentication = Authentication;
+        $scope.showResults = false;
+        $scope.inventories = [];
+        $scope.select_inventories = [];
+        $scope.saveSuccCount = 0;
+        $scope.saveErrMsg = '';
+        var timeout;
+        
+        // Create new Record
+        $scope.create = function(member, inventory) {
+            // Create new Record object
+            var record = new Records({
+                member: member,
+                inventory: inventory,
+                status: 'R'
+            });
+            record.$save(function(response) {
+            	$scope.saveSuccCount++;
+            	if ($scope.saveSuccCount === $scope.totolSaveCount) {
+            		$location.path('members/' + member._id);
+            	}
+            }, function(errorResponse) {
+                $scope.saveErrMsg += errorResponse.data.message;
+            });
+        };
 
-		// Create new Record
-		$scope.create = function() {
-			// Create new Record object
-			var record = new Records ({
-				name: this.name
-			});
+        // Remove existing Record
+        $scope.remove = function(record) {
+            if (record) {
+                record.$remove();
 
-			// Redirect after save
-			record.$save(function(response) {
-				$location.path('records/' + response._id);
+                for (var i in $scope.records) {
+                    if ($scope.records[i] === record) {
+                        $scope.records.splice(i, 1);
+                    }
+                }
+            } else {
+                $scope.record.$remove(function() {
+                    $location.path('records');
+                });
+            }
+        };
 
-				// Clear form fields
-				$scope.name = '';
-			}, function(errorResponse) {
-				$scope.error = errorResponse.data.message;
-			});
-		};
+        // Update existing Record
+        $scope.update = function() {
+            var record = $scope.record;
 
-		// Remove existing Record
-		$scope.remove = function(record) {
-			if ( record ) { 
-				record.$remove();
+            record.$update(function() {
+                $location.path('records/' + record._id);
+            }, function(errorResponse) {
+                $scope.error = errorResponse.data.message;
+            });
+        };
 
-				for (var i in $scope.records) {
-					if ($scope.records [i] === record) {
-						$scope.records.splice(i, 1);
-					}
-				}
-			} else {
-				$scope.record.$remove(function() {
-					$location.path('records');
-				});
-			}
-		};
+        // Find a list of Records
+        $scope.find = function() {
+            $scope.records = Records.query();
+        };
 
-		// Update existing Record
-		$scope.update = function() {
-			var record = $scope.record;
+        // Find existing Record
+        $scope.findOne = function() {
+            $scope.record = Records.get({
+                recordId: $stateParams.recordId
+            });
+        };
 
-			record.$update(function() {
-				$location.path('records/' + record._id);
-			}, function(errorResponse) {
-				$scope.error = errorResponse.data.message;
-			});
-		};
+        // Find member by card_number
+        $scope.$watch('card_number', function(newCardNumber) {
+            if (newCardNumber) {
+                if (timeout) $timeout.cancel(timeout);
+                timeout = $timeout(function() {
+                    $scope.member_invalid_msg = '';
+                    $scope.member = null;
+                    $http({
+                            method: 'GET',
+                            url: '/members/card/' + newCardNumber
+                        })
+                        .success(function(data, err) {
+                            $scope.member = data;
+                            $scope.max_book = data.max_book || 4;
 
-		// Find a list of Records
-		$scope.find = function() {
-			$scope.records = Records.query();
-		};
+                            // get the record history.
+                            $http({
+                                    method: 'GET',
+                                    url: '/records/member/' + $scope.member._id
+                                })
+                                .success(function(data, err) {
+                                    var on_rent = 0;
+                                    for (var i = data.length - 1; i; i--) {
+                                        if (data[i].status === 'R')
+                                            on_rent++;
+                                    }
+                                    $scope.on_rent_book = on_rent;
+                                    $scope.can_rent = $scope.member.max_book - on_rent > 0 ? true : false;
+                                });
+                            var a_d_ms = new Date($scope.member.active_time).getTime();
+                            var v_d_ms = a_d_ms + $scope.member.valid_days * 24 * 3600 * 1000;
+                          
+                            if (Date.now() > v_d_ms) {
+                                $scope.member_invalid_msg = '会员卡到期';
+                            } else if ($scope.member.locked) {
+                                $scope.member_invalid_msg = '该会员已经被冻结';
+                            } else {
+                                $scope.member_invalid_msg = '';
+                            }
 
-		// Find existing Record
-		$scope.findOne = function() {
-			$scope.record = Records.get({ 
-				recordId: $stateParams.recordId
-			});
-		};
-	}
+                        });
+                }, 350);
+            }
+        });
+
+        // Find inventories by isbn/name/inv_code
+        $scope.$watch('keyword', function(newKeyword) {
+            if (newKeyword) {
+                if (timeout) $timeout.cancel(timeout);
+                timeout = $timeout(function() {
+                    $http({
+                            method: 'GET',
+                            url: '/inventories/invCode/' + newKeyword
+                        })
+                        .success(function(data, err) {
+                            $scope.inventories.push(data);
+                            $scope.keyword = '';
+                        });
+                }, 350);
+            }
+        });
+
+        // select the inventory to the book_list
+        $scope.select = function(index) {
+            // check the arr, can not be the same.
+            var isExist = false;
+        	for (var i = $scope.select_inventories.length - 1; i >= 0; i--) {
+            	if ($scope.select_inventories[i].inv_code === $scope.inventories[index].inv_code)
+                	isExist = true;
+        	}
+
+            if (!isExist) {
+            	$scope.select_inventories.push($scope.inventories[index]);
+            }
+
+            $scope.inventories.splice(index, 1);
+        };
+        // remove the inventory from the book_list
+        $scope.remove = function(index) {
+            $scope.select_inventories.splice(index, 1);
+        };
+        // remove the inventory that already rented.
+        $scope.clear = function(index) {
+            $scope.inventories.splice(index, 1);
+        };
+
+        // save the rent record. check and save.
+        $scope.saveRecord = function() {
+        	if ($scope.select_inventories.length > $scope.member.max_book - $scope.on_rent_book) {
+        		$scope.err_msg = '请减少借阅的数目';
+        	} else if ($scope.member_invalid_msg !== '') {
+        		$scope.err_msg += '会员目前处于不可用状态';
+        	} else { // ok now.
+        		$scope.saveSuccCount = 0;
+        		$scope.totolSaveCount = $scope.select_inventories.length;
+        		for (var i = $scope.select_inventories.length - 1; i >= 0; i--) {
+        			$scope.create($scope.member, $scope.select_inventories[i]);
+                    // Todo: update the book's status: isRent 
+                    var _inventory = new Inventories($scope.select_inventories[i]);
+                    _inventory.isRent = true;
+                    _inventory.$update();
+        		}
+        	}
+        };
+
+        // clear all the input, init the page.
+        $scope.init = function () {
+	        $scope.showResults = false;
+	        $scope.inventories = [];
+	        $scope.select_inventories = [];
+	        $scope.saveSuccCount = 0;
+	        $scope.saveErrMsg = '';
+	        $scope.card_number = '';
+	        $scope.keyword = '';
+        };
+
+    }
 ]);
+
 'use strict';
 
 //Records service used to communicate Records REST endpoints
@@ -871,9 +1047,16 @@ angular.module('users').controller('PasswordController', ['$scope', '$stateParam
 angular.module('users').controller('SettingsController', ['$scope', '$http', '$location', 'Users', 'Members', 'Authentication',
 	function($scope, $http, $location, Users, Members, Authentication) {
 		$scope.user = Authentication.user;
-        $scope.member_card_number = $scope.user.member ? $scope.user.member.card_number : '';
-		// If user is not signed in then redirect back home
+		
+        // If user is not signed in then redirect back home
 		if (!$scope.user) $location.path('/');
+        
+        // populate member
+        $scope.getMemberCardNumber = function () {
+            Members.get({memberId:$scope.user.member}, function(data, error) {
+                $scope.user.member_card_number = data.card_number;
+            });
+        };
 
 		// Check if there are additional accounts 
 		$scope.hasConnectedAdditionalSocialAccounts = function(provider) {
@@ -910,10 +1093,8 @@ angular.module('users').controller('SettingsController', ['$scope', '$http', '$l
 		$scope.updateUserProfile = function(isValid) {
 			if (isValid) {
 				$scope.success = $scope.error = null;
-                if ($scope.member_card_number) {
-                    $scope.user.member = Members.findByCardNumber($scope.member_card_number);
-                }
-				var user = new Users($scope.user);
+				
+                var user = new Users($scope.user);
 
 				user.$update(function(response) {
 					$scope.success = true;
@@ -955,6 +1136,7 @@ angular.module('users').factory('Authentication', [
 		return _this._data;
 	}
 ]);
+
 'use strict';
 
 // Users service used for communicating with the users REST endpoint

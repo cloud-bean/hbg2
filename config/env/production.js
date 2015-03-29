@@ -8,7 +8,9 @@ module.exports = {
 				// 'public/lib/semantic-ui/dist/semantic.min.css',
 				// 'public/lib/semantic-ui/dist/semantic.kitchensink.css',
 				'http://cloudbean.qiniudn.com/hbg2-kitchensink.css',
-				'http://cloudbean.qiniudn.com/hbg2-semantic.min.css',
+				'http://cloudbean.qiniudn.com/hbg2-semantic-ui.min.css',
+				'http://cloudbean.qiniudn.com/hbg2-ng-quick-date.css',
+				'http://cloudbean.qiniudn.com/hbg2-ng-quick-date-default-theme.css',
                 // TODO: add ng-quick-date.
 			],
 			js: [
@@ -21,7 +23,8 @@ module.exports = {
 				'//cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.13/angular-ui-router.min.js',
 				'//cdnjs.cloudflare.com/ajax/libs/angular-ui-utils/0.1.1/angular-ui-utils.min.js',
 				'http://lib.sinaapp.com/js/jquery/2.0.3/jquery-2.0.3.min.js',
-				'http://cloudbean.qiniudn.com/hbg2-semantic.min.js', 
+				'http://cloudbean.qiniudn.com/hbg2-semantic.min.js',
+				'http://cloudbean.qiniudn.com/hbg2-ng-quick-date.min.js', 
                 // TODO: add ng-quick-date.
 				
                 // 'public/lib/angular/angular.min.js',

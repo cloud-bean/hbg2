@@ -1,26 +1,42 @@
 <section class="row" data-ng-controller="AuthenticationController">
-	<div class="col-xs-offset-2 col-xs-8 col-md-offset-5 col-md-2">
-		<form data-ng-submit="signin()" class="signin form-horizontal" autocomplete="off">
-			<fieldset>
-				<div class="form-group">
-					<label for="username">用户名</label>
-					<input type="text" id="username" name="username" class="form-control" data-ng-model="credentials.username" placeholder="会员用户名默认为会员卡号">
-				</div>
-				<div class="form-group">
-					<label for="password">密码</label>
-					<input type="password" id="password" name="password" class="form-control" data-ng-model="credentials.password" placeholder="会员密码默认为手机号">
-				</div>
-				<div class="text-center form-group">
-					<button type="submit" class="btn btn-primary">登录</button>&nbsp; 或&nbsp;
-					<a href="/#!/signup">注册</a>
-				</div>
-				<div class="forgot-password">
-					<a href="/#!/password/forgot">忘记密码?</a>
-				</div>
-				<div data-ng-show="error" class="text-center text-danger">
-					<strong data-ng-bind="error"></strong>
-				</div>
-			</fieldset>
-		</form>
-	</div>
+	<form class="ui form" autocomplete="off">
+		<h4 class="ui dividing header">账户登录</h4>
+		<div class="five fields">
+			<div class="required field"></div>
+			<div class="required field"></div>
+		    <div class="required field">
+		        <label>username</label>
+		        <div class="ui icon input">
+		            <input type="text" id="username" name="username" class="form-control" data-ng-model="credentials.username" placeholder="会员用户名默认为会员卡号">
+		            <i class="user icon"></i>
+		        </div>
+		    </div>
+		    <div class="required field"></div>
+		    <div class="required field"></div>
+		</div>
+		<div class="five fields">
+		    <div class="required field"></div>
+		    <div class="required field"></div>
+		    <div class="required field">
+		        <label>Password</label>
+		        <div class="ui icon input">
+		            <input type="password" id="password" name="password" class="form-control" data-ng-model="credentials.password" placeholder="会员密码默认为手机号">
+		            <i class="lock icon"></i>
+		        </div>
+		    </div>
+		    <div class="required field"></div>
+		    <div class="required field"></div>
+		</div>
+		<div class="ui small buttons">
+		  <div class="ui button green" ng-click="signin()">登&nbsp;&nbsp;录&nbsp;</div>
+		  <div class="or"></div>
+		  <div class="ui button"><a href="/#!/signup">&nbsp;注&nbsp;&nbsp;册</a></div>
+		</div>
+
+		
+		<a class="ui  basic yellow small  button" href="/#!/password/forgot">忘记密码?</a>
+		<div data-ng-show="error" class="ui red message">
+		    <strong data-ng-bind="error"></strong>
+		</div>
+	</form>
 </section>
