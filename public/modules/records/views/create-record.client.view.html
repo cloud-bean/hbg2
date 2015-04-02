@@ -11,7 +11,9 @@
                         <input type="text" placeholder="会员卡号" ng-model="card_number">
                         <i class="payment icon"></i>
                     </div>
-                    <span ng-show="member && !member_invalid_msg.length"><i class="checkmark green icon"></i>{{member.baby_name}} 本次最多可借&nbsp;&nbsp;<a href="#">{{member.max_book - on_rent_book}}</a>&nbsp;&nbsp;本 [{{on_rent_book}}借阅中/{{member.max_book}}单次最大借阅数]</span>
+                    <br/>
+                    <span ng-show="member && !member_invalid_msg.length"><i class="checkmark green icon"></i>{{member.baby_name}} 本次最多可借&nbsp;&nbsp;<a href="#">{{member.max_book - on_rent_book}}</a>&nbsp;&nbsp;本 
+                    <br/>[{{on_rent_book}}借阅中/{{member.max_book}}单次最大借阅数]</span>
 
                     <div class="ui negative message" ng-show="member && member_invalid_msg.length">
                             账户 {{member.baby_name}} 存在问题： <p>{{member_invalid_msg}}</p>

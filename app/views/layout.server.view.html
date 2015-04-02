@@ -23,7 +23,7 @@
 	{% else %}
 	<link href="modules/core/img/brand/favicon-hbg.ico" rel="shortcut icon" type="image/x-icon">
 	{% endif %}
-	
+
 	<!--Application CSS Files-->
 	{% for cssFile in cssFiles %}<link rel="stylesheet" href="{{cssFile}}">{% endfor %}
 
@@ -31,19 +31,40 @@
 	<!--[if lt IE 9]>
 		<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
 	<![endif]-->
+	<!--[if !IE 7]>
+	    <style type="text/css">
+	        .wrap {display:table;height:100%}
+	    </style>
+	<![endif]-->
 </head>
 
 <body class="ng-cloak">
-	<header data-ng-include="'modules/core/views/header.client.view.html'"></header>
-	<div class="main-container pusher" >
-		<div data-transition="push" data-direction="left"  class="sidebar-push-button ui button" style="margin:20px;">
-			<i class="sidebar icon"></i>菜单
+	<div class="wrap">
+		<div class="main-container">
+			<header data-ng-include="'modules/core/views/header.client.view.html'"></header>
+			<div class="pusher" >
+				<div data-transition="overlay" data-direction="left"  data-dim="true" class="sidebar-push-button ui button" style="margin:20px;">
+					<i class="sidebar icon"></i>菜单
+				</div>
+				<section class="content hbg-center">
+					<section >
+						{% block content %}{% endblock %}
+					</section>
+				</section>
+				
+			</div>
 		</div>
-		<section class="content hbg-center">
-			<section >
-				{% block content %}{% endblock %}
-			</section>
-		</section>
+		<div class="ui grid footer">
+		<div class="eight wide column left floated left aligned">
+			@2015 All rights reserved.&nbsp;&nbsp;
+			<!-- <a href="#">云豆合伙人</a> &nbsp;&nbsp; Powerd by <a href="#">MEAN.JS</a> -->
+		</div>
+    	<div class="eight wide column right floated right aligned">
+    		<a href="#">About</a> &nbsp;|&nbsp;
+			<a href="#">Contact</a>&nbsp;|&nbsp;
+			<a href="#">Privacy Policy</a>
+    	</div>
+	</div>
 	</div>
 	
 	<!--Embedding The User Object-->
@@ -57,33 +78,32 @@
 
 	<!-- menu sidebar push-->
 	<script type="text/javascript">
+
 		$(document)
 			.ready(function() {
-
-				$('.sidebar-push-button')
-					.on('click', function() {
-						var
-							transition = $(this).data('transition'),
-							direction  = $(this).data('direction'),
-							dimPage    = false;
+				var sidebarToggle = function () {
+					var
+						transition = $(this).data('transition'),
+						direction  = $(this).data('direction'),
+						dimPage    = $(this).data('dim');
+					;
+					if( $(this).filter('.disabled').size() === 0) {
+						$('.' + direction + '.sidebar.menu')
+							.not('.styled')
+							.sidebar('setting', {
+								dimPage          : dimPage,
+								transition       : transition,
+								mobileTransition : transition
+							})
 						;
-						if( $(this).filter('.disabled').size() === 0) {
-							$('.' + direction + '.sidebar.menu')
-								.not('.styled')
-								.sidebar('setting', {
-									dimPage          : dimPage,
-									transition       : transition,
-									mobileTransition : transition
-								})
-							;
-							$('.' + direction + '.sidebar.menu').not('.styled').sidebar('toggle');
-						}
+						$('.' + direction + '.sidebar.menu').not('.styled').sidebar('toggle');
+					}
+				};
+				$('.sidebar-push-button').on('click', sidebarToggle);
+				// $('.left-sidebar-menu').on('click', sidebarToggle);
 
-					})
-				;
-			})
-		;
-		</script>
+			});
+	</script>
 
 	{% if process.env.NODE_ENV === 'development' %}
 	<!--Livereload script rendered -->

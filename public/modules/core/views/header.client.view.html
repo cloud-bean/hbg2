@@ -2,7 +2,7 @@
 	定义左侧滑出菜单，根据不同角色，显示不同的菜单。
  -->
 
-<div class="ui left  vertical inverted labeled icon sidebar menu" style="" data-ng-controller="HeaderController">
+<div class="ui left  vertical inverted labeled icon sidebar menu left-sidebar-menu" data-ng-controller="HeaderController">
 	<div data-ng-hide="authentication.user"> 
 		<a class="item" href="/#!/signup" ui-route="/signup">
 		    <i class="signup icon"></i> 注册
@@ -39,21 +39,21 @@
 	    <i class="red add to cart icon"></i> 借书
 	</a>
 
-	<a class="item" href="/#!/members" data-ng-show="isAdmin">
+	<a class="item" href="/#!/records/return" data-ng-show="authentication.user">
 	    <i class="teal refresh icon"></i> 还书
 	</a>
-
-	<a class="item" href="/#!/records/lists" data-ng-show="authentication.user.member">
-	    <i class="orange history icon"></i> 借阅纪录
-	</a>
 	
+    <a class="item" ng-href={{'/#!/members/' + authentication.user.member }} data-ng-show="authentication.user.member">
+	    <i class="orange users icon"></i>会员档案 
+    </a>
+
 	<a class="item" href="/#!/about">
 		<i class="info icon"></i>关于
 	</a>
 
 	<div data-ng-show="authentication.user">
 		<a class="item" href="/#!/settings/profile">
-		    <i class="user icon"></i> 用户资料
+		    <i class="user icon"></i> 账户资料
 		</a>
 		<a class="item" href="/#!/settings/password">
 		    <i class="privacy icon"></i> 修改密码

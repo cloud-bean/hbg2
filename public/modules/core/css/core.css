@@ -1,13 +1,23 @@
+body,html {
+    margin:0;
+    padding:0;
+    height: 100%;
+}
 .content {
     margin:0 auto;
 	margin-top: 50px;
 }
-.main_container{
-    position: relative;
-    margin: 0 auto;
-    text-align: left;
-    padding:10px;
+
+.wrap {
+    min-height: 100%;
+    height: 100%;
+    height: auto !important;
+     position: relative;
 }
+.main-container {
+    padding-bottom: 66px;  /* as the height of footer */
+}
+
 .undecorated-link:hover {
 	text-decoration: none;
 }
@@ -34,5 +44,23 @@
 .hbg-center{
     text-align:center;
     margin:0 auto;
-    padding:10px;
+    padding:20px;
 }
+
+.even {
+    background-color: #aaa;
+}
+
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 66px;/*脚部的高度*/
+    background: #eee;
+    clear:both;
+    padding:10px 50px !important;
+}
+
+
+
+
