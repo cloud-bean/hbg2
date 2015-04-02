@@ -1,0 +1,16 @@
+<section data-ng-controller="RecordsController">
+    <div class="page-header">
+        <h1>还 书</h1>
+    </div>
+    <div class="ui divider"></div>
+    <div class="content" style="text-align:left;">
+        <div class="ui aligned ">
+            <div class="ui left icon input">
+                <input type="text" placeholder="会员卡号" ng-model="card">
+                <i class="payment icon"></i>
+            </div>
+            <div search-member cn="{{card}}">
+            </div>
+        </div>
+    </div>
+</section>

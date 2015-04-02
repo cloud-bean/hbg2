@@ -1,0 +1,29 @@
+<div>
+	<span ng-show="showMember">
+		<i class="checkmark green icon"></i>{{member.baby_name}} 本次最多可借&nbsp;&nbsp;
+		<a href="#">{{member.max_book - records.length}}</a>
+		&nbsp;&nbsp;本 
+		<br/>[&nbsp;&nbsp;{{records.length}} &nbsp;借阅中&nbsp; /&nbsp;&nbsp;{{member.max_book}}&nbsp;&nbsp;单次最大借阅数]
+	</span>
+	<div class="ui negative message" ng-if="member && member_invalid_msg.length">
+    	账户 {{member.baby_name}} 存在问题：
+    <p>{{member_invalid_msg}}</p>
+	</div>
+	<h4 class="ui horizontal header divider" ng-show="records.length">
+	    <i class="book chart icon"></i>
+	    正在借阅的图书
+	</h4>
+	<div class="column">
+	    <div class="ui divided relaxed selection animated  list" ng-show="records.length" ng-repeat="record in records">
+	        <div class="item">
+	            <div>
+	                <a class="ui small basic green button" ng-click="returnBook($index)">  
+	                    归还
+	                </a> 
+	                <span >&nbsp;&nbsp;{{ record.inventory.inv_code }}-{{ record.inventory.name }} {{record.inventory.isbn}} </span>
+	            </div>
+	        </div>
+	    </div>
+	</div>
+</div>
+
