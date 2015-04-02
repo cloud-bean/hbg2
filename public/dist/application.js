@@ -428,7 +428,7 @@ angular.module('inventories').controller('InventoriesController', ['$scope', '$h
 					.success(function (data, err) {
 						$scope.inventories = data;
 					});
-				},350);
+				},850);
  			}
 		});
 	}
@@ -620,6 +620,81 @@ angular.module('members').controller('MembersController', ['$scope', '$http', '$
 
 'use strict';
 
+angular.module('hbg')
+.directive('searchMember', function () {
+    return {
+        restrict: 'A',
+        scope: {
+            cn: '@',
+        },
+        transclude: true,
+        replace: true,
+        templateUrl: 'modules/records/views/return-record.client.directive.template.html',
+        controller: ['$scope', '$http', 'Records', 'Inventories', function ($scope, $http, Records, Inventories) {
+            
+            $scope.getMember = function (card_number) {
+                $http({
+                    method: 'GET',
+                    url: '/members/card/' + card_number
+                })
+                .success(function (data, err) {
+                    $scope.member = data;
+                    $scope.showMember = true; 
+                    $scope.getMemberRecordHistory(data._id);
+                });
+            };
+            $scope.getMemberRecordHistory = function (_id) {
+                $http({
+                    method: 'GET',
+                    url: '/records/member/' + _id
+                })
+                .success(function (data, err) {
+                    
+                    for (var i = data.length - 1; i >= 0; i--) {
+                        if(data[i].status === 'R')
+                            $scope.records.push(data[i]);
+                    }
+                });
+            };
+
+            // return book. update the record , update the inventory.
+            $scope.returnBook = function (index) {
+                var _record = $scope.records[index];
+                Records.get({recordId: _record._id}, function (record, err) {
+                    record.return_date = Date.now();
+                    record.status = 'A';
+                    record.$update();
+
+                    // update the dom
+                    $scope.records.splice(index,1);
+                });
+
+                var inventory = new Inventories(_record.inventory);
+                inventory.isRent = false;
+                inventory.$update();
+
+            };
+
+            $scope.reinit = function () {
+                $scope.showMember = false;
+                $scope.member = {};
+                $scope.records = [];
+            };
+        }],
+        link: function (scope, ele, attr) {
+            scope.$watch('cn', function (newVal) {
+                if (newVal) {
+                    scope.reinit();
+                    scope.getMember(scope.cn);
+                }
+            });
+        }
+    };
+});
+
+
+'use strict';
+
 //Members service used to communicate Members REST endpoints
 angular.module('members').factory('Members', ['$resource',
 	function($resource) {
@@ -652,7 +727,11 @@ angular.module('records').config(['$stateProvider',
 		state('createRecord', {
 			url: '/records/create',
 			templateUrl: 'modules/records/views/create-record.client.view.html'
-		});
+		}).
+        state('returnBook', {
+            url: '/records/return',
+            templateUrl: 'modules/records/views/return-record.client.view.html'
+        });
 
 		// $stateProvider.
 		// state('listRecords', {
@@ -685,6 +764,7 @@ angular.module('records').controller('RecordsController', ['$scope', '$timeout',
         $scope.select_inventories = [];
         $scope.saveSuccCount = 0;
         $scope.saveErrMsg = '';
+
         var timeout;
         
         // Create new Record
@@ -786,7 +866,7 @@ angular.module('records').controller('RecordsController', ['$scope', '$timeout',
                             }
 
                         });
-                }, 350);
+                }, 850);
             }
         });
 
@@ -803,7 +883,7 @@ angular.module('records').controller('RecordsController', ['$scope', '$timeout',
                             $scope.inventories.push(data);
                             $scope.keyword = '';
                         });
-                }, 350);
+                }, 850);
             }
         });
 
@@ -861,6 +941,7 @@ angular.module('records').controller('RecordsController', ['$scope', '$timeout',
 	        $scope.keyword = '';
         };
 
+        
     }
 ]);
 
@@ -1136,7 +1217,6 @@ angular.module('users').factory('Authentication', [
 		return _this._data;
 	}
 ]);
-
 'use strict';
 
 // Users service used for communicating with the users REST endpoint
