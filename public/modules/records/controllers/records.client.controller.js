@@ -9,6 +9,7 @@ angular.module('records').controller('RecordsController', ['$scope', '$timeout',
         $scope.select_inventories = [];
         $scope.saveSuccCount = 0;
         $scope.saveErrMsg = '';
+
         var timeout;
         
         // Create new Record
@@ -110,7 +111,7 @@ angular.module('records').controller('RecordsController', ['$scope', '$timeout',
                             }
 
                         });
-                }, 350);
+                }, 850);
             }
         });
 
@@ -127,7 +128,7 @@ angular.module('records').controller('RecordsController', ['$scope', '$timeout',
                             $scope.inventories.push(data);
                             $scope.keyword = '';
                         });
-                }, 350);
+                }, 850);
             }
         });
 
@@ -185,5 +186,6 @@ angular.module('records').controller('RecordsController', ['$scope', '$timeout',
 	        $scope.keyword = '';
         };
 
+        
     }
 ]);

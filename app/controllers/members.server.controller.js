@@ -112,21 +112,21 @@ exports.memberByCardNumber = function (req, res, next, card_number) {
  * function to test if 'admin'  in the roles array
  */
 var isAdmin = function (roles) {
-    var isInAdminRole = false;
     for (var i=0; i<roles.length; i++) {
         if ( roles[i] === 'admin') {
-            isInAdminRole = true;
+            return true;
         }
     }
-    return isInAdminRole;
+    return false;
 };
 
 /**
  * Member authorization middleware
  */
 exports.hasAuthorization = function(req, res, next) {
-    // TODO: if user.role is admin ; ok
-    // TODO: if user.member is req.member._id
+    // if user.role is admin ; ok
+    // or if user.member is req.member._id
+    // 管理员有权限；登录的用户绑定的会员和要访问的会员是同一个人，即自己访问和修改自己的会员资料。
     if (!isAdmin(req.user.roles) && req.member._id !== req.user.member) {
         return res.status(403).send('User is not authorized');
     }
@@ -138,6 +138,5 @@ exports.hasAdminRole = function(req, res, next) {
     if (!isAdmin(req.user.roles))  {
         return res.status(403).send('User is not authorized');
     }
-
     next();
 };

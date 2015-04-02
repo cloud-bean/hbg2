@@ -81,7 +81,7 @@ angular.module('inventories').controller('InventoriesController', ['$scope', '$h
 					.success(function (data, err) {
 						$scope.inventories = data;
 					});
-				},350);
+				},850);
  			}
 		});
 	}
