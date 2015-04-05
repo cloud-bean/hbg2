@@ -3,7 +3,7 @@
         <h1>New Inventory</h1>
     </div>
     <div class="col-md-12">
-        <form class="form-horizontal" data-ng-submit="create()" novalidate>
+       <!--  <form class="form-horizontal" data-ng-submit="create()" novalidate>
             <fieldset>
                 <div class="form-group">
                     <label class="control-label" for="name">Name</label>
@@ -18,6 +18,62 @@
 					<strong data-ng-bind="error"></strong>
 				</div>
             </fieldset>
-        </form>
+        </form> -->
+
+          <form class="form-horizontal" data-ng-submit="create()" novalidate>
+            <fieldset>
+              <div id="legend" class="">
+                <legend class="">表单名</legend>
+              </div>
+            <div class="control-group">
+
+                  <!-- Text input-->
+                  <label class="control-label" for="input01">location</label>
+                  <div class="controls">
+                    <input type="text" placeholder="位置" class="input-xlarge" data-ng-model="location">
+                    <p class="help-block">绘本书柜位置</p>
+                  </div>
+                </div>
+
+            <div class="control-group">
+
+                  <!-- Text input-->
+                  <label class="control-label" for="input01">入库编码</label>
+                  <div class="controls">
+                    <input type="text" placeholder="唯一标签码" class="input-xlarge" data-ng-model="inv_code">
+                    <p class="help-block"></p>
+                  </div>
+                </div>
+
+            <div class="control-group">
+
+                  <!-- Text input-->
+                  <label class="control-label" for="input01">入库时间</label>
+                  <div class="controls">
+                    <input type="text" placeholder="入库时间" class="input-xlarge" data-ng-model="in_time">
+                    <p class="help-block">Supporting help text</p>
+                  </div>
+                </div>
+
+            <div class="control-group">
+
+                  <!-- Text input-->
+                  <label class="control-label" for="input01">书名</label>
+                  <div class="controls">
+                    <input type="text" placeholder="书标题" class="input-xlarge" data-ng-model="name">
+                    <p class="help-block">Supporting help text</p>
+                  </div>
+                </div>
+
+            </fieldset>
+            <hr/>
+            <div class="form-group">
+                <input type="submit" class="btn btn-success">
+            </div>
+            <div data-ng-show="error" class="text-danger">
+                <strong data-ng-bind="error"></strong>
+            </div>
+          </form>
+
     </div>
 </section>

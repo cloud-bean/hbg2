@@ -12,7 +12,7 @@
 
     <div class="ui divider"> </div>
 
-    <div class="ui six doubling cards">
+    <!-- <div class="ui six doubling cards">
       <div class="card" ng-repeat="inventory in inventories">
         <div class="image">
           <img alt="暂无图片" ng-src="{{inventory.img}}">
@@ -30,7 +30,40 @@
           </span>
         </div>
       </div>
+    </div> -->
+    
+    <div class="list-group" style="text-align:left;">
+        <a data-ng-repeat="inventory in inventoriesWithPaging" data-ng-href="#!/inventories/{{inventory._id}}" class="list-group-item">
+      <small class="list-group-item-text">
+        入库时间：
+        <span data-ng-bind="inventory.in_time | date:'medium'"></span>
+        编号：
+        <span data-ng-bind="inventory.inv_code"></span>
+        位置：
+        <span data-ng-bind="inventory.location || '未定'"></span>
+      </small>
+      <h4 class="list-group-item-heading" data-ng-bind="inventory.name"></h4>
+        </a>
     </div>
+    <div class="alert alert-warning text-center" data-ng-hide="!inventories.$resolved || inventories.length">
+      No Inventories yet, why don't you <a href="/#!/inventories/create">create one</a>?
+    </div>
+  
+    <paging
+      class="small"
+      page="currentPage" 
+      page-size="25" 
+      total="1300"
+      adjacent="2"
+      dots="..."
+      scroll-top="true" 
+      hide-if-empty="true"
+      ul-class="ui pagination menu "
+      active-class="active green item"
+      disabled-class="disabled item"
+      show-prev-next="true"
+      paging-action="DoCtrlPagingAct('Paging Clicked', page, pageSize)">
+    </paging>
     
     <!-- <div class="results thumbnails" style="text-align:left">
          <div class="col-xs-3" ng-repeat="inventory in inventories">

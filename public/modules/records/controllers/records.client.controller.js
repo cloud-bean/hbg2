@@ -167,7 +167,6 @@ angular.module('records').controller('RecordsController', ['$scope', '$timeout',
         		$scope.totolSaveCount = $scope.select_inventories.length;
         		for (var i = $scope.select_inventories.length - 1; i >= 0; i--) {
         			$scope.create($scope.member, $scope.select_inventories[i]);
-                    // Todo: update the book's status: isRent 
                     var _inventory = new Inventories($scope.select_inventories[i]);
                     _inventory.isRent = true;
                     _inventory.$update();

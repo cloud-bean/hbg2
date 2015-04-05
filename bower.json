@@ -13,6 +13,7 @@
     "angular-ui-utils": "~0.1.1",
     "angular-ui-router": "~0.2.11",
     "semantic-ui": "~1.11.5",
-    "ngQuickDate": "~1.3.0"
+    "ngQuickDate": "~1.3.0",
+    "angular-paging": "~1.0.1"
   }
 }

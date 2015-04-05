@@ -11,7 +11,6 @@ module.exports = {
 				'http://cloudbean.qiniudn.com/hbg2-semantic-ui.min.css',
 				'http://cloudbean.qiniudn.com/hbg2-ng-quick-date.css',
 				'http://cloudbean.qiniudn.com/hbg2-ng-quick-date-default-theme.css',
-                // TODO: add ng-quick-date.
 			],
 			js: [
 				'http://lib.sinaapp.com/js/angular.js/angular-1.2.19/angular.min.js',
@@ -25,8 +24,8 @@ module.exports = {
 				'http://lib.sinaapp.com/js/jquery/2.0.3/jquery-2.0.3.min.js',
 				'http://cloudbean.qiniudn.com/hbg2-semantic.min.js',
 				'http://cloudbean.qiniudn.com/hbg2-ng-quick-date.min.js', 
-                // TODO: add ng-quick-date.
-				
+				'http://cloudbean.qiniudn.com/hbg2-paging.js', 
+
                 // 'public/lib/angular/angular.min.js',
 				// 'public/lib/angular-resource/angular-resource.js', 
 				// 'public/lib/angular-cookies/angular-cookies.js', 

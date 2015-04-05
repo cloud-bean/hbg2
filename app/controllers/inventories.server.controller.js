@@ -72,8 +72,7 @@ exports.delete = function(req, res) {
  * List of Inventories
  */
 exports.list = function(req, res) {
-	// TODO: For development .limit to 10. need to remove in production env.
-	Inventory.find().sort('-created').limit(12).populate('user', 'displayName').exec(function(err, inventories) {
+	Inventory.find().sort('-created').populate('user', 'displayName').exec(function(err, inventories) {
 		if (err) {
 			return res.status(400).send({
 				message: errorHandler.getErrorMessage(err)

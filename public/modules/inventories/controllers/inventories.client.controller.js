@@ -10,15 +10,17 @@ angular.module('inventories').controller('InventoriesController', ['$scope', '$h
 		$scope.create = function() {
 			// Create new Inventory object
 			var inventory = new Inventories ({
-				name: this.name
+				// TODO: deal with the form data
+				name: this.name,
+				inv_code: this.inv_code,
+				in_time: this.in_time,
+				location: this.location
 			});
 
 			// Redirect after save
 			inventory.$save(function(response) {
 				$location.path('inventories/' + response._id);
-
-				// Clear form fields
-				$scope.name = '';
+				
 			}, function(errorResponse) {
 				$scope.error = errorResponse.data.message;
 			});
@@ -84,5 +86,15 @@ angular.module('inventories').controller('InventoriesController', ['$scope', '$h
 				},850);
  			}
 		});
+
+		$scope.DoCtrlPagingAct = function (text, page, pageSize) {
+			$scope.inventoriesWithPaging=[];
+			var start = (page - 1) * pageSize;
+			var end = page * pageSize - 1;
+			for (var i = end; i >= start; i--) {
+				$scope.inventoriesWithPaging.push($scope.inventories[i]);
+			};
+
+		};
 	}
 ]);

@@ -30,6 +30,7 @@ module.exports = {
 				'public/lib/jquery/dist/jquery.js',
 				'public/lib/semantic-ui/dist/semantic.js',
 				'public/lib/ngQuickDate/dist/ng-quick-date.js',
+				'public/lib/angular-paging/paging.js',
 			]
 		},
 		css: [
