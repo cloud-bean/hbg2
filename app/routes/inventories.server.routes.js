@@ -9,6 +9,12 @@ module.exports = function(app) {
 		.get(inventories.list)
 		.post(users.requiresLogin, inventories.hasAdminRole, inventories.create);
 
+	app.route('/inventories/total')
+		.get(inventories.totalSize);
+
+	app.route('/inventories/page/:page/:size')
+		.get(inventories.listWithPage);
+
 	app.route('/inventories/invCode/:inv_code')
 		.get(inventories.read);
 
@@ -27,5 +33,6 @@ module.exports = function(app) {
 	app.param('inventoryId', inventories.inventoryByID);
 	app.param('name', inventories.listsByName);
 	app.param('isbn', inventories.listsByIsbn);
-	app.param('inv_code', inventories.oneByInvCode);
+	//app.param('page', 'pageSize', inventories.listWithPage);
+
 };

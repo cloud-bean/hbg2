@@ -8,6 +8,10 @@ var mongoose = require('mongoose'),
 	Inventory = mongoose.model('Inventory'),
 	_ = require('lodash');
 
+var maxDefaultQuerySize = 100;
+var defaultPageSize = 25;
+
+
 /**
  * Create a Inventory
  */
@@ -72,15 +76,42 @@ exports.delete = function(req, res) {
  * List of Inventories
  */
 exports.list = function(req, res) {
-	Inventory.find().sort('-created').populate('user', 'displayName').exec(function(err, inventories) {
-		if (err) {
-			return res.status(400).send({
-				message: errorHandler.getErrorMessage(err)
-			});
-		} else {
-			res.jsonp(inventories);
-		}
-	});
+	Inventory.find()
+		.limit(maxDefaultQuerySize)
+		.sort('-created')
+		.populate('user', 'displayName')
+		.exec(function(err, inventories) {
+			if (err) {
+				return res.status(400).send({
+					message: errorHandler.getErrorMessage(err)
+				});
+			} else {
+				res.jsonp(inventories);
+			}
+		});
+};
+
+/**
+ * list of Inventories per page
+ */
+exports.listWithPage = function(req, res) {
+	var _page = req.params.page || 1;
+	var _pageSize = req.params.size || defaultPageSize;
+	var offset = (_page - 1) * _pageSize;
+
+	Inventory.find()
+		.skip(offset).limit(_pageSize)
+		.sort('-created')
+		.populate('user', 'displayName')
+		.exec(function(err, inventories) {
+			if (err) {
+				return res.status(400).send({
+					message: errorHandler.getErrorMessage(err)
+				});
+			} else {
+				res.jsonp(inventories);
+			}
+		});
 };
 
 
@@ -161,6 +192,17 @@ exports.hasAdminRole = function(req, res, next) {
     next();
 };
 
+exports.totalSize = function (req, res, next) {
+    Inventory.find(function (err, inventories) {
+        if (err) {
+            return res.status(400).send({
+                message: errorHandler.getErrorMessage(err)
+            });
+        } else {
+            res.jsonp({size: inventories.length});
+        }
+    });
+};
 // /**
 //  * Inventory authorization middleware
 //  */

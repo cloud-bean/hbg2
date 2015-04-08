@@ -1,23 +1,115 @@
 <section data-ng-controller="InventoriesController" data-ng-init="findOne()">
     <div class="page-header">
-        <h1>Edit Inventory</h1>
+        <h1>Edit Inventory </h1>
+        <span data-ng-bind=" inventory.name "></span>
     </div>
-    <div class="col-md-12">
-        <form class="form-horizontal" data-ng-submit="update()" novalidate>
-            <fieldset>
-                <div class="form-group">
-                    <label class="control-label" for="name">Name</label>
-                    <div class="controls">
-                        <input type="text" data-ng-model="inventory.name" id="name" class="form-control" placeholder="Name" required>
+    <div>
+        <div class="ui fluid form segment" style="margin-top: 20px;">
+            <div class="field">
+                <label>入库编码</label>
+                <input placeholder="" type="text" data-ng-model="inventory.inv_code">
+            </div>
+            <div class="field">
+                <label>图书书名</label>
+                <input placeholder="" type="text" data-ng-model="inventory.name">
+            </div>
+            <div class="field">
+                <label>入库时间</label>
+                <span> {{ inventory.in_time | date:'yyyy-MM-dd hh:mm:ss'}}</span>
+            </div>
+
+            <div class="field">
+                <label>store_name</label>
+                <input placeholder="" type="text" data-ng-model="inventory.store_name">
+            </div>
+            <div class="field">
+                <label>owenr</label>
+                <input placeholder="" type="text" data-ng-model="inventory.owner">
+            </div>
+            <div class="field">
+                <label>location</label>
+                <input placeholder="" type="text" data-ng-model="inventory.location">
+            </div>
+
+            <div class="field">
+                <label>是否借出</label>
+                <input placeholder="" type="text" data-ng-model="inventory.isRent">
+            </div>
+
+            <div class="field">
+                <label>Tags</label>
+                <div data-ng-repeat="tag in inventory.tags">
+                    <input placeholder="" type="text" data-ng-model="tag.name">
+                </div>
+                <div class="ui inline field">
+                    <input placeholder="add more tag" data-ng-model="newTag" >
+                    <a class="ui tiny green button" data-ng-click="addTag()">+tag</a>
+                </div>
+            </div>
+
+
+            <div class="ui  divider">basic info (by jd.com)</div>
+
+            <div style="border:2px solid darkred;padding: 10px;">
+                <div class="ui search">
+                    <div class="ui icon input">
+                        <input class="prompt" type="text" data-ng-model="keyword" placeholder="search book form jd.com...">
+                        <i class="search icon"></i>
+                    </div>
+                    <div class="ui list " >
+                        <span class="ui blue message" data-ng-if="keyword.length && searching">searching...</span>
+                        <span class="ui red message" data-ng-if="keyword.length && !searching  && results.length == 0">no results.</span>
+                        <div class="item" style="text-align: left;">
+                            <div class="content" style="margin-top: 10px; !important;" data-ng-repeat="result in inventories">
+                                <a class="ui teal tiny reverted button " data-ng-click="fillEditFormAuto($index)">自动填充</a>
+                                <span>{{result.name}}-#isbn:{{result.isbn}}</span>
+                                <i data-ng-show="result.img" class="file image teal outline icon"></i>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="form-group">
-                    <input type="submit" value="Update" class="btn btn-default">
+                <div class="field">
+                    <label>图书书名</label>
+                    <input placeholder="" type="text" data-ng-model="inventory.name">
                 </div>
-				<div data-ng-show="error" class="text-danger">
-					<strong data-ng-bind="error"></strong>
-				</div>
-            </fieldset>
-        </form>
+                <div class="field">
+                    <label>图书isbn</label>
+                    <input placeholder="" type="text" data-ng-model="inventory.isbn">
+                </div>
+                <div class="field">
+                    <label>书商品编号(jd.com)</label>
+                    <input placeholder="" type="text" data-ng-model="inventory.skuid">
+                </div>
+                <div class="field">
+                    <label>书网页地址（jd.com）</label>
+                    <input placeholder="" type="text" data-ng-model="inventory.url">
+                </div>
+
+                <div class="field">
+                    <label>cover-img</label>
+                    <img ng-src="{{ inventory.img }}" style="width:320px;">
+                </div>
+                <div class="field">
+                    <label>图书作者</label>
+                    <input placeholder="" type="text" data-ng-model="inventory.author">
+                </div>
+                <div class="field">
+                    <label>出版社</label>
+                    <input placeholder="" type="text" data-ng-model="inventory.pub_by">
+                </div>
+                <div class="field">
+                    <label>出版时间</label>
+                    <quick-datepicker ng-model="inventory.pub_date"></quick-datepicker>
+                </div>
+            </div>
+
+
+            <div class="ui red message" data-ng-show="error" >
+                error message <br/>
+                <span >{{error|json}}</span>
+            </div>
+            <br/><br/>
+            <div class="ui submit primary button" data-ng-click="update()" >Submit</div>
+        </div>
     </div>
 </section>

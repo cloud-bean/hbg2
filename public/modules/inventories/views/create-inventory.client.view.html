@@ -1,79 +1,98 @@
 <section data-ng-controller="InventoriesController">
     <div class="page-header">
-        <h1>New Inventory</h1>
+        <h1>新书入库</h1>
     </div>
-    <div class="col-md-12">
-       <!--  <form class="form-horizontal" data-ng-submit="create()" novalidate>
-            <fieldset>
-                <div class="form-group">
-                    <label class="control-label" for="name">Name</label>
-                    <div class="controls">
-                        <input type="text" data-ng-model="name" id="name" class="form-control" placeholder="Name" required>
+
+    <div class="ui fluid form segment" >
+        <div class="field">
+            <label>位置</label>
+            <input placeholder="location" type="text" data-ng-model="location">
+        </div>
+        <div class="field">
+            <label>入库编码</label>
+            <input placeholder="唯一标签码" type="text" data-ng-model="inv_code">
+        </div>
+
+
+        <div class="field">
+            <label>商店名字</label>
+            <input type="text" placeholder="商店名字"  data-ng-model="store_name">
+        </div>
+        <div class="field">
+            <label>owner</label>
+            <input type="text" placeholder="owner"  data-ng-model="owner">
+        </div>
+
+        <div class="field">
+            <label>Tags</label>
+            <div data-ng-repeat="tag in newTags">
+                <input placeholder="" type="text" data-ng-model="tag.name">
+            </div>
+            <div class="ui inline field">
+                <input placeholder="add more tag" data-ng-model="newTag" >
+                <a class="ui tiny green button" data-ng-click="addNewTag()">+tag</a>
+            </div>
+        </div>
+        <div style="border:2px solid darkred;padding: 10px;">
+            <div class="ui search  ">
+                <div class="ui icon input">
+                    <input class="prompt" type="text" placeholder="search books by isbn or name..." data-ng-model="keyword">
+                    <i class="search icon"></i>
+                </div>
+
+                <div class="ui  list " >
+                    <span class="ui blue message" data-ng-if="keyword.length && searching">searching...</span>
+                    <span class="ui red message" data-ng-if="keyword.length && !searching  && inventories.length == 0">no results.</span>
+                    <div class="item" style="text-align: left;" >
+                        <div class="content" style="margin-top: 10px; !important;" data-ng-repeat="inventory in inventories">
+                            <a class="ui teal tiny reverted button " data-ng-click="fillFormAuto($index)">自动填充</a>
+                            <span>{{inventory.name}}-#isbn:{{inventory.isbn}}</span>
+                            <i data-ng-show="inventory.img" class="file image outline teal icon"></i>
+                        </div>
                     </div>
                 </div>
-                <div class="form-group">
-                    <input type="submit" class="btn btn-default">
-                </div>
-				<div data-ng-show="error" class="text-danger">
-					<strong data-ng-bind="error"></strong>
-				</div>
-            </fieldset>
-        </form> -->
-
-          <form class="form-horizontal" data-ng-submit="create()" novalidate>
-            <fieldset>
-              <div id="legend" class="">
-                <legend class="">表单名</legend>
-              </div>
-            <div class="control-group">
-
-                  <!-- Text input-->
-                  <label class="control-label" for="input01">location</label>
-                  <div class="controls">
-                    <input type="text" placeholder="位置" class="input-xlarge" data-ng-model="location">
-                    <p class="help-block">绘本书柜位置</p>
-                  </div>
-                </div>
-
-            <div class="control-group">
-
-                  <!-- Text input-->
-                  <label class="control-label" for="input01">入库编码</label>
-                  <div class="controls">
-                    <input type="text" placeholder="唯一标签码" class="input-xlarge" data-ng-model="inv_code">
-                    <p class="help-block"></p>
-                  </div>
-                </div>
-
-            <div class="control-group">
-
-                  <!-- Text input-->
-                  <label class="control-label" for="input01">入库时间</label>
-                  <div class="controls">
-                    <input type="text" placeholder="入库时间" class="input-xlarge" data-ng-model="in_time">
-                    <p class="help-block">Supporting help text</p>
-                  </div>
-                </div>
-
-            <div class="control-group">
-
-                  <!-- Text input-->
-                  <label class="control-label" for="input01">书名</label>
-                  <div class="controls">
-                    <input type="text" placeholder="书标题" class="input-xlarge" data-ng-model="name">
-                    <p class="help-block">Supporting help text</p>
-                  </div>
-                </div>
-
-            </fieldset>
-            <hr/>
-            <div class="form-group">
-                <input type="submit" class="btn btn-success">
             </div>
-            <div data-ng-show="error" class="text-danger">
-                <strong data-ng-bind="error"></strong>
+            <div class="field">
+                <label>图书书名</label>
+                <input placeholder="" type="text" data-ng-model="name">
             </div>
-          </form>
+            <div class="field" data-ng-show="isbn">
+                <label>图书isbn</label>
+                <input placeholder="" type="text" data-ng-model="isbn">
+            </div>
+            <div class="field" data-ng-show="skuid">
+                <label>书商品编号(jd.com)</label>
+                <input placeholder="" type="text" data-ng-model="skuid">
+            </div>
+            <div class="field" data-ng-show="url">
+                <label>书网页地址（jd.com）</label>
+                <input placeholder="" type="text" data-ng-model="url">
+            </div>
 
+            <div class="field" data-ng-show="img">
+                <label>cover-img</label>
+                <img ng-src="{{ img }}" style="width:320px;">
+            </div>
+            <div class="field" data-ng-show="author">
+                <label>图书作者</label>
+                <input placeholder="" type="text" data-ng-model="author">
+            </div>
+            <div class="field" data-ng-show="pub_by">
+                <label>出版社</label>
+                <input placeholder="" type="text" data-ng-model="pub_by">
+            </div>
+            <div class="field" data-ng-show="pub_date">
+                <label>出版时间</label>
+                <quick-datepicker ng-model="pub_date"></quick-datepicker>
+            </div>
+        </div>
+
+        <div data-ng-show="error" class="text-danger">
+            <strong data-ng-bind="error"></strong>
+        </div>
+
+        <div class="ui submit button" data-ng-click="create()">Submit</div>
     </div>
+
+
 </section>

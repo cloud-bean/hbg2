@@ -1,4 +1,4 @@
-<section data-ng-controller="InventoriesController" data-ng-init="find()" >
+<section data-ng-controller="InventoriesController" data-ng-init="initPaging()" >
     <div class="page-header">
         <h1>库存图书</h1>
     </div>
@@ -33,7 +33,7 @@
     </div> -->
     
     <div class="list-group" style="text-align:left;">
-        <a data-ng-repeat="inventory in inventoriesWithPaging" data-ng-href="#!/inventories/{{inventory._id}}" class="list-group-item">
+        <a data-ng-repeat="inventory in inventories" data-ng-href="#!/inventories/{{inventory._id}}" class="list-group-item">
       <small class="list-group-item-text">
         入库时间：
         <span data-ng-bind="inventory.in_time | date:'medium'"></span>
@@ -51,9 +51,9 @@
   
     <paging
       class="small"
-      page="currentPage" 
-      page-size="25" 
-      total="1300"
+      page="currentPage"
+      page-size="pageSize"
+      total="totalSize"
       adjacent="2"
       dots="..."
       scroll-top="true" 

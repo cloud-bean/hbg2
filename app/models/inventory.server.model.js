@@ -14,6 +14,14 @@ var InventorySchema = new Schema({
     type: String,     // 库存位置
     default: ''
   },
+  store_name: {
+    type: String,     // 商店名字
+    default: ''
+  },
+  owner: {
+    type: String,     // 拥有者
+    default: ''
+  },
   inv_code: {         // 入库编码
     type: String,
     default: ''
@@ -61,7 +69,7 @@ InventorySchema.statics.findByName = function (name, callback) {
 };
 
 InventorySchema.statics.findByIsbn = function (isbn, callback) {
-    this.find({isbn: new RegExp(isbn,'i')}, callback);
+    this.findOne({isbn: isbn}, callback);
 };
 
 mongoose.model('Inventory', InventorySchema);

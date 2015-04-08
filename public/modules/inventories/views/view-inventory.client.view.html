@@ -2,20 +2,12 @@
 	<div class="page-header">
 		<h1 data-ng-bind="inventory.name"></h1>
 	</div>
-	<div class="pull-right" data-ng-show="((authentication.user) && (authentication.user._id == inventory.user._id))">
-		<a class="btn btn-primary" href="/#!/inventories/{{inventory._id}}/edit">
-			<i class="glyphicon glyphicon-edit"></i>
-		</a>
-		<a class="btn btn-primary" data-ng-click="remove();">
-			<i class="glyphicon glyphicon-trash"></i>
-		</a>
+
+	<div style="text-align:left;">
+		<a class="ui button primary" ng-href="{{'/#!/inventories/' + inventory._id  +'/edit'}}">edit</a>
+		<a class="ui button red" data-ng-click="remove()">delete</a>
+		<br/>
+		<div class="ui message pink"> {{ inventory | json }} </div>
+
 	</div>
-	<small>
-		<em class="text-muted">
-			Posted on
-			<span data-ng-bind="inventory.created | date:'mediumDate'"></span>
-			by
-			<span data-ng-bind="inventory.user.displayName"></span>
-		</em>
-	</small>
 </section>
