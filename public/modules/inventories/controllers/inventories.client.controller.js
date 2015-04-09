@@ -119,15 +119,16 @@ angular.module('inventories').controller('InventoriesController', ['$scope', '$h
 						url: '/inventories/name/' + newKeyword
 					})
 					.success(function (data, err) {
-							$scope.inventories = data;
-							$scope.searching = false;
-							$http({
-								method: 'GET',
-								url: '/inventories/isbn/' + newKeyword
-							}).success(function (book, err) {
-								$scope.inventories.push(book);
-								$scope.totalSize = $scope.inventories.length();
-							});
+						$scope.inventories = data;
+						$scope.searching = false;
+						$http({
+							method: 'GET',
+							url: '/inventories/isbn/' + newKeyword
+						}).success(function (book, err) {
+							$scope.inventories.push(book);
+
+							$scope.totalSize = $scope.inventories.length;
+						});
 					});
 				},350);
  			}
