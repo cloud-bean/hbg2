@@ -7,7 +7,7 @@ angular.module('inventories').controller('InventoriesController', ['$scope', '$h
 		$scope.newTags = [];
 		$scope.canSubmit = true;
 		var timeout;
-		
+
 		// Create new Inventory
 		$scope.create = function() {
 			// Create new Inventory object
@@ -33,7 +33,7 @@ angular.module('inventories').controller('InventoriesController', ['$scope', '$h
 			inventory.$save(function(response) {
 				$location.path('inventories/' + response._id);
 				$scope.canSubmit = true;
-				
+
 			}, function(errorResponse) {
 				$scope.error = errorResponse.data.message;
 				$scope.canSubmit = true;
@@ -42,7 +42,7 @@ angular.module('inventories').controller('InventoriesController', ['$scope', '$h
 
 		// Remove existing Inventory
 		$scope.remove = function(inventory) {
-			if ( inventory ) { 
+			if ( inventory ) {
 				inventory.$remove();
 
 				for (var i in $scope.inventories) {
@@ -72,7 +72,7 @@ angular.module('inventories').controller('InventoriesController', ['$scope', '$h
 		$scope.find = function() {
 			$scope.inventories =  Inventories.query();
 		};
-        
+
 		$scope.initPaging = function () {
 				$http({
 					method: 'GET',
@@ -96,7 +96,7 @@ angular.module('inventories').controller('InventoriesController', ['$scope', '$h
 
 		// Find existing Inventory
 		$scope.findOne = function() {
-			$scope.inventory = Inventories.get({ 
+			$scope.inventory = Inventories.get({
 				inventoryId: $stateParams.inventoryId
 			});
 		};
@@ -137,23 +137,6 @@ angular.module('inventories').controller('InventoriesController', ['$scope', '$h
  			}
 
 		});
-
-		//var combine_result  = function (arr1, arr2)  {
-		//	var result = [];
-    //
-		//	if ( arr1 != 'null') {
-		//		for (var i = 0 ; i < arr1.length ; i++ ) {
-		//			result.push(arr1[i]);
-		//		}
-		//	}
-    //
-		//	if (arr2 != 'null') {
-		//		for (var i = 0; i < arr2.length; i++) {
-		//			result.push(arr2[i]);
-		//		}
-		//	}
-		//	return result;
-		//};
 
 		$scope.fillFormAuto = function (index) {
 			var book = $scope.inventories[index];
