@@ -3,10 +3,32 @@
 		<h1 data-ng-bind="inventory.name"></h1>
 	</div>
 
-	<div style="text-align:left;">
-		<a class="ui button primary" ng-href="{{'/#!/inventories/' + inventory._id  +'/edit'}}">edit</a>
-		<a class="ui button red" data-ng-click="remove()">delete</a>
-		<br/>
+	<div style="text-align:left;padding: 10px;">
+		<a class="ui  button tiny primary" ng-href="{{'/#!/inventories/' + inventory._id  +'/edit'}}">编辑</a>
+		<a class="ui button tiny red" data-ng-click="remove()">删除</a>
+		<a class="ui  button tiny " href="/#!/inventories">返回书库</a>
+		<div class="ui divider"></div>
+
+		<span>图书书名</span>
+		<span class="ui label" data-ng-bind="inventory.name"></span>
+		<br/><br/>
+		<span>入库编码</span>
+		<span class="ui teal label" data-ng-bind="inventory.inv_code"></span>
+
+		<br/><br/>
+		<span>位&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;置</span>
+		<span class="ui teal label" data-ng-bind="inventory.location "></span>
+
+		<br/><br/>
+		<div data-ng-show="inventory.tags.length">
+			<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tags</span>
+			<span  data-ng-repeat="tag in inventory.tags">
+				<span class="ui  label" data-ng-bind="tag.name"></span>
+			</span>
+		</div>
+
+
+
 		<div class="ui message pink"> {{ inventory | json }} </div>
 
 	</div>

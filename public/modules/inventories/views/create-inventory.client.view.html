@@ -3,7 +3,7 @@
         <h1>新书入库</h1>
     </div>
 
-    <div class="ui fluid form segment" >
+    <div class="ui fluid form segment" style="background: #ccc;">
         <div class="field">
             <label>位置</label>
             <input placeholder="location" type="text" data-ng-model="location">
@@ -87,11 +87,12 @@
             </div>
         </div>
 
-        <div data-ng-show="error" class="text-danger">
+        <div data-ng-show="error" class="ui message red">
+            <h4>数据不正确，请检查修改！</h4>
             <strong data-ng-bind="error"></strong>
         </div>
-
-        <div class="ui submit button" data-ng-click="create()">Submit</div>
+        <div class="ui divider "></div>
+        <div class="ui submit  button" ng-class="{green:canSubmit}" ng-disabled="!canSubmit" data-ng-click="create()">新书入库－保存信息</div>
     </div>
 
 

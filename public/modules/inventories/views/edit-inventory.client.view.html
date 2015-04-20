@@ -4,7 +4,7 @@
         <span data-ng-bind=" inventory.name "></span>
     </div>
     <div>
-        <div class="ui fluid form segment" style="margin-top: 20px;">
+        <div class="ui fluid form segment" style="margin-top: 20px;background: #ccc;">
             <div class="field">
                 <label>入库编码</label>
                 <input placeholder="" type="text" data-ng-model="inventory.inv_code">
@@ -19,24 +19,27 @@
             </div>
 
             <div class="field">
-                <label>store_name</label>
+                <label>分店名字</label>
                 <input placeholder="" type="text" data-ng-model="inventory.store_name">
             </div>
             <div class="field">
-                <label>owenr</label>
+                <label>分店负责人</label>
                 <input placeholder="" type="text" data-ng-model="inventory.owner">
             </div>
             <div class="field">
-                <label>location</label>
+                <label>位置标签（XYZW＋分类号）</label>
                 <input placeholder="" type="text" data-ng-model="inventory.location">
             </div>
 
             <div class="field">
-                <label>是否借出</label>
+                <label>是否借出（true OR false）</label>
                 <input placeholder="" type="text" data-ng-model="inventory.isRent">
             </div>
 
             <div class="field">
+                <!--
+                TODO: add the btn and action for remove tags.
+                -->
                 <label>Tags</label>
                 <div data-ng-repeat="tag in inventory.tags">
                     <input placeholder="" type="text" data-ng-model="tag.name">
@@ -105,11 +108,11 @@
 
 
             <div class="ui red message" data-ng-show="error" >
-                error message <br/>
+                数据错误，请检查更正！<br/>
                 <span >{{error|json}}</span>
             </div>
             <br/><br/>
-            <div class="ui submit primary button" data-ng-click="update()" >Submit</div>
+            <div class="ui submit primary button" data-ng-click="update()" >保存修改信息</div>
         </div>
     </div>
 </section>

@@ -5,11 +5,13 @@ angular.module('inventories').controller('InventoriesController', ['$scope', '$h
 	function($scope, $http, $timeout, $stateParams, $location, Authentication, Inventories) {
 		$scope.authentication = Authentication;
 		$scope.newTags = [];
+		$scope.canSubmit = true;
 		var timeout;
 		
 		// Create new Inventory
 		$scope.create = function() {
 			// Create new Inventory object
+			$scope.canSubmit = false;
 			var inventory = new Inventories ({
 				// TODO: deal with the form data
 				name: this.name,
@@ -30,9 +32,11 @@ angular.module('inventories').controller('InventoriesController', ['$scope', '$h
 			// Redirect after save
 			inventory.$save(function(response) {
 				$location.path('inventories/' + response._id);
+				$scope.canSubmit = true;
 				
 			}, function(errorResponse) {
 				$scope.error = errorResponse.data.message;
+				$scope.canSubmit = true;
 			});
 		};
 
@@ -126,7 +130,7 @@ angular.module('inventories').controller('InventoriesController', ['$scope', '$h
 								url: '/inventories/isbn/' + newKeyword
 							}).success(function (book, err) {
 								$scope.inventories.push(book);
-								$scope.totalSize = $scope.inventories.length();
+								$scope.totalSize = $scope.inventories.length;
 							});
 					});
 				},350);
