@@ -21,9 +21,7 @@
                 <h4 data-ng-bind="inventory.name"></h4>
                 <small style="margin-top: 10px;" >
                     TAGS:
-                    <div ng-repeat="tag in inventory.tags">
-                        <span data-ng-bind="tag.name"></span>
-                     <div>
+                    <span ng-repeat="tag in inventory.tags"> {{ tag.name }} </span>
                     <br/>
                     ISBN:
                     <span data-ng-bind="inventory.isbn"></span>
