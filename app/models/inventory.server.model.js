@@ -69,7 +69,7 @@ InventorySchema.statics.findByName = function (name, callback) {
 };
 
 InventorySchema.statics.findByIsbn = function (isbn, callback) {
-    this.findOne({isbn: isbn}, callback);
+    this.find({isbn: isbn}, callback);
 };
 
 mongoose.model('Inventory', InventorySchema);

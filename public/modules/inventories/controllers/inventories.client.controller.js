@@ -128,16 +128,17 @@ angular.module('inventories').controller('InventoriesController', ['$scope', '$h
 							$http({
 								method: 'GET',
 								url: '/inventories/isbn/' + newKeyword
-							}).success(function (book, err) {
-								$scope.inventories.push(book);
+							}).success(function (books, err) {
+                                for(var i=0; i<books.length; i++){
+                                    $scope.inventories.push(books[i]);
+                                }
 								$scope.totalSize = $scope.inventories.length;
 							});
 					});
 				},350);
  			}
-
 		});
-
+        
 		$scope.fillFormAuto = function (index) {
 			var book = $scope.inventories[index];
 			$scope.name = book.name ;
@@ -165,24 +166,24 @@ angular.module('inventories').controller('InventoriesController', ['$scope', '$h
 			$scope.inventories = []; // clear .
 			$scope.keyword = '';
 		};
-
-		$scope.$watch('search_isbn', function (newKeyword) {
-			$scope.results = [];
-			$scope.searching = true;
-			if (newKeyword) {
-				if (timeout) $timeout.cancel(timeout);
-				timeout = $timeout(function () {
-					$http({
-						method: 'GET',
-						url: '/inventories/isbn/' + newKeyword
-					})
-						.success(function (data, err) {
-							$scope.results = data;
-							$scope.searching = false;
-						});
-				},350);
-			}
-		});
+//
+//		$scope.$watch('search_isbn', function (newKeyword) {
+//			$scope.results = [];
+//			$scope.searching = true;
+//			if (newKeyword) {
+//				if (timeout) $timeout.cancel(timeout);
+//				timeout = $timeout(function () {
+//					$http({
+//						method: 'GET',
+//						url: '/inventories/isbn/' + newKeyword
+//					})
+//						.success(function (data, err) {
+//							$scope.results = data;
+//							$scope.searching = false;
+//						});
+//				},350);
+//			}
+//		});
 
 		$scope.DoCtrlPagingAct = function (text, page, pageSize) {
 			$scope.inventories=[];
