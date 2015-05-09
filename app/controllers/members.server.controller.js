@@ -72,7 +72,10 @@ exports.delete = function(req, res) {
  * List of Members
  */
 exports.list = function(req, res) { 
-	Member.find().sort('-created').populate('user', 'displayName').exec(function(err, members) {
+	Member.find()
+		.sort('-created')
+		//.populate('user', 'displayName')
+		.exec(function(err, members) {
 		if (err) {
 			return res.status(400).send({
 				message: errorHandler.getErrorMessage(err)
@@ -87,9 +90,12 @@ exports.list = function(req, res) {
  * Member middleware
  */
 exports.memberByID = function(req, res, next, id) { 
-	Member.findById(id).populate('user', 'displayName').exec(function(err, member) {
+	Member.findById(id)
+		//.populate('user', 'displayName')
+		.exec(function(err, member) {
 		if (err) return next(err);
-		if (! member) return next(new Error('Failed to load Member ' + id));
+		if (! member)
+			return next(new Error('Failed to load Member ' + id));
 		req.member = member ;
 		next();
 	});

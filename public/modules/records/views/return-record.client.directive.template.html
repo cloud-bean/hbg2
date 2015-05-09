@@ -20,7 +20,7 @@
 	                <a class="ui small basic green button" ng-click="returnBook($index)">  
 	                    归还
 	                </a> 
-	                <span >&nbsp;&nbsp;{{ record.inventory.inv_code }}-{{ record.inventory.name }} {{record.inventory.isbn}} </span>
+	                <span >&nbsp;&nbsp;#条码:{{ record.inventory.inv_code }}-#位置:{{record.inventory.location}}-#书名:{{ record.inventory.name }}-#借出时间:{{record.start_date| date:'yyyy-MM-dd HH:mm:ss'}}-#ISBN:{{record.inventory.isbn}} </span>
 	            </div>
 	        </div>
 	    </div>

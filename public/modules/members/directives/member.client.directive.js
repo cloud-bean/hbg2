@@ -5,37 +5,36 @@ angular.module('hbg')
     return {
         restrict: 'A',
         scope: {
-            cn: '@',
+            cn: '@'
         },
         transclude: true,
         replace: true,
         templateUrl: 'modules/records/views/return-record.client.directive.template.html',
         controller: ['$scope', '$http', 'Records', 'Inventories', function ($scope, $http, Records, Inventories) {
-            
+            var loadRecords = function (data, err) {
+                for (var i = data.length - 1; i >= 0; i--) {
+                    if(data[i].status === 'R')
+                        $scope.records.push(data[i]);
+                }
+            };
+
             $scope.getMember = function (card_number) {
                 $http({
                     method: 'GET',
                     url: '/members/card/' + card_number
                 })
                 .success(function (data, err) {
-                    $scope.member = data;
-                    $scope.showMember = true; 
-                    $scope.getMemberRecordHistory(data._id);
-                });
+                      $scope.member = data;
+                      $scope.showMember = true;
+                      console.log(data);
+                      console.log(card_number);
+                      $http({
+                          method: 'GET',
+                          url: '/records/member/' + data._id
+                      }).success(loadRecords);
+                  });
             };
-            $scope.getMemberRecordHistory = function (_id) {
-                $http({
-                    method: 'GET',
-                    url: '/records/member/' + _id
-                })
-                .success(function (data, err) {
-                    
-                    for (var i = data.length - 1; i >= 0; i--) {
-                        if(data[i].status === 'R')
-                            $scope.records.push(data[i]);
-                    }
-                });
-            };
+
 
             // return book. update the record , update the inventory.
             $scope.returnBook = function (index) {
@@ -55,7 +54,7 @@ angular.module('hbg')
 
             };
 
-            $scope.reinit = function () {
+            $scope.reInit = function () {
                 $scope.showMember = false;
                 $scope.member = {};
                 $scope.records = [];
@@ -64,7 +63,7 @@ angular.module('hbg')
         link: function (scope, ele, attr) {
             scope.$watch('cn', function (newVal) {
                 if (newVal) {
-                    scope.reinit();
+                    scope.reInit();
                     scope.getMember(scope.cn);
                 }
             });

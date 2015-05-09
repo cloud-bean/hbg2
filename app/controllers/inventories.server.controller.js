@@ -79,7 +79,6 @@ exports.list = function(req, res) {
 	Inventory.find()
 		.limit(maxDefaultQuerySize)
 		.sort('-created')
-		.populate('user', 'displayName')
 		.exec(function(err, inventories) {
 			if (err) {
 				return res.status(400).send({
@@ -102,7 +101,6 @@ exports.listWithPage = function(req, res) {
 	Inventory.find()
 		.skip(offset).limit(_pageSize)
 		.sort('-created')
-		.populate('user', 'displayName')
 		.exec(function(err, inventories) {
 			if (err) {
 				return res.status(400).send({
@@ -132,15 +130,15 @@ exports.oneByInvCode = function (req, res, next, inv_code) {
  * Member middleware find inventories  by isbn
  */
 exports.listsByIsbn = function (req, res, next, isbn) {
-    Inventory.findByIsbn(isbn, function(err, inventories) {
-        if (err) {
+	Inventory.findByIsbn(isbn, function(err, inventories) {
+		if (err) {
 			return res.status(400).send({
 				message: errorHandler.getErrorMessage(err)
 			});
 		} else {
 			res.jsonp(inventories);
 		}
-    });
+	});
 };
 
 
@@ -149,23 +147,39 @@ exports.listsByIsbn = function (req, res, next, isbn) {
  */
 exports.listsByName = function (req, res, next, name) {
     Inventory.findByName(name, function(err, inventories) {
-        if (err) {
-			return res.status(400).send({
-				message: errorHandler.getErrorMessage(err)
-			});
-		} else {
-			res.jsonp(inventories);
-		}
-    });
+			if (err) {
+				return res.status(400).send({
+					message: errorHandler.getErrorMessage(err)
+				});
+			} else {
+				res.jsonp(inventories);
+			}
+		});
 };
 
 /**
  * Inventory middleware
  */
 exports.inventoryByID = function(req, res, next, id) {
-	Inventory.findById(id).populate('user', 'displayName').exec(function(err, inventory) {
-		if (err) return next(err);
-		if (! inventory) return next(new Error('Failed to load Inventory ' + id));
+	Inventory.findById(id, function(err, inventory) {
+		if (err)
+			return next(err);
+		if (! inventory)
+			return next(new Error('Failed to load Inventory ' + id));
+		req.inventory = inventory ;
+		next();
+	});
+};
+
+/**
+ * Inventory middleware search by inv_code
+ */
+exports.inventoryByInvCode = function (req, res, next, inv_code) {
+	Inventory.findOneByInvCode(inv_code, function(err, inventory) {
+		if (err)
+			return next(err);
+		if (! inventory)
+			return next(new Error('Failed to load Inventory with inv_code: ' + inv_code));
 		req.inventory = inventory ;
 		next();
 	});

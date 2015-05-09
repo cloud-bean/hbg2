@@ -31,6 +31,7 @@ module.exports = function(app) {
 
 	// Finish by binding the Inventory middleware
 	app.param('inventoryId', inventories.inventoryByID);
+	app.param('inv_code', inventories.inventoryByInvCode);
 	app.param('name', inventories.listsByName);
 	app.param('isbn', inventories.listsByIsbn);
 	//app.param('page', 'pageSize', inventories.listWithPage);

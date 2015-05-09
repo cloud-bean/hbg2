@@ -16,7 +16,7 @@ exports.create = function(req, res) {
 	var record = new Record({
 		member: req.body.member._id,
 		inventory: req.body.inventory._id,
-		status: req.body.status,
+		status: req.body.status
 	});
 	record.save(function(err) {
 		if (err) {
@@ -76,24 +76,31 @@ exports.delete = function(req, res) {
  * List of Records, 外键用poplulate计算出来。
  */
 exports.list = function(req, res) { 
-	Record.find().sort('-start_date').populate('member').exec(function(err, records) {
-		if (err) {
-			return res.status(400).send({
-				message: errorHandler.getErrorMessage(err)
-			});
-		} else {
-			res.jsonp(records);
-		}
-	});
+	Record.find()
+		.sort('-start_date')
+		.populate('member')
+		.exec(function(err, records) {
+			if (err) {
+				return res.status(400).send({
+					message: errorHandler.getErrorMessage(err)
+				});
+			} else {
+				res.jsonp(records);
+			}
+		});
 };
 
 /**
  * Record middleware
  */
-exports.recordByID = function(req, res, next, id) { 
-	Record.findById(id).populate('user', 'displayName').exec(function(err, record) {
-		if (err) return next(err);
-		if (! record) return next(new Error('Failed to load Record ' + id));
+exports.recordByID = function(req, res, next, id) {
+	Record.findById(id)
+		//.populate('user', 'displayName')
+		.exec(function(err, record) {
+		if (err)
+			return next(err);
+		if (! record)
+			return next(new Error('Failed to load Record ' + id));
 		req.record = record ;
 		next();
 	});
@@ -108,13 +115,14 @@ exports.recordHistoryByMemberID = function (req, res, next, mid) {
         .sort('-start_date')
         .populate('inventory')
         .exec(function (err, records) {
-	    	if (err) {
-	    		return res.status(400).send({
-	    			message: errorHandler.getErrorMessage(err)
-	    		});
-	    	} else {
-	    		res.jsonp(records);
-	    	}
+						if (err) {
+							return res.status(400).send({
+								message: errorHandler.getErrorMessage(err)
+							});
+						} else {
+							res.jsonp(records);
+							//console.log('server log for records of member ' + mid + ' :' + records);
+						}
 	    });
     });
 };
