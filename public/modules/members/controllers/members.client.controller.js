@@ -73,41 +73,54 @@ angular.module('members').controller('MembersController', ['$scope', '$http', '$
 			});
 		};
 
-        // // TODO: Find member by name
+		// freeze this member
+		$scope.freeze = function () {
+			$scope.member.locked = true;
+			$scope.update();
+		};
+
+		// unfreeze this member
+		$scope.unfreeze = function () {
+			$scope.member.locked = false;
+			$scope.update();
+		};
+
+		// // TODO: Find member by name
         // $scope.findByCardNumber = function() {   
         //     $scope.member = Members.get({
-        //         card_number: $stateParams.card_number
-        //     });
-        // };
-        $scope.findHistroyRecords = function() {
-        	$scope.findOne();
-        	$http({
-                method: 'GET',
-                url: '/records/member/' + $stateParams.memberId
-            })
-            .success(function(data, err) {
-            	$scope.records = data;
-            });
-        };
+		//         card_number: $stateParams.card_number
+		//     });
+		// };
 
-        // return book. update the record , update the inventory.
-        $scope.returnBook = function (index) {
-        	var _record = $scope.records[index];
+		$scope.findHistroyRecords = function() {
+			$scope.findOne();
+			$http({
+				method: 'GET',
+				url: '/records/member/' + $stateParams.memberId
+			})
+				.success(function(data, err) {
+					$scope.records = data;
+				});
+		};
 
-        	Records.get({recordId: _record._id}, function (record, err) {
-        		record.return_date = Date.now();
-        		record.status = 'A';
-        		record.$update();
+		// return book. update the record , update the inventory.
+		$scope.returnBook = function (index) {
+			var _record = $scope.records[index];
 
-        		// update the dom
-        		$scope.records[index].return_date = record.return_date ;
-        		$scope.records[index].status = 'A';
-        	});
+			Records.get({recordId: _record._id}, function (record, err) {
+				record.return_date = Date.now();
+				record.status = 'A';
+				record.$update();
 
-        	var inventory = new Inventories(_record.inventory);
-            inventory.isRent = false;
-            inventory.$update();
+				// update the dom
+				$scope.records[index].return_date = record.return_date ;
+				$scope.records[index].status = 'A';
+			});
 
-        };
+			var inventory = new Inventories(_record.inventory);
+			inventory.isRent = false;
+			inventory.$update();
+
+		};
  	}
 ]);

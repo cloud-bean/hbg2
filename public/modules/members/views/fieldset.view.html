@@ -77,8 +77,15 @@
                     <input type="text" id="card_number" data-ng-model="member.card_number" required/>
                 </div>
             </div>
-    
-    
+
+            <div class="control-group">
+                <br/>
+                <label for="valid_days" class="control-label">会员卡激活时间：</label>
+                <quick-datepicker ng-model="member.active_time"></quick-datepicker>
+
+            </div>
+            <br/>
+
             <div class="control-group">
                 <br/>
                 <label for="valid_days" class="control-label">会员卡有效期：</label>

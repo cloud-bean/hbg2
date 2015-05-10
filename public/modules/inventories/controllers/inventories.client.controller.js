@@ -73,6 +73,18 @@ angular.module('inventories').controller('InventoriesController', ['$scope', '$h
 			$scope.inventories =  Inventories.query();
 		};
 
+		// save the quick edit of inventroy
+		$scope.save_quick_edit = function (index) {
+			var _inventory = new Inventories($scope.inventories[index]);
+			console.log('_inventory:',  _inventory);
+			_inventory.$update(function() {
+				// NOTHING.
+			}, function(errorResponse) {
+				$scope.error = errorResponse.data.message;
+			});
+		};
+
+
 		$scope.initPaging = function () {
 				$http({
 					method: 'GET',

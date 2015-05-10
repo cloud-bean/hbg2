@@ -1,32 +1,39 @@
 <section data-ng-controller="MembersController" data-ng-init="findHistroyRecords()">
 	<div class="page-header">
-		<h1 >{{member.baby_name}} </h1>
+		<h1 >{{member.baby_name}} 		</h1>
+		<span data-ng-show="member.locked" class="ui red label small">该会员已冻结</span>
+		
 		<div data-ng-show="((authentication.user) || (authentication.user.member._id == member._id))">
-			
+
 			<a class="ui blue button" href="/#!/members/{{member._id}}/edit">
 				<i class="edit  icon"></i>更新资料
 			</a>
-			<a class="ui button " data-ng-click="freeze();">
+			<a class="ui button" data-ng-hide="member.locked" data-ng-click="freeze()">
 				<i class="red delete icon"></i>冻结会员
+			</a>
+			<a class="ui green button" data-ng-show="member.locked" data-ng-click="unfreeze()">
+				<i class="red key icon"></i>激活会员－->> 编辑会员信息，修改激活时间和有效期。
 			</a>
 		</div>
 	</div>
-	
+
 	<div class="ui horizontal divider">
-		会员卡号:{{member.card_number}}&nbsp;&nbsp;会员激活时间:
+		会员卡号:{{member.card_number}}&nbsp;&nbsp;
+		会员激活时间:
 		<span data-ng-bind="member.active_time | date:'yyyy/MM/dd'"></span>
 		<span ng-hide="member.parent_name.length==0">家长：{{member.parent_name}}</span>
+		&nbsp;&nbsp;会员卡有效期:<span data-ng-bind="member.valid_days"></span>
 	</div>
-	
+
 	<div class="ui celled selection  list">
 		<div class="item" ng-repeat="record in records">
 			<div class="content" style="text-align:left; margin-top:10px">
-	          	<a class="ui tiny button green" ng-hide="record.return_date" ng-click="returnBook($index)">还书</a>
-	         	 {{record.inventory.name}} - #{{record.inventory.inv_code}}#
-	          	<span >借出时间：{{record.start_date | date:'yyyy-MM-dd HH:mm:ss' }}</span>
-	          	<span ng-show="record.return_date">归还时间：{{record.return_date | date:'yyyy-MM-dd HH:mm:ss' }}</span>
-	        </div>
-        </div>
+				<a class="ui tiny button green" ng-hide="record.return_date" ng-click="returnBook($index)">还书</a>
+				{{record.inventory.name}} - #{{record.inventory.inv_code}}#
+				<span >借出时间：{{record.start_date | date:'yyyy-MM-dd HH:mm:ss' }}</span>
+				<span ng-show="record.return_date">归还时间：{{record.return_date | date:'yyyy-MM-dd HH:mm:ss' }}</span>
+			</div>
+		</div>
 	</div>
 
 </section>

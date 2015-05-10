@@ -30,9 +30,10 @@
                     <span data-ng-bind="inventory.in_time | date:'yyyy-MM-dd'"></span>
                     <br/>
                     编号：
-                    <a  class="ui teal label "  data-ng-bind="inventory.inv_code"></a>
+                    <input  class="ui label"  data-ng-model="inventory.inv_code">
                     位置：
-                    <a class="ui teal label " data-ng-bind="inventory.location || '未定'"></a>
+                    <input class="ui  label " data-ng-model="inventory.location">
+                    <a class="ui tiny inverted green button" data-ng-click="save_quick_edit($index)">保存修改结果</a>
                 </small>
             </div>
         </div>
