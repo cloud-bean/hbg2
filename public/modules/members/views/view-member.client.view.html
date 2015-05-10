@@ -2,7 +2,7 @@
 	<div class="page-header">
 		<h1 >{{member.baby_name}} 		</h1>
 		<span data-ng-show="member.locked" class="ui red label small">该会员已冻结</span>
-		
+
 		<div data-ng-show="((authentication.user) || (authentication.user.member._id == member._id))">
 
 			<a class="ui blue button" href="/#!/members/{{member._id}}/edit">
