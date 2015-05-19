@@ -54,4 +54,7 @@ MemberSchema.statics.findOneByCardNumber = function (card_number, callback) {
     this.findOne({card_number: card_number}, callback);
 };
 
+MemberSchema.statics.findOneByPhoneNumber = function (phone_number, callback) {
+    this.findOne({phone_number: phone_number}, callback);
+};
 var MemeberModel = mongoose.model('Member', MemberSchema);

@@ -76,19 +76,57 @@ exports.delete = function(req, res) {
  * List of Inventories
  */
 exports.list = function(req, res) {
-	Inventory.find()
-		.limit(maxDefaultQuerySize)
-		.sort('-created')
-		.exec(function(err, inventories) {
-			if (err) {
-				return res.status(400).send({
-					message: errorHandler.getErrorMessage(err)
-				});
-			} else {
-				res.jsonp(inventories);
-			}
-		});
+    if(req.inventories){
+        res.jsonp(req.inventories);
+    } else {
+	    Inventory.find()
+	    	.limit(maxDefaultQuerySize)
+	    	.sort('-created')
+	    	.exec(function(err, inventories) {
+	    		if (err) {
+	    			return res.status(400).send({
+	    				message: errorHandler.getErrorMessage(err)
+	    			});
+	    		} else {
+	    			res.jsonp(inventories);
+	    		}
+	    	});
+    }
 };
+
+/**
+ * list of inventories for mobile.
+ * just return the list property:
+ * @id
+ * name
+ * inv_code
+ * location
+ * isRent
+ * img
+ * tags
+*/
+exports.listForMobile = function(req, res) {
+	var simpleDataList = [];
+    for(var i=0; i < req.inventories.length; i++) {
+        var inventory = req.inventories[i];
+        var tagArr = [];
+        for(var j=0; j < inventory.tags.length; j++) {
+            tagArr.push(inventory.tags[j].name);
+        }
+        var simple_data = {
+            id: inventory.id,
+            name: inventory.name,
+            inv_code: inventory.inv_code,
+            location: inventory.location,
+            isRent: inventory.isRent,
+            img: inventory.img,
+            tags: tagArr.toString()
+        };
+        simpleDataList.push(simple_data);
+    }
+	res.jsonp(simpleDataList);
+};
+
 
 /**
  * list of Inventories per page
@@ -136,7 +174,8 @@ exports.listsByIsbn = function (req, res, next, isbn) {
 				message: errorHandler.getErrorMessage(err)
 			});
 		} else {
-			res.jsonp(inventories);
+            req.inventories = inventories;
+            next();
 		}
 	});
 };
@@ -152,7 +191,8 @@ exports.listsByName = function (req, res, next, name) {
 					message: errorHandler.getErrorMessage(err)
 				});
 			} else {
-				res.jsonp(inventories);
+                req.inventories = inventories;
+                next();
 			}
 		});
 };

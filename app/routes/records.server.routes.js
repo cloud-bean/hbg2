@@ -11,7 +11,19 @@ module.exports = function(app) {
     
     // Records for member's history
     app.route('/records/member/:mId')
-        .get(users.requiresLogin, records.list);
+        .get(users.requiresLogin, records.listByMemberId);
+
+    // get records for mobile
+    app.route('/records/mob/:mId')
+        .get(records.hasApiKey, records.listByMemberId);
+
+    // post record for mobile
+    app.route('/records/mob')
+        .post(records.hasApiKey, records.hasSecretKey, records.create);
+    
+    // update record for mobile
+    app.route('/records/mob/:recordId')
+        .put(records.hasApiKey, records.hasSecretKey, records.update);
 
 	app.route('/records/:recordId')
 		.get(users.requiresLogin, records.read)

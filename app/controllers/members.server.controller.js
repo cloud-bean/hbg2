@@ -114,6 +114,16 @@ exports.memberByCardNumber = function (req, res, next, card_number) {
     });
 };
 
+exports.memberByPhoneNumber = function(req, res, next, phoneNumber){
+    Member.findOneByPhoneNumber(phoneNumber, function(err, member) {
+        if (err) return next(err);
+        if (! member) return next(new Error('Faild to load Member with phoneNumber' + phoneNumber));
+        req.member = member;
+        next();
+    });
+};
+
+
 /** 
  * function to test if 'admin'  in the roles array
  */
@@ -145,4 +155,9 @@ exports.hasAdminRole = function(req, res, next) {
         return res.status(403).send('User is not authorized');
     }
     next();
+};
+
+exports.hasApiKey = function(req, res, next){
+   console.log('Todo: there is a Api Key by test.');
+   next(); 
 };

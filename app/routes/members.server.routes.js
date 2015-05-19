@@ -11,6 +11,10 @@ module.exports = function(app) {
 
 	app.route('/members/card/:cardNumber')
         .get(users.requiresLogin, members.hasAdminRole, members.read);
+    
+    // for mobile
+    app.route('/members/mob/phone/:phoneNumber')
+        .get(members.hasApiKey, members.read);
 
 	app.route('/members/:memberId')
 		.get(users.requiresLogin, members.hasAuthorization, members.read)
@@ -20,4 +24,5 @@ module.exports = function(app) {
 	// Finish by binding the Member middleware
 	app.param('memberId', members.memberByID);
 	app.param('cardNumber', members.memberByCardNumber);
+	app.param('phoneNumber', members.memberByPhoneNumber);
 };

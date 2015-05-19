@@ -90,6 +90,10 @@ exports.list = function(req, res) {
 		});
 };
 
+exports.listByMemberId = function(req, res){
+    res.jsonp(req.records);
+};
+
 /**
  * Record middleware
  */
@@ -120,7 +124,9 @@ exports.recordHistoryByMemberID = function (req, res, next, mid) {
 								message: errorHandler.getErrorMessage(err)
 							});
 						} else {
-							res.jsonp(records);
+							// res.jsonp(records);
+                            req.records = records;
+                            next();
 							//console.log('server log for records of member ' + mid + ' :' + records);
 						}
 	    });
@@ -160,4 +166,14 @@ exports.hasAuthorization = function(req, res, next) {
 	} else { //otherwise, forbidden.
 		return res.status(403).send('User is not authorized');
 	}
+};
+
+exports.hasApiKey = function(req, res, next) {
+    console.log('get records with an api key for test');
+    next();
+};
+
+exports.hasSecretKey = function(req, res, next) {
+    console.log('put or create records with secret key for test');
+    next();
 };

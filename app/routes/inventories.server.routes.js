@@ -21,6 +21,9 @@ module.exports = function(app) {
 	app.route('/inventories/name/:name')
 		.get(inventories.list);
 
+    app.route('/inventories/mob/name/:name')
+        .get(inventories.listForMobile);
+
 	app.route('/inventories/isbn/:isbn')
 		.get(inventories.list);
 
