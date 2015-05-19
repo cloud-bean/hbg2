@@ -14,8 +14,9 @@
         <div class="item" data-ng-repeat="inventory in inventories" data-ng-href="#!/inventories/{{inventory._id}}" >
             <div class="content" style="text-align:left; margin-top:10px;">
                 <div class="header ">
-                   <a class="ui button tiny " ng-href="{{'/#!/inventories/' + inventory._id  +'/edit'}}">  <i class="edit blue  icon"></i>编辑</a>
-                    <a class="ui button tiny " ng-href="{{'/#!/inventories/' + inventory._id }}" > <i class=" eye orange icon"></i>查看</a>
+                   <a class="ui button tiny" ng-href="{{'/#!/inventories/' + inventory._id  +'/edit'}}">  <i class="edit blue  icon"></i>编辑</a>
+                    <a class="ui button tiny" ng-href="{{'/#!/inventories/' + inventory._id }}" > <i class=" eye orange icon"></i>查看</a>
+                    <a class="ui button tiny"  data-ng-click="delete($index)"> <i class=" trash red icon"></i>删除</a>
 
                 </div>
                 <h4 data-ng-bind="inventory.name"></h4>
@@ -29,6 +30,8 @@
                     入库时间：
                     <span data-ng-bind="inventory.in_time | date:'yyyy-MM-dd'"></span>
                     <br/>
+                    书名：
+                    <input  class="ui label"  data-ng-model="inventory.name">
                     编号：
                     <input  class="ui label"  data-ng-model="inventory.inv_code">
                     位置：

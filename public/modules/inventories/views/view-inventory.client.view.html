@@ -5,7 +5,7 @@
 
 	<div style="text-align:left;padding: 10px;">
 		<a class="ui  button tiny primary" ng-href="{{'/#!/inventories/' + inventory._id  +'/edit'}}">编辑</a>
-		<a class="ui button tiny red" data-ng-click="remove()">删除</a>
+		<a class="ui button tiny red" data-ng-click="delete($index)">删除</a>
 		<a class="ui  button tiny " href="/#!/inventories">返回书库</a>
 		<div class="ui divider"></div>
 

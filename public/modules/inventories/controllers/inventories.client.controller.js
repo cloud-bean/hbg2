@@ -84,6 +84,13 @@ angular.module('inventories').controller('InventoriesController', ['$scope', '$h
 			});
 		};
 
+		$scope.delete = function (index) {
+			var _inventory = new Inventories($scope.inventories[index]);
+			if ( _inventory ) {
+				_inventory.$remove();
+				$scope.inventories.splice(index, 1);
+			}
+		};
 
 		$scope.initPaging = function () {
 				$http({
