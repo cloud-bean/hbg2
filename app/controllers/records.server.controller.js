@@ -7,6 +7,7 @@ var mongoose = require('mongoose'),
 	errorHandler = require('./errors.server.controller'),
 	Record = mongoose.model('Record'),
 	Member = mongoose.model('Member'),
+    Inventory = mongoose.model('Inventory'),
 	_ = require('lodash');
 
 /**
@@ -99,7 +100,7 @@ exports.listByMemberId = function(req, res){
  */
 exports.recordByID = function(req, res, next, id) {
 	Record.findById(id)
-		//.populate('user', 'displayName')
+        .populate('inventory')
 		.exec(function(err, record) {
 		if (err)
 			return next(err);
@@ -176,4 +177,37 @@ exports.hasApiKey = function(req, res, next) {
 exports.hasSecretKey = function(req, res, next) {
     console.log('put or create records with secret key for test');
     next();
+};
+
+// return book to the lib.
+exports.return = function(req, res) {
+	var record = req.record ;
+
+	//record = _.extend(record , req.body);
+    record.status = 'A';
+    record.return_date = Date.now();
+
+    
+	record.save(function(err) {
+		if (err) {
+            var err_msg_of_update_record = errorHandler.getErrorMessage(err);
+        } else {
+            Inventory.findById(record.inventory.id, function(err, book){
+                book.isRent = false;
+                book.save(function(err){
+                    if (err) {
+                        return res.status(400).send({
+                            message: err_msg_of_update_record + '\nerror to update the book to return back'
+                        });
+                    } else {
+                        if (err_msg_of_update_record){
+                            return res.status(400).send({message: err_msg_of_update_record });
+                        }
+                    }
+                });
+            });
+
+			res.jsonp(record);
+		}
+	});
 };
