@@ -23,7 +23,7 @@ module.exports = function(app) {
     
     // update record for mobile
     app.route('/records/mob/return/:recordId')
-        .put(records.hasApiKey, records.hasSecretKey, records.return);
+        .get(records.hasApiKey, records.hasSecretKey, records.return);
 
 	app.route('/records/:recordId')
 		.get(users.requiresLogin, records.read)
