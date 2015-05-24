@@ -30,6 +30,30 @@ exports.create = function(req, res) {
 	});
 };
 
+/** 
+ * create a record from mobile app. just need mId and bId
+ */
+exports.createFromMob = function(req, res){
+    //var member = Member.findById(req.body.mId);
+    //var inventory = Inventory.findById(req.body.bId);
+    
+    var record = new Record({
+        member: req.body.mId,
+        inventory: req.body.bId,
+        status: req.body.status
+    });
+
+    record.save(function(err){
+        if(err)
+            return res.status(400).send({
+                message: errorHandler.getErrorMessage(err)
+            });
+        else
+            res.jsonp(record);
+    });
+};
+
+
 /**
  * Show the current Record
  */
