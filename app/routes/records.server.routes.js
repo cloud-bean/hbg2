@@ -19,7 +19,7 @@ module.exports = function(app) {
 
     // post record for mobile
     app.route('/records/mob/create/')
-        .post(records.hasApiKey, records.hasSecretKey, records.create);
+        .post(records.hasApiKey, records.hasSecretKey, records.createFromMob);
     
     // update record for mobile
     app.route('/records/mob/return/:recordId')
