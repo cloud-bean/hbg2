@@ -54,7 +54,7 @@ exports.createFromMob = function(req, res){
             
             var inventory = Inventory.findById(req.body.bId);
             inventory.isRent = true;
-            inventroy.save(function(err){
+            inventory.save(function(err){
                 if(err){
                     return res.status(400).send({
                         message: errorHandler.getErrorMessage(err)
