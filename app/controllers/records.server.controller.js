@@ -35,7 +35,6 @@ exports.create = function(req, res) {
  */
 exports.createFromMob = function(req, res){
     //var member = Member.findById(req.body.mId);
-    //var inventory = Inventory.findById(req.body.bId);
     
     var record = new Record({
         member: req.body.mId,
@@ -44,13 +43,31 @@ exports.createFromMob = function(req, res){
     });
 
     record.save(function(err){
-        if(err)
+        if(err){
             return res.status(400).send({
                 message: errorHandler.getErrorMessage(err)
             });
-        else
-            res.jsonp(record);
+        } else {
+            // change the inventory with the inv_code
+            // todo: should be written in inventories's router and controller, 
+            //       to be quick , just code here. by ghh@2015.6.3
+            
+            var inventory = Inventory.findById(req.body.bId);
+            inventory.isRent = true;
+            inventroy.save(function(err){
+                if(err){
+                    return res.status(400).send({
+                        message: errorHandler.getErrorMessage(err)
+                    });
+                } else {
+                    res.jsonp(record);
+                }
+            });
+        }
     });
+
+   
+
 };
 
 
