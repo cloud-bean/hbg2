@@ -52,22 +52,26 @@ exports.createFromMob = function(req, res){
             // todo: should be written in inventories's router and controller, 
             //       to be quick , just code here. by ghh@2015.6.3
             
-            var inventory = Inventory.findById(req.body.bId);
-            inventory.isRent = true;
-            inventory.save(function(err){
-                if(err){
+            Inventory.findById(req.body.bId, function(err, inventory){
+                if (err) {
                     return res.status(400).send({
                         message: errorHandler.getErrorMessage(err)
                     });
-                } else {
-                    res.jsonp(record);
                 }
+                console.log(inventory);
+                inventory.isRent = true;
+                inventory.save(function(err){
+                    if(err){
+                        return res.status(400).send({
+                            message: errorHandler.getErrorMessage(err)
+                        });
+                    } else {
+                        res.jsonp(record);
+                    }
+                });    
             });
         }
     });
-
-   
-
 };
 
 
