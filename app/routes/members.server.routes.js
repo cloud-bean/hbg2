@@ -14,7 +14,7 @@ module.exports = function(app) {
     
     // for mobile
     app.route('/members/mob/phone/:phoneNumber')
-        .get(members.hasApiKey, members.read);
+        .get(members.hasApiKey, members.readMore);
 
 	app.route('/members/:memberId')
 		.get(users.requiresLogin, members.hasAuthorization, members.read)

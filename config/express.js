@@ -110,6 +110,13 @@ module.exports = function(db) {
 	app.use(helmet.ienoopen());
 	app.disable('x-powered-by');
 
+    // CORS support
+    app.all('*', function(req, res, next){
+        if (!req.get('Origin')) return next();
+        res.set('Access-Control-Allow-Origin', '*');
+        next();
+    });
+    
 	// Setting the app router and static folder
 	app.use(express.static(path.resolve('./public')));
 
