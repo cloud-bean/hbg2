@@ -24,6 +24,7 @@ var InventorySchema = new Schema({
   },
   inv_code: {         // 入库编码
     type: String,
+    unique: true,
     default: ''
   },
   in_time: {          // 入库时间
