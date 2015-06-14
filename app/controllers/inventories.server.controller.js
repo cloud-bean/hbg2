@@ -205,7 +205,7 @@ exports.inventoryByID = function(req, res, next, id) {
 		if (err)
 			return next(err);
 		if (! inventory)
-			return next(new Error('Failed to load Inventory ' + id));
+            return res.status(500).send('no data');
 		req.inventory = inventory ;
 		next();
 	});
@@ -219,7 +219,7 @@ exports.inventoryByInvCode = function (req, res, next, inv_code) {
 		if (err)
 			return next(err);
 		if (! inventory)
-			return next(new Error('Failed to load Inventory with inv_code: ' + inv_code));
+            return res.status(500).send('no data');
 		req.inventory = inventory ;
 		next();
 	});
