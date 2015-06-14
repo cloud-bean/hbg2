@@ -6,6 +6,7 @@
 var mongoose = require('mongoose'),
 	errorHandler = require('./errors.server.controller'),
 	Member = mongoose.model('Member'),
+	Record = mongoose.model('Record'),
 	_ = require('lodash');
 
 /**
@@ -32,6 +33,29 @@ exports.read = function(req, res) {
 	res.jsonp(req.member);
 };
 
+
+/**
+ * get the current member for mobile app
+ */
+exports.readMore = function(req, res){
+    var count = 0;
+    // todo: not good. need to refactor. @2015-5-24
+    Record.find({member: req.member})
+        .exec(function(err, records) {
+            if (err) {
+                return res.status(400).send({
+                    message: 'faild to get the records of the member'
+                });
+            } else {
+                console.log(records);
+                for(var i=0; i<records.length; i++)
+                    if(records[i].status === 'R')
+                        count++;
+                res.jsonp({ member: req.member, rentCount: count});
+            }
+        });
+};
+                
 /**
  * Update a Member
  */
