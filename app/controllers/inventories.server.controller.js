@@ -219,7 +219,7 @@ exports.inventoryByInvCode = function (req, res, next, inv_code) {
 		if (err)
 			return next(err);
 		if (! inventory)
-            return res.status(500).send('no data');
+            return res.status(500).send('没有编码为' + inv_code + '的绘本');
 		req.inventory = inventory ;
 		next();
 	});

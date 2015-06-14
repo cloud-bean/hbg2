@@ -132,7 +132,7 @@ exports.memberByID = function(req, res, next, id) {
 exports.memberByCardNumber = function (req, res, next, card_number) {
     Member.findOneByCardNumber(card_number, function(err, member) {
         if (err) return next(err);
-        if (! member) return next(new Error('Faild to load Member with card_number ' + card_number));
+        if (! member) return res.status(500).send('没有卡号为' + card_number + '的会员');
         req.member = member;
         next();
     });
@@ -141,7 +141,7 @@ exports.memberByCardNumber = function (req, res, next, card_number) {
 exports.memberByPhoneNumber = function(req, res, next, phoneNumber){
     Member.findOneByPhoneNumber(phoneNumber, function(err, member) {
         if (err) return next(err);
-        if (! member) return next(new Error('Faild to load Member with phoneNumber' + phoneNumber));
+        if (! member) return res.status(500).send('没有手机号为' + phoneNumber + '的会员');
         req.member = member;
         next();
     });
