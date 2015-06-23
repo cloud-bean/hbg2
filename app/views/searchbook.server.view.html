@@ -1,76 +1,70 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
-
+<html lang="zh-CN">
 <head>
-	<title>{{title}}</title>
-
-	<!-- General META -->
 	<meta charset="utf-8">
-	<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-	<meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1">
-	<meta name="apple-mobile-web-app-capable" content="yes">
-	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+	<title>Bootstrap 101 Template</title>
 
-	
-	<!-- Fav Icon -->
-	{% if process.env.NODE_ENV === 'production' %}
-	<link href="http://cloudbean.qiniudn.com/hbg2-favicon.ico" rel="shortcut icon" type="image/x-icon">
-	{% else %}
-	<link href="modules/core/img/brand/favicon-hbg.ico" rel="shortcut icon" type="image/x-icon">
-	{% endif %}
-	<script type="text/javascript" src="lib/jquery/dist/jquery.min.js"></script>
-<script type="text/javascript" src="lib/bootstrap/dist/js/bootstrap.min.js"></script>
-	<!--Application CSS Files-->
-	<link rel="stylesheet" href="lib/bootstrap/dist/css/bootstrap.min.css">
+	<!-- Bootstrap -->
+	<link href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+	<link href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap-theme.min.css" rel="stylesheet">
+	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="//cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="//cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+      <![endif]-->
+  </head>
+  <body>
+  	<header class="container">
+  		<h1>搜索图书</h1>
+  	</header>
+  	<section >
+  		<div class="container">
+  			<div class="row">
+  				<div class="col-md-6 col-md-offset-3">
+  					<form >
+  						<div class="input-group">
+  							<input type="text" class="form-control" placeholder="Search for...">
+  							<span class="input-group-btn">
+  								<button class="btn btn-default" type="button"><i class="glyphicon glyphicon-search"></i></button>
+  							</span>
+  						</div><!-- /input-group -->
+  					</form>
+  				</div>
+  			</div>
+  			<div class="row" style="margin-top:10px;">
+  				<div class="col-sm-6 col-md-4">
+  					<div class="thumbnail">
+  						<img class="img-responsive" src="http://www.qbaobei.com/UploadFiles/jiaoyu/2013/6/201306131444399378.jpg" alt="...">
+  						<div class="caption">
+  							<h3>小熊安东尼</h3>
+  							<p>这是我社出版的启发精选国际大师名作绘本系列之一，适合2岁以上儿童阅读。
+一天，小熊去散步，不巧遇见了猎人！猎人准备了网兜、绳套、猎枪、笼子、还有陷阱，想方设法要把小熊捉到！可爱的小熊该怎么办呢？他能平安度过危险吗..
+安东尼布朗把孩子的游戏之心迁移到了一只小熊身上，他的小熊绘本再现了特有的超现实风格，穿梭于现实与想象之间，把紧张的追捕变成轻松的游戏。小熊的笔就是安东尼布朗的魔法，他知道如何善用这支魔法铅笔，用简单的语言表达孩子的心声。
+这本绘本引导孩子在玩耍和游戏中拓展思维，拓展想象力，锻炼观察力。大师绘本中的细节和信息非常丰富，不时给孩子新的发现和惊喜，让孩子在反复地阅读和品味中感受无尽的乐趣。
+  							</p>
+  							<ul>
+  								<li>作者：安东尼</li>
+								<li>适合年龄：3-6	岁</li>
+  							</ul>
+  						</div>
+  					</div>
+  				</div>
+  			</div>
 
-	<!-- HTML5 Shim -->
-	<!--[if lt IE 9]>
-		<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-	<![endif]-->
-	<!--[if !IE 7]>
-	    <style type="text/css">
-	        .wrap {display:table;height:100%}
-	    </style>
-	<![endif]-->
-</head>
-
-<body class="container">
-	<div class="row">
-	<header>
-		<nav class="navbar navbar-default navbar-fixed-top">
-		
-			<ul class="nav nav-pills">
-				<li ><a href="#">search</a></li>
-				<li><a href="#">admin</a></li>
-			</ul>
-		</nav>
-
-	</header>
-	</div>
-	<div class="row">
-	<section>
-			<div class="col-lg-6">
-				<div class="input-group">
-					<span class="input-group-btn glyphicon glyphicon-search">
-					</span>
-					<input type="text" class="form-control" placeholder="Search for...">
-				</div><!-- /input-group -->
-			</div><!-- /.col-lg-6 -->
-		</div><!-- /.row -->
-	</section>
-	</div>
-	<footer>
-		
-	</footer>
-	<!--Application JavaScript Files-->
-	
+  		</div>
+  	</section>
+  	<footer class="container">
+  		
+  	</footer>
 
 
-	{% if process.env.NODE_ENV === 'development' %}
-	<!--Livereload script rendered -->
-	<script type="text/javascript" src="http://{{request.hostname}}:35729/livereload.js"></script>
-	{% endif %}
-</body>
-
-</html>
+  	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+  	<script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
+  	<script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+  	<!-- Include all compiled plugins (below), or include individual files as needed -->
+  </body>
+  </html>
