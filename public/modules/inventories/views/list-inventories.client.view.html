@@ -36,6 +36,7 @@
                     <input  class="ui label"  data-ng-model="inventory.inv_code">
                     位置：
                     <input class="ui  label " data-ng-model="inventory.location">
+                    <a href='http://item.jd.com/{{ inventory.skuid }}.html'>{{ inventory.skuid }}</a>
                     <a class="ui tiny inverted green button" data-ng-click="save_quick_edit($index)">保存修改结果</a>
                 </small>
             </div>
