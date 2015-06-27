@@ -13,31 +13,32 @@
     <div class="ui celled selection animated list" >
         <div class="item" data-ng-repeat="inventory in inventories" data-ng-href="#!/inventories/{{inventory._id}}" >
             <div class="content" style="text-align:left; margin-top:10px;">
-                <div class="header ">
+                <!-- <div class="header ">
                    <a class="ui button tiny" ng-href="{{'/#!/inventories/' + inventory._id  +'/edit'}}">  <i class="edit blue  icon"></i>编辑</a>
                     <a class="ui button tiny" ng-href="{{'/#!/inventories/' + inventory._id }}" > <i class=" eye orange icon"></i>查看</a>
                     <a class="ui button tiny"  data-ng-click="delete($index)"> <i class=" trash red icon"></i>删除</a>
 
-                </div>
+                </div> -->
+                <img class="ui tiny left floated image" src="{{inventory.img || 'http://7xjhy3.com1.z0.glb.clouddn.com/mob-logo.png'}}" >
                 <h4 data-ng-bind="inventory.name"></h4>
                 <small style="margin-top: 10px;" >
-                    TAGS:
+                    <!-- TAGS:
                     <span ng-repeat="tag in inventory.tags"> {{ tag.name }} </span>
-                    <br/>
+                    <br/> -->
                     ISBN:
                     <span data-ng-bind="inventory.isbn"></span>
                     <br/>
                     入库时间：
                     <span data-ng-bind="inventory.in_time | date:'yyyy-MM-dd'"></span>
-                    <br/>
+                    <!-- <br/>
                     书名：
-                    <input  class="ui label"  data-ng-model="inventory.name">
-                    编号：
-                    <input  class="ui label"  data-ng-model="inventory.inv_code">
-                    位置：
-                    <input class="ui  label " data-ng-model="inventory.location">
-                    <a href='http://item.jd.com/{{ inventory.skuid }}.html'>{{ inventory.skuid }}</a>
-                    <a class="ui tiny inverted green button" data-ng-click="save_quick_edit($index)">保存修改结果</a>
+                    <span  class="ui label"  data-ng-bind="inventory.name"> -->
+                    </span>编号：
+                    <span   data-ng-bind="inventory.inv_code">
+                    </span>&nbsp&nbsp位置：
+                    <span  data-ng-bind="inventory.location">
+                    </span>
+                    
                 </small>
             </div>
         </div>
