@@ -39,13 +39,40 @@
 </head>
 
 <body class="ng-cloak">
+	<nav class="ui menu" data-ng-controller="HeaderController">
+		<h3 class="header item">CLOUDBEAN</h3>
+		<a class="item" href="/#!/">首页</a>
+		<a class="item" href="/#!/inventories">搜书</a>
+		<a class="item" href="/#!/members" data-ng-show="isAdmin">会员管理</a>
+		<a class="item" href="/#!/inventories/create" data-ng-show="isAdmin">
+		图书入库
+		</a>
+		<a class="item" href="/#!/records/create" data-ng-show="authentication.user">
+		 借书
+		</a>
+		<a class="item" href="/#!/records/return" data-ng-show="authentication.user">
+		 还书
+		</a>
+		<a class="item" ng-href={{'/#!/members/' + authentication.user.member }} data-ng-show="authentication.user.member">
+		会员档案 
+		</a>
+
+		<a class="item" href="/#!/about">
+			关于
+		</a>
+		<a class="item" href="/#!/signin" ui-route="/signin" data-ng-hide="authentication.user">
+				登录
+		</a>
+
+
+	</nav>
 	<div class="wrap">
 		<div class="main-container">
-			<header data-ng-include="'modules/core/views/header.client.view.html'"></header>
+			<!-- <header data-ng-include="'modules/core/views/header.client.view.html'"></header> -->
 			<div class="pusher" >
-				<div data-transition="overlay" data-direction="left"  data-dim="true" class="sidebar-push-button ui button" style="margin:20px;">
+				<!-- <div data-transition="overlay" data-direction="left"  data-dim="true" class="sidebar-push-button ui button" style="margin:20px;">
 					<i class="sidebar icon"></i>菜单
-				</div>
+				</div> -->
 				<section class="content hbg-center">
 					<section >
 						{% block content %}{% endblock %}

@@ -1,8 +1,8 @@
 <section data-ng-controller="HomeController">
-	<div>
+ 	<div>
 		<img alt="www.cloud-bean.com" class="" src="http://cloudbean.qiniudn.com/hbg2-100x81-logo.png" />
-		<br>
-		<h1 class="text-muted">云豆绘本馆</h1>
+		<br、>
+		<h2 class="text-muted">云豆绘本馆</h2>
 		<p class="lead">
 			最享受的时光&nbsp;&nbsp;&nbsp;&nbsp;最高贵的教养
 		</p>
@@ -12,10 +12,87 @@
 	</div>
 	<h5 class="ui horizontal header divider">
 	  <i class="feed icon"></i>
-	   新闻公告
+	   云豆特色
 	</h5>
-	<div id="news">
-			<a href="#">绘本馆搬迁至民生银行(2015.3.7)</a>
-	</div>
-	
-</section>
+
+</section>	
+	<section id="main-slider" class="carousel" >
+		<div class="container">
+			<div class="box" style="margin-top:10px;padding:10px 10px;">
+				<div class="row">
+					<div class="col-md-4">
+						<div class="panel panel-success">
+							<div class="panel-heading ">绘本书单推荐
+								<div class="pull-right">
+									<a href="{% url 'book:show_book_list' %}">
+										<span class="glyphicon glyphicon-chevron-right">更多</span>
+									</a>
+								</div>
+							</div>
+							<div class="panel-body ">
+								<p class="text-success">为您精挑细选的绘本书单，选书不再迷茫！</p>
+							</div>
+
+							<div class="list-group">
+								<a href="#" class="list-group-item">信谊世界精选图画书：爷爷一定有办法</a>
+								<a href="#" class="list-group-item">适合男孩子的9个经典绘本</a>
+								<a href="#" class="list-group-item">多纳儿童逆商教育绘本</a>
+								<a href="#" class="list-group-item">不一样的卡梅拉·第一季（套装全12册）</a>
+								<a href="#" class="list-group-item">可爱的鼠小弟·第1辑（1-6）（套装共6册）</a>
+							</div>
+							<div class="panel-footer ">
+								<a href="{% url 'book:add_book_list' %}" class="btn btn-success btn-sm">
+									<span class="glyphicon glyphicon-plus-sign">我来增加绘本书单</span>
+								</a>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="panel panel-info">
+							<div class="panel-heading">多元潜能开发课程</div>
+							<div class="panel-body">
+								<p class="text-info">形式多样的趣味课程，乐学其中！</p>
+							</div>
+							<div class="list-group">
+								<a href="#" class="list-group-item">绘本故事会</a>
+								<a href="#" class="list-group-item">奥尔夫音乐课</a>
+								<a href="#" class="list-group-item">国学</a>
+								<a href="#" class="list-group-item">少儿英语</a>
+								<a href="#" class="list-group-item">儿童话剧</a>
+							</div>
+							<div class="panel-footer ">
+								<a href="{% url 'course:index' %}" class="btn btn-info btn-sm">
+									<span class="glyphicon glyphicon-calendar">查看课程表</span>
+								</a>
+							</div> 
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="panel panel-warning">
+							<div class="panel-heading">亲子活动</div>
+							<div class="panel-body">
+								<p class="text-warning">和孩子一起动手get技能吧～</p>
+							</div>
+							<div class="list-group">
+								<a href="#" class="list-group-item">种出麦子来</a>
+								<a href="#" class="list-group-item">好玩的蝴蝶结</a>
+								<a href="#" class="list-group-item">折纸游戏我最拿手</a>
+								<a href="#" class="list-group-item">我们一起烧杯具</a>
+								<a href="#" class="list-group-item">八月十五自己做月饼</a>
+							</div>
+							<div class="panel-footer ">
+								<a href="{% url 'event:index' %}" class="btn btn-warning btn-sm">
+									<span class="glyphicon glyphicon-fire">活动预告及新闻</span>
+								</a>
+							</div> 
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section><!--/#main-slider-->
+
+
+
+
+

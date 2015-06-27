@@ -17,6 +17,7 @@ module.exports = {
 				'public/lib/semantic-ui/dist/kitchensink.css',
 				'public/lib/ngQuickDate/dist/ng-quick-date.css',
 				'public/lib/ngQuickDate/dist/ng-quick-date-default-theme.css',
+				'public/lib/bootstrap/dist/css/bootstrap.min.css',
 			],
 			js: [
 				'public/lib/angular/angular.js',
@@ -31,6 +32,7 @@ module.exports = {
 				'public/lib/semantic-ui/dist/semantic.js',
 				'public/lib/ngQuickDate/dist/ng-quick-date.js',
 				'public/lib/angular-paging/paging.js',
+				'public/lib/bootstrap/dist/js/bootstrap.min.js'
 			]
 		},
 		css: [
