@@ -26,7 +26,8 @@ angular.module('inventories').controller('InventoriesController', ['$scope', '$h
 			 	img: this.img,
 			 	author: this.author,
 				pub_by: this.pub_by,
-			 	pub_date: this.pub_date
+			 	pub_date: this.pub_date,
+			 	
 			});
 
 			// Redirect after save

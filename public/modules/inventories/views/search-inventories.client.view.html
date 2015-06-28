@@ -13,32 +13,23 @@
     <div class="ui celled selection animated list" >
         <div class="item" data-ng-repeat="inventory in inventories" data-ng-href="#!/inventories/{{inventory._id}}" >
             <div class="content" style="text-align:left; margin-top:10px;">
-                <!-- <div class="header ">
-                   <a class="ui button tiny" ng-href="{{'/#!/inventories/' + inventory._id  +'/edit'}}">  <i class="edit blue  icon"></i>编辑</a>
-                    <a class="ui button tiny" ng-href="{{'/#!/inventories/' + inventory._id }}" > <i class=" eye orange icon"></i>查看</a>
-                    <a class="ui button tiny"  data-ng-click="delete($index)"> <i class=" trash red icon"></i>删除</a>
-
-                </div> -->
-                <img class="ui tiny left floated image" src="{{inventory.img || 'http://7xjhy3.com1.z0.glb.clouddn.com/mob-logo.png'}}" >
+               
                 <h4 data-ng-bind="inventory.name"></h4>
                 <small style="margin-top: 10px;" >
-                    <!-- TAGS:
+                    TAGS:
                     <span ng-repeat="tag in inventory.tags"> {{ tag.name }} </span>
-                    <br/> -->
+                    <br/>
                     ISBN:
                     <span data-ng-bind="inventory.isbn"></span>
                     <br/>
                     入库时间：
                     <span data-ng-bind="inventory.in_time | date:'yyyy-MM-dd'"></span>
-                    <!-- <br/>
-                    书名：
-                    <span  class="ui label"  data-ng-bind="inventory.name"> -->
-                    </span>编号：
-                    <span   data-ng-bind="inventory.inv_code">
-                    </span>&nbsp&nbsp位置：
-                    <span  data-ng-bind="inventory.location">
-                    </span>
-                    
+                    <br/>
+                    编号：
+                    <span  class="ui label"  data-ng-model="inventory.inv_code"></span>
+                    位置：
+                    <span class="ui  label " data-ng-model="inventory.location"></span>
+                    <a href='http://item.jd.com/{{ inventory.skuid }}.html'>详情</a>
                 </small>
             </div>
         </div>
