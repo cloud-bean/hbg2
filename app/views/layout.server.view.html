@@ -47,12 +47,12 @@
 		<a class="item" href="/#!/inventories/create" data-ng-show="isAdmin">
 		图书入库
 		</a>
-		<a class="item" href="/#!/records/create" data-ng-show="authentication.user">
+	<!-- 	<a class="item" href="/#!/records/create" data-ng-show="authentication.user">
 		 借书
 		</a>
 		<a class="item" href="/#!/records/return" data-ng-show="authentication.user">
 		 还书
-		</a>
+		</a> -->
 		<a class="item" ng-href={{'/#!/members/' + authentication.user.member }} data-ng-show="authentication.user.member">
 		会员档案 
 		</a>
