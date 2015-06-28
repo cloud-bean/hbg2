@@ -551,15 +551,15 @@ angular.module('inventories').controller('InventoriesController', ['$scope', '$h
 //			}
 //		});
 
-		$scope.DoCtrlPagingAct = function (text, page, pageSize) {
-			$scope.inventories=[];
-			$http({
-				method: 'GET',
-				url: '/inventories/page/' + $scope.currentPage + '/' + $scope.pageSize
-			}).success(function (data, err) {
-				$scope.inventories = data;
-			});
-		};
+		// $scope.DoCtrlPagingAct = function (text, page, pageSize) {
+		// 	$scope.inventories=[];
+		// 	$http({
+		// 		method: 'GET',
+		// 		url: '/inventories/page/' + $scope.currentPage + '/' + $scope.pageSize
+		// 	}).success(function (data, err) {
+		// 		$scope.inventories = data;
+		// 	});
+		// };
 	}
 ]);
 

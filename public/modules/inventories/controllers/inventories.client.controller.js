@@ -205,7 +205,7 @@ angular.module('inventories').controller('InventoriesController', ['$scope', '$h
 //			}
 //		});
 
-		$scope.DoCtrlPagingAct = function (text, page, pageSize) {
+		$scope.DoCtrlPagingAct = function (text, page, pageSize, total) {
 			$scope.inventories=[];
 			$http({
 				method: 'GET',
@@ -213,6 +213,7 @@ angular.module('inventories').controller('InventoriesController', ['$scope', '$h
 			}).success(function (data, err) {
 				$scope.inventories = data;
 			});
+			
 		};
 	}
 ]);

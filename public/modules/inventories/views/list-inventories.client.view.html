@@ -46,7 +46,9 @@
             No Inventories yet, why don't you <a href="/#!/inventories/create">create one</a>?
         </div>
     </div>
-    <paging
+
+
+<paging
       class="small"
       page="currentPage"
       page-size="pageSize"
@@ -55,13 +57,16 @@
       dots="..."
       scroll-top="true" 
       hide-if-empty="true"
-      ul-class="ui pagination menu "
-      active-class="active green item"
-      disabled-class="disabled item"
+      ul-class="pagination"
+      active-class="active"
+      disabled-class="disabled"
       show-prev-next="true"
       paging-action="DoCtrlPagingAct('Paging Clicked', page, pageSize)">
-    </paging>
+    </paging> 
+  
     
+
+
     <!-- <div class="results thumbnails" style="text-align:left">
          <div class="col-xs-3" ng-repeat="inventory in inventories">
             <img ng-src="{{inventory.img}}" >
