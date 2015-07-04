@@ -10,7 +10,7 @@ angular.module('inventories').config(['$stateProvider',
 			templateUrl: 'modules/inventories/views/list-inventories.client.view.html'
 		}).
 		state('modifyInventories', {
-			url: '/inventories/edit',
+			url: '/inventories/modify',
 			templateUrl: 'modules/inventories/views/search-inventories.client.view.html'
 		}).
 		state('createInventory', {
