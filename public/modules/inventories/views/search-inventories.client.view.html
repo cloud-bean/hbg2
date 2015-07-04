@@ -13,7 +13,12 @@
     <div class="ui celled selection animated list" >
         <div class="item" data-ng-repeat="inventory in inventories" data-ng-href="#!/inventories/{{inventory._id}}" >
             <div class="content" style="text-align:left; margin-top:10px;">
-               
+                <div class="header ">
+                   <a class="ui button tiny" ng-href="{{'/#!/inventories/' + inventory._id  +'/edit'}}">  <i class="edit blue  icon"></i>编辑</a>
+                    <a class="ui button tiny" ng-href="{{'/#!/inventories/' + inventory._id }}" > <i class=" eye orange icon"></i>查看</a>
+                    <a class="ui button tiny"  data-ng-click="delete($index)"> <i class=" trash red icon"></i>删除</a>
+
+                </div>
                 <h4 data-ng-bind="inventory.name"></h4>
                 <small style="margin-top: 10px;" >
                     TAGS:
@@ -25,11 +30,13 @@
                     入库时间：
                     <span data-ng-bind="inventory.in_time | date:'yyyy-MM-dd'"></span>
                     <br/>
+                    书名：
+                    <input  class=""  data-ng-model="inventory.name">
                     编号：
-                    <span  class="ui label"  data-ng-model="inventory.inv_code"></span>
+                    <input  class=""  data-ng-model="inventory.inv_code">
                     位置：
-                    <span class="ui  label " data-ng-model="inventory.location"></span>
-                    <a href='http://item.jd.com/{{ inventory.skuid }}.html'>详情</a>
+                    <input class=" " data-ng-model="inventory.location">
+                    <a class="ui tiny inverted green button" data-ng-click="save_quick_edit($index)">保存修改结果</a>
                 </small>
             </div>
         </div>
@@ -75,18 +82,18 @@
 
     <!-- <div class="list-group">
         <a data-ng-repeat="inventory in inventories" data-ng-href="#!/inventories/{{inventory._id}}" class="list-group-item">
-			<small class="list-group-item-text">
-				入库时间：
-				<span data-ng-bind="inventory.in_time | date:'medium'"></span>
-				编号：
-				<span data-ng-bind="inventory.inv_code"></span>
+      <small class="list-group-item-text">
+        入库时间：
+        <span data-ng-bind="inventory.in_time | date:'medium'"></span>
+        编号：
+        <span data-ng-bind="inventory.inv_code"></span>
         位置：
-				<span data-ng-bind="inventory.location || '未定'"></span>
-			</small>
-			<h4 class="list-group-item-heading" data-ng-bind="inventory.name"></h4>
+        <span data-ng-bind="inventory.location || '未定'"></span>
+      </small>
+      <h4 class="list-group-item-heading" data-ng-bind="inventory.name"></h4>
         </a>
     </div>
     <div class="alert alert-warning text-center" data-ng-hide="!inventories.$resolved || inventories.length">
-    	No Inventories yet, why don't you <a href="/#!/inventories/create">create one</a>?
+      No Inventories yet, why don't you <a href="/#!/inventories/create">create one</a>?
     </div> -->
 </section>

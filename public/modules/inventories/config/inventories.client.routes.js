@@ -9,6 +9,10 @@ angular.module('inventories').config(['$stateProvider',
 			url: '/inventories',
 			templateUrl: 'modules/inventories/views/list-inventories.client.view.html'
 		}).
+		state('modifyInventories', {
+			url: '/inventories/edit',
+			templateUrl: 'modules/inventories/views/search-inventories.client.view.html'
+		}).
 		state('createInventory', {
 			url: '/inventories/create',
 			templateUrl: 'modules/inventories/views/create-inventory.client.view.html'
