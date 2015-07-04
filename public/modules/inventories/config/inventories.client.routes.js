@@ -5,13 +5,13 @@ angular.module('inventories').config(['$stateProvider',
 	function($stateProvider) {
 		// Inventories state routing
 		$stateProvider.
-		state('listInventories', {
-			url: '/inventories',
-			templateUrl: 'modules/inventories/views/list-inventories.client.view.html'
-		}).
 		state('modifyInventories', {
 			url: '/inventories/modify',
 			templateUrl: 'modules/inventories/views/search-inventories.client.view.html'
+		}).
+		state('listInventories', {
+			url: '/inventories',
+			templateUrl: 'modules/inventories/views/list-inventories.client.view.html'
 		}).
 		state('createInventory', {
 			url: '/inventories/create',
