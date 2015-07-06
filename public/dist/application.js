@@ -327,6 +327,10 @@ angular.module('inventories').config(['$stateProvider',
 	function($stateProvider) {
 		// Inventories state routing
 		$stateProvider.
+		state('modifyInventories', {
+			url: '/inventories/modify',
+			templateUrl: 'modules/inventories/views/search-inventories.client.view.html'
+		}).
 		state('listInventories', {
 			url: '/inventories',
 			templateUrl: 'modules/inventories/views/list-inventories.client.view.html'
@@ -373,7 +377,8 @@ angular.module('inventories').controller('InventoriesController', ['$scope', '$h
 			 	img: this.img,
 			 	author: this.author,
 				pub_by: this.pub_by,
-			 	pub_date: this.pub_date
+			 	pub_date: this.pub_date,
+			 	
 			});
 
 			// Redirect after save
@@ -551,15 +556,16 @@ angular.module('inventories').controller('InventoriesController', ['$scope', '$h
 //			}
 //		});
 
-		// $scope.DoCtrlPagingAct = function (text, page, pageSize) {
-		// 	$scope.inventories=[];
-		// 	$http({
-		// 		method: 'GET',
-		// 		url: '/inventories/page/' + $scope.currentPage + '/' + $scope.pageSize
-		// 	}).success(function (data, err) {
-		// 		$scope.inventories = data;
-		// 	});
-		// };
+		$scope.DoCtrlPagingAct = function (text, page, pageSize, total) {
+			$scope.inventories=[];
+			$http({
+				method: 'GET',
+				url: '/inventories/page/' + $scope.currentPage + '/' + $scope.pageSize
+			}).success(function (data, err) {
+				$scope.inventories = data;
+			});
+			
+		};
 	}
 ]);
 
