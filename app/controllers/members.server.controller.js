@@ -114,12 +114,10 @@ exports.list = function(req, res) {
  * Member middleware
  */
 exports.memberByID = function(req, res, next, id) { 
-	Member.findById(id)
-		//.populate('user', 'displayName')
-		.exec(function(err, member) {
+	Member.findById(id, function(err, member) {
 		if (err) return next(err);
 		if (! member)
-			return next(new Error('Failed to load Member ' + id));
+			return res.status(500).send('Failed to load Member ' + id);
 		req.member = member ;
 		next();
 	});
