@@ -79,7 +79,7 @@ angular.module('inventories').controller('InventoriesController', ['$scope', '$h
 			var _inventory = new Inventories($scope.inventories[index]);
 			console.log('_inventory:',  _inventory);
 			_inventory.$update(function() {
-				// NOTHING.
+				alert('图书：' + _inventory.name + '，编号：' + _inventory.inv_code + '的修改已保存.');
 			}, function(errorResponse) {
 				$scope.error = errorResponse.data.message;
 			});
@@ -186,24 +186,6 @@ angular.module('inventories').controller('InventoriesController', ['$scope', '$h
 			$scope.inventories = []; // clear .
 			$scope.keyword = '';
 		};
-//
-//		$scope.$watch('search_isbn', function (newKeyword) {
-//			$scope.results = [];
-//			$scope.searching = true;
-//			if (newKeyword) {
-//				if (timeout) $timeout.cancel(timeout);
-//				timeout = $timeout(function () {
-//					$http({
-//						method: 'GET',
-//						url: '/inventories/isbn/' + newKeyword
-//					})
-//						.success(function (data, err) {
-//							$scope.results = data;
-//							$scope.searching = false;
-//						});
-//				},350);
-//			}
-//		});
 
 		$scope.DoCtrlPagingAct = function (text, page, pageSize, total) {
 			$scope.inventories=[];
