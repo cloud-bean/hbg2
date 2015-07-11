@@ -57,7 +57,6 @@ describe('Inventory Model Unit Tests:', function() {
 	afterEach(function(done) { 
 		Inventory.remove().exec();
 		User.remove().exec();
-
 		done();
 	});
 });
