@@ -1,12 +1,35 @@
-'use strict';
+(function(){
+	'use strict';
 
-// Members controller
-angular.module('members').controller('MembersController', ['$scope', '$http', '$stateParams', '$location', 'Authentication', 'Members', 'Records' , 'Inventories',
-	function($scope, $http, $stateParams, $location, Authentication, Members, Records, Inventories) {
+	// Members controller
+
+	angular.module('members').controller('MembersController', MembersController);
+
+	MembersController.$injector = ['$scope', '$http', '$stateParams', '$location', 'Authentication', 'Members', 'Records' , 'Inventories'];
+
+	function MembersController($scope, $http, $stateParams, $location, Authentication,Members,Records,Inventories) {
 		$scope.authentication = Authentication;
 		$scope.records = [];
-		// Create new Member
-		$scope.create = function() {
+
+	 	// define all the functions.
+	 	var _create, _remove, _update, _find, _findOne,_freeze, _unfreeze,_findHistroyRecords,_returnBook;
+
+
+	 	angular.extend($scope, {
+	 		create: _create, 
+	 		remove: _remove, 
+	 		update: _update,
+	 		find: _find,
+	 		findOne: _findOne,
+	 		freeze: _freeze,
+	 		unfreeze: _unfreeze,
+	 		findHistroyRecords: _findHistroyRecords,
+	 		returnBook:_returnBook
+	 	});
+
+
+      		 // >>>>>>>>>> details for the functions starts >>>>>>>>>>>>>>
+      		 $scope.create = function() {
 			// Create new Member object
 			var member = new Members({
 				phone_number: this.phone_number,
@@ -21,7 +44,7 @@ angular.module('members').controller('MembersController', ['$scope', '$http', '$
 				email: this.email,
 				weixin: this.weixin,
 				other: this.other
-            });
+			});
 			
 
 			// Redirect after save
@@ -33,7 +56,6 @@ angular.module('members').controller('MembersController', ['$scope', '$http', '$
 			});
 		};
 
-		// Remove existing Member
 		$scope.remove = function(member) {
 			if ( member ) { 
 				member.$remove();
@@ -49,6 +71,7 @@ angular.module('members').controller('MembersController', ['$scope', '$http', '$
 				});
 			}
 		};
+
 
 		// Update existing Member
 		$scope.update = function() {
@@ -86,8 +109,8 @@ angular.module('members').controller('MembersController', ['$scope', '$http', '$
 		};
 
 		// // TODO: Find member by name
-        // $scope.findByCardNumber = function() {   
-        //     $scope.member = Members.get({
+       		 // $scope.findByCardNumber = function() {   
+    		    //     $scope.member = Members.get({
 		//         card_number: $stateParams.card_number
 		//     });
 		// };
@@ -98,9 +121,9 @@ angular.module('members').controller('MembersController', ['$scope', '$http', '$
 				method: 'GET',
 				url: '/records/member/' + $stateParams.memberId
 			})
-				.success(function(data, err) {
-					$scope.records = data;
-				});
+			.success(function(data, err) {
+				$scope.records = data;
+			});
 		};
 
 		// return book. update the record , update the inventory.
@@ -122,5 +145,9 @@ angular.module('members').controller('MembersController', ['$scope', '$http', '$
 			inventory.$update();
 
 		};
- 	}
-]);
+
+
+
+	}
+
+})();

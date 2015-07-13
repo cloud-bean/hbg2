@@ -1,7 +1,7 @@
 'use strict';
 
 module.exports = {
-	db: 'mongodb://localhost/hbg-dev',
+	db: 'mongodb://localhost/hbg',
 	app: {
 		title: 'hbg - Development Environment'
 	},

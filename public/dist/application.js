@@ -349,225 +349,219 @@ angular.module('inventories').config(['$stateProvider',
 		});
 	}
 ]);
-'use strict';
+(function() {
+    'use strict';
 
-// Inventories controller
-angular.module('inventories').controller('InventoriesController', ['$scope', '$http', '$timeout', '$stateParams', '$location', 'Authentication', 'Inventories',
-	function($scope, $http, $timeout, $stateParams, $location, Authentication, Inventories) {
-		$scope.authentication = Authentication;
-		$scope.newTags = [];
-		$scope.canSubmit = true;
-		var timeout;
+    // Inventories controller
+    angular.module('inventories')
+        .controller('InventoriesController', InventoriesController);
 
-		// Create new Inventory
-		$scope.create = function() {
-			// Create new Inventory object
-			$scope.canSubmit = false;
-			var inventory = new Inventories ({
-				// TODO: deal with the form data
-				name: this.name,
-				store_name: this.store_name,
-				owner: this.owner,
-				inv_code: this.inv_code,
-				location: this.location,
-				tags: this.newTags,
-				isbn: this.isbn,
-			  skuid: this.skuid,
-			 	url: this.url,
-			 	img: this.img,
-			 	author: this.author,
-				pub_by: this.pub_by,
-			 	pub_date: this.pub_date,
-			 	
-			});
 
-			// Redirect after save
-			inventory.$save(function(response) {
-				$location.path('inventories/' + response._id);
-				$scope.canSubmit = true;
+    InventoriesController.$injector = ['$scope', '$http', '$timeout', '$stateParams', '$location', 'Authentication', 'Inventories'];
 
-			}, function(errorResponse) {
-				$scope.error = errorResponse.data.message;
-				$scope.canSubmit = true;
-			});
-		};
+    function InventoriesController($scope, $http, $timeout, $stateParams, $location, Authentication, Inventories) {
+        
+        $scope.authentication = Authentication;
+        $scope.newTags = [];
+        $scope.canSubmit = true;
 
-		// Remove existing Inventory
-		$scope.remove = function(inventory) {
-			if ( inventory ) {
-				inventory.$remove();
+        var timeout;
+        var WAIT_MILL_SECONDS = 350;
 
-				for (var i in $scope.inventories) {
-					if ($scope.inventories [i] === inventory) {
-						$scope.inventories.splice(i, 1);
-					}
-				}
-			} else {
-				$scope.inventory.$remove(function() {
-					$location.path('inventories');
-				});
-			}
-		};
+        // define all the functions.
+        var _create, _remove, _update, _find, _save_quick_edit, _delete, _initPaging, _findOne, _addTag, _addNewTag, _watchListener;
 
-		// Update existing Inventory
-		$scope.update = function() {
-			var inventory = $scope.inventory;
+        angular.extend($scope, {
+            create: _create, // Create new Inventory
+            remove: _remove, // Remove existing Inventory
+            update: _update,
+            find: _find,
+            save_quick_edit: _save_quick_edit,
+            delete: _delete,
+            initPaging: _initPaging,
+            findOne: _findOne,
+            addTag: _addTag,
+            addNewTag: _addNewTag,
+            DoCtrlPagingAct: _DoCtrlPagingAct
+        });
 
-			inventory.$update(function() {
-				$location.path('inventories/' + inventory._id);
-			}, function(errorResponse) {
-				$scope.error = errorResponse.data.message;
-			});
-		};
+        $scope.$watch('keyword', _watchListener);
 
-		// Find a list of Inventories
-		$scope.find = function() {
-			$scope.inventories =  Inventories.query();
-		};
 
-		// save the quick edit of inventroy
-		$scope.save_quick_edit = function (index) {
-			var _inventory = new Inventories($scope.inventories[index]);
-			console.log('_inventory:',  _inventory);
-			_inventory.$update(function() {
-				// NOTHING.
-			}, function(errorResponse) {
-				$scope.error = errorResponse.data.message;
-			});
-		};
+        // >>>>>>>>>> details for the functions starts >>>>>>>>>>>>>>
 
-		$scope.delete = function (index) {
-			var _inventory = new Inventories($scope.inventories[index]);
-			if ( _inventory ) {
-				_inventory.$remove();
-				$scope.inventories.splice(index, 1);
-			}
-		};
+        // Create new Inventory
+        function _create() {
+            // Create new Inventory object
+            $scope.canSubmit = false;
+            var inventory = new Inventories({
+                // TODO: deal with the form data
+                name: this.name,
+                store_name: this.store_name,
+                owner: this.owner,
+                inv_code: this.inv_code,
+                location: this.location,
+                tags: this.newTags,
+                isbn: this.isbn,
+                skuid: this.skuid,
+                url: this.url,
+                img: this.img,
+                author: this.author,
+                pub_by: this.pub_by,
+                pub_date: this.pub_date,
 
-		$scope.initPaging = function () {
-				$http({
-					method: 'GET',
-					url: '/inventories/total'
-				}).success(function (data, err) {
-					$scope.totalSize = data.size;
-				});
+            });
 
-				$scope.currentPage = 1;
-				$scope.pageSize = 25;
+            // Redirect after save
+            inventory.$save(function(response) {
+                $location.path('inventories/' + response._id);
+                $scope.canSubmit = true;
 
-				$http({
-					method: 'GET',
-					url: '/inventories/page/' + $scope.currentPage + '/' + $scope.pageSize
-				}).success(function (data, err) {
-					$scope.inventories = data;
-				});
+            }, function(errorResponse) {
+                $scope.error = errorResponse.data.message;
+                $scope.canSubmit = true;
+            });
+        };
 
-				//$scope.$apply();
-		};
+        function _remove() {
+            if (inventory) {
+                inventory.$remove();
 
-		// Find existing Inventory
-		$scope.findOne = function() {
-			$scope.inventory = Inventories.get({
-				inventoryId: $stateParams.inventoryId
-			});
-		};
+                for (var i in $scope.inventories) {
+                    if ($scope.inventories[i] === inventory) {
+                        $scope.inventories.splice(i, 1);
+                    }
+                }
+            } else {
+                $scope.inventory.$remove(function() {
+                    $location.path('inventories');
+                });
+            }
+        };
 
-		// add tag the current inventory
-		$scope.addTag = function () {
-			$scope.inventory.tags.push({'name':this.newTag});
-			this.newTag = '';
-		};
+        // Update existing Inventory
+        function _update() {
+            var inventory = $scope.inventory;
 
-		// add new tag when create the inventory
-		$scope.addNewTag = function () {
-			$scope.newTags.push({'name':this.newTag});
-			this.newTag = '';
-		};
+            inventory.$update(function() {
+                $location.path('inventories/' + inventory._id);
+            }, function(errorResponse) {
+                $scope.error = errorResponse.data.message;
+            });
+        };
 
-		$scope.$watch('keyword', function (newKeyword) {
-			$scope.searching = true;
-			if (newKeyword) {
-				if (timeout) $timeout.cancel(timeout);
-				timeout = $timeout(function () {
-					$http({
-						method: 'GET',
-						url: '/inventories/name/' + newKeyword
-					})
-					.success(function (data, err) {
-							$scope.inventories = data;
-							$scope.searching = false;
-							$http({
-								method: 'GET',
-								url: '/inventories/isbn/' + newKeyword
-							}).success(function (books, err) {
-                                for(var i=0; i<books.length; i++){
+        // Find a list of Inventories
+        function _find() {
+            $scope.inventories = Inventories.query();
+        };
+
+        // save the quick edit of inventroy
+        function _save_quick_edit(index) {
+            var _inventory = new Inventories($scope.inventories[index]);
+            console.log('_inventory:', _inventory);
+            _inventory.$update(function() {
+                alert('修改结果已经保存！\r\n图书：' + _inventory.name + '\r\n编号：' + _inventory.inv_code);
+            }, function(errorResponse) {
+                $scope.error = errorResponse.data.message;
+            });
+        };
+
+        function _delete(index) {
+            var _inventory = new Inventories($scope.inventories[index]);
+            if (_inventory) {
+                _inventory.$remove();
+                $scope.inventories.splice(index, 1);
+
+                $timeout(function() {
+                    alert('删除完成！\r\n图书：' + _inventory.name + '\r\n编号：' + _inventory.inv_code);
+                }, WAIT_MILL_SECONDS);
+            }
+        };
+
+        function _initPaging() {
+            $http({
+                method: 'GET',
+                url: '/inventories/total'
+            }).success(function(data, err) {
+                $scope.totalSize = data.size;
+            });
+
+            $scope.currentPage = 1;
+            $scope.pageSize = 25;
+
+            $http({
+                method: 'GET',
+                url: '/inventories/page/' + $scope.currentPage + '/' + $scope.pageSize
+            }).success(function(data, err) {
+                $scope.inventories = data;
+            });
+
+            //$scope.$apply();
+        };
+
+        // Find existing Inventory
+        function _findOne() {
+            $scope.inventory = Inventories.get({
+                inventoryId: $stateParams.inventoryId
+            });
+        };
+
+        // add tag the current inventory
+        function _addTag() {
+            $scope.inventory.tags.push({
+                'name': this.newTag
+            });
+            this.newTag = '';
+        };
+
+        // add new tag when create the inventory
+        function _addNewTag() {
+            $scope.newTags.push({
+                'name': this.newTag
+            });
+            this.newTag = '';
+        };
+
+        function _DoCtrlPagingAct(text, page, pageSize, total) {
+            $scope.inventories = [];
+            $http({
+                method: 'GET',
+                url: '/inventories/page/' + $scope.currentPage + '/' + $scope.pageSize
+            }).success(function(data, err) {
+                $scope.inventories = data;
+            });
+        };
+
+        function _watchListener(newKeyword) {
+            $scope.searching = true;
+            if (newKeyword) {
+                if (timeout) $timeout.cancel(timeout);
+                timeout = $timeout(function() {
+                    $http({
+                            method: 'GET',
+                            url: '/inventories/name/' + newKeyword
+                        })
+                        .success(function(data, err) {
+                            $scope.inventories = data;
+                            $scope.searching = false;
+                            $http({
+                                method: 'GET',
+                                url: '/inventories/isbn/' + newKeyword
+                            }).success(function(books, err) {
+                                for (var i = 0; i < books.length; i++) {
                                     $scope.inventories.push(books[i]);
                                 }
-								$scope.totalSize = $scope.inventories.length;
-							});
-					});
-				},350);
- 			}
-		});
-        
-		$scope.fillFormAuto = function (index) {
-			var book = $scope.inventories[index];
-			$scope.name = book.name ;
-			$scope.isbn = book.isbn;
-			$scope.skuid= book.skuid;
-			$scope.url= book.url;
-			$scope.img= book.img;
-			$scope.author= book.author;
-			$scope.pub_by= book.pub_by;
-			$scope.pub_date= book.pub_date;
-			$scope.inventories = []; // clear .
-			$scope.keyword = '';
-		};
+                                $scope.totalSize = $scope.inventories.length;
+                            });
+                        });
+                }, WAIT_MILL_SECONDS);
+            }
+        };
 
-		$scope.fillEditFormAuto = function (index) {
-			var book = $scope.inventories[index];
-			$scope.inventory.name = book.name ;
-			$scope.inventory.isbn = book.isbn;
-			$scope.inventory.skuid= book.skuid;
-			$scope.inventory.url= book.url;
-			$scope.inventory.img= book.img;
-			$scope.inventory.author= book.author;
-			$scope.inventory.pub_by= book.pub_by;
-			$scope.inventory.pub_date= book.pub_date;
-			$scope.inventories = []; // clear .
-			$scope.keyword = '';
-		};
-//
-//		$scope.$watch('search_isbn', function (newKeyword) {
-//			$scope.results = [];
-//			$scope.searching = true;
-//			if (newKeyword) {
-//				if (timeout) $timeout.cancel(timeout);
-//				timeout = $timeout(function () {
-//					$http({
-//						method: 'GET',
-//						url: '/inventories/isbn/' + newKeyword
-//					})
-//						.success(function (data, err) {
-//							$scope.results = data;
-//							$scope.searching = false;
-//						});
-//				},350);
-//			}
-//		});
+    }
+    InventoriesController.$inject = ["$scope", "$http", "$timeout", "$stateParams", "$location", "Authentication", "Inventories"];
 
-		$scope.DoCtrlPagingAct = function (text, page, pageSize, total) {
-			$scope.inventories=[];
-			$http({
-				method: 'GET',
-				url: '/inventories/page/' + $scope.currentPage + '/' + $scope.pageSize
-			}).success(function (data, err) {
-				$scope.inventories = data;
-			});
-			
-		};
-	}
-]);
+})();
 
 'use strict';
 
