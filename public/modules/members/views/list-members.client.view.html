@@ -31,7 +31,7 @@
                     
                     <br/>
                     availableDays:   
-                    <span data-ng-bind=" availableDays(member)"></span>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:red;"  ng-show="availableDays(member) < 30">Almost Exceed The Time Limit!!!!!!</span>
+                    <span data-ng-bind=" availableDays(member)"></span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="ui red label" ng-show="availableDays(member) < 30">Almost Outofdate</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="ui blue label"  ng-show="member.locked===true">Freezed</span>
                     <br/>
                     <span ng-hide="member.parent_name.length === 0">家长：{{member.parent_name}}&nbsp;&nbsp;&nbsp;&nbsp;</span>                
                     
