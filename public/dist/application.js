@@ -763,6 +763,14 @@ angular.module('members').controller('MembersController', ['$scope', '$http', '$
 			inventory.$update();
 
 		};
+
+		//valid date
+		$scope.availableDays = function(member){
+			var aDate=new Date(member.active_time).getTime();			
+			var eDate = Date.now();			
+			var availableDays = Math.floor((eDate-aDate)/(24*3600*1000));
+			return (member.valid_days-availableDays);
+		};
  	}
 ]);
 
@@ -952,7 +960,12 @@ angular.module('records').controller('RecordsController', ['$scope', '$timeout',
         // Find a list of Records
         $scope.find = function() {
             $scope.records = Records.query();
-            console.log( $scope.records );
+            
+        };
+
+        $scope.initPage = function() {
+            $scope.records = Records.query();
+           
         };
 
         // Find existing Record
