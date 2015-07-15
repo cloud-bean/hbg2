@@ -1,0 +1,55 @@
+<section data-ng-controller="RecordsController" data-ng-init="find()" >
+    <div class="page-header">
+        <h1>Recent Records</h1>
+    </div>
+
+ <!--  data-ng-repeat="inventory in inventories" -->
+
+
+    <div class="item"  >
+     <table class="ui table segment">
+      <thead>
+        <tr>
+        <th>phone</th>
+          <th>card no.</th>
+          <th>name</th>
+          <th>book</th>
+          <th>book code</th>
+          <th>status</th>
+           <th>date</th>
+
+        </tr>
+        </thead>
+        <tbody>
+        <tr   data-ng-repeat="record in records">
+          <td>{{record.member.phone_number}}</td>
+          <td>{{record.member.card_number}}</td>
+          <td>{{record.member.baby_name}}</td>
+          <td>{{record.inventory.name}}</td>
+          <td>{{record.inventory.inv_code}}</td>
+          <td>{{record.status=='R'?'rent':'return'}}</td>
+          <td>{{record.start_date| date:'yyyy-MM-dd HH:mm:ss'}}</td>
+          </tr>
+        </tbody>
+       
+      </table>
+    </div>
+
+
+<!-- <paging
+      class="small"
+      page="currentPage"
+      page-size="pageSize"
+      total="totalSize"
+      adjacent="2"
+      dots="..."
+      scroll-top="true" 
+      hide-if-empty="true"
+      ul-class="pagination"
+      active-class="active"
+      disabled-class="disabled"
+      show-prev-next="true"
+      paging-action="DoCtrlPagingAct('Paging Clicked', page, pageSize)">
+    </paging>  -->
+
+</section>
