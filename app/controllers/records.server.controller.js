@@ -125,6 +125,7 @@ exports.list = function(req, res) {
 	Record.find()
 		.sort('-start_date')
 		.populate('member')
+		.limit(30)
 		.exec(function(err, records) {
 			if (err) {
 				return res.status(400).send({

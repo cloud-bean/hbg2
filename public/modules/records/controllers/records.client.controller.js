@@ -61,7 +61,12 @@ angular.module('records').controller('RecordsController', ['$scope', '$timeout',
         // Find a list of Records
         $scope.find = function() {
             $scope.records = Records.query();
-            console.log( $scope.records );
+            
+        };
+
+        $scope.initPage = function() {
+            $scope.records = Records.query();
+           
         };
 
         // Find existing Record
