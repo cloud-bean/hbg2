@@ -122,5 +122,13 @@ angular.module('members').controller('MembersController', ['$scope', '$http', '$
 			inventory.$update();
 
 		};
+
+		//valid date
+		$scope.availableDays = function(member){
+			var aDate=new Date(member.active_time).getTime();			
+			var eDate = Date.now();			
+			var availableDays = Math.floor((eDate-aDate)/(24*3600*1000));
+			return (member.valid_days-availableDays);
+		};
  	}
 ]);

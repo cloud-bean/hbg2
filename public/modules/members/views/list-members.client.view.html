@@ -30,7 +30,9 @@
                     <span data-ng-bind="member.active_time | date:'yyyy/MM/dd'"></span>&nbsp;&nbsp;&nbsp;&nbsp;
                     
                     <br/>
-
+                    availableDays:   
+                    <span data-ng-bind=" availableDays(member)"></span>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:red;"  ng-show="availableDays(member) < 30">Almost Exceed The Time Limit!!!!!!</span>
+                    <br/>
                     <span ng-hide="member.parent_name.length === 0">家长：{{member.parent_name}}&nbsp;&nbsp;&nbsp;&nbsp;</span>                
                     
                     <span ng-hide="member.phone_number.length === 0">电话：{{member.phone_number}}</span>                
