@@ -28,15 +28,6 @@ module.exports = {
 				'http://cloudbean.qiniudn.com/hbg2-ng-quick-date.min.js', 
 				'http://cloudbean.qiniudn.com/hbg2-paging.js', 
 				'http://apps.bdimg.com/libs/bootstrap/3.2.0/js/bootstrap.min.js',
-
-                // 'public/lib/angular/angular.min.js',
-				// 'public/lib/angular-resource/angular-resource.js', 
-				// 'public/lib/angular-cookies/angular-cookies.js', 
-				// 'public/lib/angular-animate/angular-animate.js', 
-				// 'public/lib/angular-touch/angular-touch.js', 
-				// 'public/lib/angular-sanitize/angular-sanitize.js', 
-				// 'public/lib/angular-ui-router/release/angular-ui-router.min.js',
-				// 'public/lib/jquery/dist/jquery.min.js', 
 			]
 		},
 		css: 'public/dist/application.min.css',

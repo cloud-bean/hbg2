@@ -155,7 +155,7 @@ describe('Inventory CRUD tests', function() {
 
             });
         });
-    })
+    });
 
     describe('UPDATE INVENTORY: [as_admin, as_member, not signin]', function(done) {
         it('should be able to update Inventory instance if signed in as admin', function(done) {
@@ -332,7 +332,7 @@ describe('Inventory CRUD tests', function() {
 
             });
         });
-    })
+    });
 
 
     afterEach(function(done) {

@@ -157,7 +157,7 @@ describe('Member CRUD tests', function() {
                         });
                 });
         });
-    })
+    });
 
 
     describe('UPDATE MEMBER: [as_admin, as_member, not-signed-in]', function(done) {
