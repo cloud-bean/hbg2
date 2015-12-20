@@ -17,11 +17,16 @@ var db = mongoose.connect(config.db, function(err) {
 	if (err) {
 		console.error(chalk.red('Could not connect to MongoDB!'));
 		console.log(chalk.red(err));
-	}
+	} else {
+        console.log(chalk.red('connect to db: ' + config.db));
+    }
 });
 
 // Init the express application
 var app = require('./config/express')(db);
+
+// Start cron jobs
+require('./config/jobs')();
 
 // Bootstrap passport config
 require('./config/passport')();

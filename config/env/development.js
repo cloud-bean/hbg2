@@ -2,6 +2,7 @@
 
 module.exports = {
 	db: process.env.HBG_DEV_URI || 'mongodb://localhost/hbg',
+    dbName: 'hbg-dev',
 	app: {
 		title: 'hbg - Development Environment'
 	},

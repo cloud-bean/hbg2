@@ -4,7 +4,7 @@ module.exports = function(grunt) {
 	// Unified Watch Object
 	var watchFiles = {
 		serverViews: ['app/views/**/*.*'],
-		serverJS: ['gruntfile.js', 'server.js', 'config/**/*.js', 'app/**/*.js'],
+		serverJS: ['gruntfile.js', 'app.js', 'config/**/*.js', 'app/**/*.js'],
 		clientViews: ['public/modules/**/views/**/*.html'],
 		clientJS: ['public/js/*.js', 'public/modules/**/*.js'],
 		clientCSS: ['public/modules/**/*.css'],
@@ -84,7 +84,7 @@ module.exports = function(grunt) {
 		},
 		nodemon: {
 			dev: {
-				script: 'server.js',
+				script: 'app.js',
 				options: {
 					nodeArgs: ['--debug'],
 					ext: 'js,html',
@@ -126,13 +126,16 @@ module.exports = function(grunt) {
 			},
 			secure: {
 				NODE_ENV: 'secure'
-			}
+			},
+            dev: {
+                NODE_ENV: 'development'
+            }
 		},
 		mochaTest: {
 			src: watchFiles.mochaTests,
 			options: {
 				reporter: 'spec',
-				require: 'server.js'
+				require: 'app.js'
 			}
 		},
 		karma: {
@@ -158,7 +161,7 @@ module.exports = function(grunt) {
 	});
 
 	// Default task(s).
-	grunt.registerTask('default', ['lint', 'concurrent:default']);
+	grunt.registerTask('default', ['env:dev', 'lint', 'concurrent:default']);
 
 	// Debug task.
 	grunt.registerTask('debug', ['lint', 'concurrent:debug']);

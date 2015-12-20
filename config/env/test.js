@@ -2,6 +2,7 @@
 
 module.exports = {
 	db: process.env.HBG_TEST_URI || 'mongodb://localhost/hbg-test',
+    dbName: 'hbg-test',
 	port: 3001,
 	app: {
 		title: 'hbg - Test Environment'
