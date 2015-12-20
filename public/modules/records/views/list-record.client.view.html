@@ -27,8 +27,8 @@
           <td>{{record.member.baby_name}}</td>
           <td>{{record.inventory.name}}</td>
           <td>{{record.inventory.inv_code}}</td>
-          <td>{{record.status=='R'?'rent':'return'}}</td>
-          <td>{{record.start_date| date:'yyyy-MM-dd HH:mm:ss'}}</td>
+          <td>{{record.base.status=='R'?'rent':'return'}}</td>
+          <td>{{record.base.start_date| date:'yyyy-MM-dd HH:mm:ss'}}</td>
           </tr>
         </tbody>
        

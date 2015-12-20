@@ -8,7 +8,8 @@ var mongoose = require('mongoose'),
 	Record = mongoose.model('Record'),
 	Member = mongoose.model('Member'),
     Inventory = mongoose.model('Inventory'),
-	_ = require('lodash');
+    async = require('async'),
+    _ = require('lodash');
 
 /**
  * Create a Record
@@ -121,20 +122,71 @@ exports.delete = function(req, res) {
 /**
  * List of Records, 外键用poplulate计算出来。
  */
-exports.list = function(req, res) { 
-	Record.find()
-		.sort('-start_date')
-		.populate('member')
-		.limit(30)
-		.exec(function(err, records) {
-			if (err) {
-				return res.status(400).send({
-					message: errorHandler.getErrorMessage(err)
-				});
-			} else {
-				res.jsonp(records);
-			}
-		});
+exports.list = function(req, res) {
+    var eachPageNumber = 30;
+    console.log(eachPageNumber);
+    var getRecord = function(done) {
+        Record.find()
+            .sort('-start_date')
+            .limit(eachPageNumber)
+            .exec(function(err, records) {
+                if (err) {
+                    done(err);
+                }
+                else {
+                    done(null, records);
+                }
+            });
+    };
+
+    var getMember = function (records, done) {
+        async.map(records, function(record, callback) {
+            Member.findOne({_id: record.member}, function (err, member) {
+                if (err) return callback(err);
+                callback(null, {
+                    base: record,
+                    member: member
+                });
+            });
+        }, function(err, results){
+            if (err) {
+                done(err);
+            } else {
+                done(null, results);
+            }
+        });
+    };
+
+    var getInventory = function(resultsWithMember, done) {
+        async.map(resultsWithMember, function(record, callback) {
+            Inventory.findOne({_id: record.base.inventory}, function (err, inventory) {
+                if (err) return callback(err);
+                callback(null, {
+                    base: record.base,
+                    member: record.member,
+                    inventory: inventory
+                });
+            });
+        }, function(err, results){
+            if (err) {
+                done(err);
+            } else {
+                done(null, results);
+            }
+        });
+    };
+
+    async.waterfall([getRecord, getMember, getInventory], function(err, result){
+        console.log('err, result', err, result);
+        if (err) {
+            return res.status(400).send({
+                message: errorHandler.getErrorMessage(err)
+            });
+        } else {
+            res.jsonp(result);
+        }
+    });
+
 };
 
 exports.listByMemberId = function(req, res){
