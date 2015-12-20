@@ -10,14 +10,13 @@
      <table class="ui table segment">
       <thead>
         <tr>
-        <th>phone</th>
-          <th>card no.</th>
-          <th>name</th>
-          <th>book</th>
-          <th>book code</th>
-          <th>status</th>
-           <th>date</th>
-
+        <th>家长手机号</th>
+          <th>会员卡号</th>
+          <th>宝宝名字</th>
+          <th>书名</th>
+          <th>入库编号</th>
+          <th>动作</th>
+           <th>时间</th>
         </tr>
         </thead>
         <tbody>
@@ -25,13 +24,13 @@
           <td>{{record.member.phone_number}}</td>
           <td>{{record.member.card_number}}</td>
           <td>{{record.member.baby_name}}</td>
-          <td>{{record.inventory.name}}</td>
+          <td>{{record.inventory.name | limitTo: 30}}</td>
           <td>{{record.inventory.inv_code}}</td>
-          <td>{{record.base.status=='R'?'rent':'return'}}</td>
-          <td>{{record.base.start_date| date:'yyyy-MM-dd HH:mm:ss'}}</td>
+          <td>{{record.base.status=='R'?'借出':'归还'}}</td>
+          <td>{{record.dayFromNow}}</td>
           </tr>
         </tbody>
-       
+
       </table>
     </div>
 

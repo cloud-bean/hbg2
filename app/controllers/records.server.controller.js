@@ -9,8 +9,10 @@ var mongoose = require('mongoose'),
 	Member = mongoose.model('Member'),
     Inventory = mongoose.model('Inventory'),
     async = require('async'),
+    moment = require('moment'),
     _ = require('lodash');
 
+moment.locale('zh-cn');
 /**
  * Create a Record
  */
@@ -161,10 +163,12 @@ exports.list = function(req, res) {
         async.map(resultsWithMember, function(record, callback) {
             Inventory.findOne({_id: record.base.inventory}, function (err, inventory) {
                 if (err) return callback(err);
+                var dayFromNow = moment(record.base.start_date).startOf('day').fromNow();
                 callback(null, {
                     base: record.base,
                     member: record.member,
-                    inventory: inventory
+                    inventory: inventory,
+                    dayFromNow: dayFromNow
                 });
             });
         }, function(err, results){
@@ -177,7 +181,6 @@ exports.list = function(req, res) {
     };
 
     async.waterfall([getRecord, getMember, getInventory], function(err, result){
-        console.log('err, result', err, result);
         if (err) {
             return res.status(400).send({
                 message: errorHandler.getErrorMessage(err)
