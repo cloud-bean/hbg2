@@ -1,7 +1,7 @@
 'use strict';
 
 module.exports = {
-	db: 'mongodb://localhost/hbg-test',
+	db: process.env.HBG_TEST_URI || 'mongodb://localhost/hbg-test',
 	port: 3001,
 	app: {
 		title: 'hbg - Test Environment'

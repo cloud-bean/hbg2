@@ -1,7 +1,7 @@
 'use strict';
 
 module.exports = {
-	db: 'mongodb://localhost/hbg',
+	db: process.env.HBG_DEV_URI || 'mongodb://localhost/hbg',
 	app: {
 		title: 'hbg - Development Environment'
 	},
