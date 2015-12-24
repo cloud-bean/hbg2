@@ -8,6 +8,8 @@ var fs = require('fs'),
     logs_dir = '../../logs',
     logFile= logs_dir + '/system.build.log';
 
+var dashboard = require('./dashboard.server.controller');
+
 function run_cmd(cmd, args, callBack ) {
     var spawn = require('child_process').spawn;
     var child = spawn(cmd, args);
@@ -130,4 +132,8 @@ exports.getBuildLog = function(req, res, next){
         }
         res.send({code: 'success', data: data});
     });
+};
+
+exports.generateDashboardAnalysisData = function (callback) {
+    dashboard.generateAnalysisData(callback);
 };

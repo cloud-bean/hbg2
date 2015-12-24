@@ -4,8 +4,7 @@
 var ApplicationConfiguration = (function() {
 	// Init module configuration options
 	var applicationModuleName = 'hbg';
-	// var applicationModuleVendorDependencies = ['ngResource', 'ngCookies',  'ngAnimate',  'ngTouch',  'ngSanitize',  'ui.router', 'ngQuickDate', 'brantwills.paging'];
-	var applicationModuleVendorDependencies = ['ngResource', 'ngCookies', 'ngTouch', 'ui.router', 'ngQuickDate', 'brantwills.paging'];
+	var applicationModuleVendorDependencies = ['ngResource', 'ngCookies',  'ngAnimate',  'ngTouch',  'ngSanitize',  'ui.router', 'ngQuickDate', 'brantwills.paging'];
 
 	// Add a new vertical module
 	var registerModule = function(moduleName, dependencies) {

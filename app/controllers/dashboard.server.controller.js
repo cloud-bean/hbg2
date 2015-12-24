@@ -1,5 +1,8 @@
 'use strict';
 
+var Dashboard = require('mongoose').model('dashboard'),
+    config = require('../../config/config');
+
 exports.getMemberAnalysis = function(req, res, next) {
     var memberAnalysis = {
         pieData: [
@@ -22,3 +25,16 @@ exports.getMemberAnalysis = function(req, res, next) {
 
     res.json(memberAnalysis);
 };
+
+exports.generateAnalysisData = function (callback) {
+    //todo: setup the steps to generate data
+    var savedData = {};
+
+    //todo: save to db
+
+    if (callback) {
+        callback(savedData);
+    }
+};
+
+

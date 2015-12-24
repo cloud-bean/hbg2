@@ -36,4 +36,5 @@ public/lib
 .sass-cache/
 .bower-*/
 .idea/
+public/dist/
 

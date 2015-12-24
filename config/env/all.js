@@ -48,5 +48,13 @@ module.exports = {
 			'public/lib/angular-mocks/angular-mocks.js',
 			'public/modules/*/tests/*.js'
 		]
-	}
+	},
+    dashboard: {
+        startDate: '20140901',
+        topCount: 3
+    },
+    scheduleTime: {
+        everyHour: '0 0 * * * *',
+        everyDayAtTwentyClock: '0 0 20 * * *'
+    }
 };
