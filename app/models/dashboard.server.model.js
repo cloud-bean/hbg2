@@ -2,7 +2,7 @@
 
 var mongoose = require('mongoose'),
     Schema = mongoose.Schema,
-    utils = requires('../utils'),
+    utils = require('../utils'),
     defaultSelection = 'member updateTime';
 
 var DashboardSchema = new Schema({
