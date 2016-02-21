@@ -56,12 +56,14 @@ exports.createFromMob = function(req, res){
             //       to be quick , just code here. by ghh@2015.6.3
             
             Inventory.findById(req.body.bId, function(err, inventory){
-                if (err) {
+                if (err || !inventory) {
                     return res.status(400).send({
-                        message: errorHandler.getErrorMessage(err)
+                        message: err ?
+                            errorHandler.getErrorMessage(err)
+                            :  'not valid book'
                     });
                 }
-                console.log(inventory);
+
                 inventory.isRent = true;
                 inventory.save(function(err){
                     if(err){
@@ -221,16 +223,14 @@ exports.recordHistoryByMemberID = function (req, res, next, mid) {
         .sort('-start_date')
         .populate('inventory')
         .exec(function (err, records) {
-						if (err) {
-							return res.status(400).send({
-								message: errorHandler.getErrorMessage(err)
-							});
-						} else {
-							// res.jsonp(records);
-                            req.records = records;
-                            next();
-							//console.log('server log for records of member ' + mid + ' :' + records);
-						}
+            if (err) {
+                return res.status(400).send({
+                    message: errorHandler.getErrorMessage(err)
+                });
+            } else {
+                req.records = records;
+                next();
+            }
 	    });
     });
 };
@@ -283,32 +283,33 @@ exports.hasSecretKey = function(req, res, next) {
 // return book to the lib.
 exports.return = function(req, res) {
 	var record = req.record ;
-
-	//record = _.extend(record , req.body);
     record.status = 'A';
     record.return_date = Date.now();
 
-    
 	record.save(function(err) {
-		if (err) {
-            var err_msg_of_update_record = errorHandler.getErrorMessage(err);
-        } else {
-            Inventory.findById(record.inventory.id, function(err, book){
-                book.isRent = false;
-                book.save(function(err){
-                    if (err) {
-                        return res.status(400).send({
-                            message: err_msg_of_update_record + '\nerror to update the book to return back'
-                        });
-                    } else {
-                        if (err_msg_of_update_record){
-                            return res.status(400).send({message: err_msg_of_update_record });
-                        }
-                    }
-                });
-            });
+        if (err) {
+            return res.status(400).send(
+                {message: errorHandler.getErrorMessage(err)}
+            );
+        }
 
-			res.jsonp(record);
-		}
-	});
+        Inventory.findById(record.inventory.id, function (err, book) {
+            if (err || !book) {
+                return res.status(400).send({
+                    message: err ?
+                        errorHandler.getErrorMessage(err)
+                        : 'inValid book'
+                });
+            }
+            book.isRent = false;
+            book.save(function (err) {
+                if (err) {
+                    return res.status(400).send({
+                        message: 'error in updating the book\'s rent_status to return'
+                    });
+                }
+                res.jsonp(record);
+            });
+        });
+    });
 };
