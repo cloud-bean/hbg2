@@ -50,6 +50,9 @@ var InventorySchema = new Schema({
     type: String,
     required: true
   },
+  fm_radio_url: {             // fm音频地址
+    type: String
+  },
   isbn: String,       // 图书isbn
   img: String,        // 图书封面图片
   price: Number,      // wMaprice

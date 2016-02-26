@@ -25,6 +25,7 @@ angular.module('inventories').controller('InventoriesController', ['$scope', '$h
 			 	url: this.url,
 			 	img: this.img,
 			 	author: this.author,
+			 	fm_radio_url: this.fm_radio_url,
 				pub_by: this.pub_by,
 			 	pub_date: this.pub_date,
 			 	

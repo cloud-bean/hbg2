@@ -120,6 +120,7 @@ exports.listForMobile = function(req, res) {
             location: inventory.location,
             isRent: inventory.isRent,
             img: inventory.img,
+            fm_radio_url: inventory.fm_radio_url,
             tags: tagArr.toString()
         };
         simpleDataList.push(simple_data);
