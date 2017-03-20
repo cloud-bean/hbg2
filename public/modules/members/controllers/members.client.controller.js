@@ -6,6 +6,16 @@ angular.module('members').controller('MembersController', ['$scope', '$http', '$
 		$scope.authentication = Authentication;
 		$scope.records = [];
 		// Create new Member
+		$scope.showLockedMember = false;
+		
+		$scope.showLockedMembers = function () {
+            $scope.showLockedMember = true;
+        }
+        
+        $scope.hideLockedMembers = function () {
+            $scope.showLockedMember = false;
+        }
+        
 		$scope.create = function() {
 			// Create new Member object
 			var member = new Members({
@@ -92,7 +102,7 @@ angular.module('members').controller('MembersController', ['$scope', '$http', '$
 		//     });
 		// };
 
-		$scope.findHistroyRecords = function() {
+		$scope.findHistoryRecords = function() {
 			$scope.findOne();
 			$http({
 				method: 'GET',

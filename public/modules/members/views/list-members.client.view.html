@@ -10,11 +10,13 @@
             <i class="search icon"></i>
           </div>
           &nbsp;&nbsp;&nbsp;&nbsp;<a href="/#!/members/create" class="ui inverted green button  small " ><i class="add icon"></i>新增会员</a>
+          <a data-ng-if="!showLockedMember" class="ui inverted  blue button small" data-ng-click="showLockedMembers()">显示已过期的会员</a>
+          <a data-ng-if="showLockedMember"  class="ui inverted  orange button small" data-ng-click="hideLockedMembers()">隐藏已过期的会员</a>
       </div>
     </div>
 
     <div class="ui celled selection animated list ">
-        <div class="item" data-ng-repeat="member in members | filter:search.$"  >
+        <div class="item" data-ng-repeat="member in members | filter:search.$" ng-hide="member.locked && !showLockedMember">
             <i class="red huge male icon" ng-show="member.isBoy"></i>
             <i class="purple huge female icon" ng-hide="member.isBoy"></i>
             <div class="content" style="text-align:left;">
@@ -24,20 +26,23 @@
                 <small class="list-group-item-text">
                     卡号：
                     <span data-ng-bind="member.card_number">&nbsp;&nbsp;&nbsp;&nbsp;</span> 
-                    
 
                     办卡日期：
                     <span data-ng-bind="member.active_time | date:'yyyy/MM/dd'"></span>&nbsp;&nbsp;&nbsp;&nbsp;
                     
                     <br/>
-                    availableDays:   
-                    <span data-ng-bind=" availableDays(member)"></span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="ui red label" ng-show="availableDays(member) < 30">Almost Outofdate</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="ui blue label"  ng-show="member.locked===true">Freezed</span>
+                    剩余天数:
+                    <span data-ng-bind=" availableDays(member)"></span>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<span class="ui red label" ng-show="availableDays(member) < 30 && availableDays(member)>0 ">Almost Out of Date</span>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<span class="ui blue label"  ng-show="member.locked===true">Freezed</span>
                     <br/>
                     <span ng-hide="member.parent_name.length === 0">家长：{{member.parent_name}}&nbsp;&nbsp;&nbsp;&nbsp;</span>                
                     
                     <span ng-hide="member.phone_number.length === 0">电话：{{member.phone_number}}</span>                
                     &nbsp;&nbsp;&nbsp;&nbsp;
 
+                    <span ng-hide="member.other.length === 0">备注：{{member.other}}</span>
+                    &nbsp;&nbsp;&nbsp;&nbsp;
                 </small>
 
             </div>
