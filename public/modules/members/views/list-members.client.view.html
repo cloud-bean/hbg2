@@ -16,7 +16,7 @@
     </div>
 
     <div class="ui celled selection animated list ">
-        <div class="item" data-ng-repeat="member in members | filter:search.$" ng-hide="member.locked && !showLockedMember">
+        <div class="item" data-ng-repeat="member in members | filter:search.$">
             <i class="red huge male icon" ng-show="member.isBoy"></i>
             <i class="purple huge female icon" ng-hide="member.isBoy"></i>
             <div class="content" style="text-align:left;">
