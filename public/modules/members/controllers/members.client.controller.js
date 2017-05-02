@@ -6,7 +6,7 @@ angular.module('members').controller('MembersController', ['$scope', '$http', '$
 		$scope.authentication = Authentication;
 		$scope.records = [];
 		// Create new Member
-		$scope.showLockedMember = false;
+		$scope.showLockedMember = true;
 		
 		$scope.showLockedMembers = function () {
             $scope.showLockedMember = true;
